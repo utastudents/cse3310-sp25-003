@@ -1,4 +1,4 @@
-Interface Description
+Interface Description- Team 09
 
 The interface will contain 2 sections: for existing user login and for new user sign up.
 For the existing user login, the interface will contain a text box to input username and password. It will contain a button titled “LOGIN” to submit the user login request.
