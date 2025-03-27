@@ -1,0 +1,8 @@
+Interface Description
+
+The interface will contain 2 sections: for existing user login and for new user sign up.
+For the existing user login, the interface will contain a text box to input username and password. It will contain a button titled “LOGIN” to submit the user login request.
+The sign-up section for new users will contain a text box to input username, valid e-mail, password, and confirm password. It will contain a button titled “CREATE ACCOUNT” to submit user request.
+The interface will show error message next to the invalid input field in case of invalid inputs as described in the requirements.
+
+
