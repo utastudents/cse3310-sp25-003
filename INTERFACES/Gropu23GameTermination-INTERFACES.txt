@@ -1,0 +1,31 @@
+Group: Game Termination
+
+Method name:
+checkForGameEnd();
+
+Function:
+    Checks if the game has ended after each move. 
+    Determines if Red wins, Black wins, Draw, or if the game is still ongoing.
+
+Primary Caller:
+    Game Manager
+
+Flow:
+    - Game Manager maintains the move history and board state.
+    - Game Manager calls Game Termination with:
+        checkForGameEnd(updatedBoardState, moveHistory)
+
+Inputs:
+    - updatedBoardState
+    - moveHistory
+
+Output:
+    - GameResult enum:
+        RED_WINS, BLACK_WINS, DRAW, or ONGOING
+
+Responsibilities:
+    - This method is called after every move to determine game outcome.
+    - Draw conditions like the 40-move rule are evaluated using moveHistory.
+
+Negotiation:
+    - Game Manager is responsible for invoking this method.
