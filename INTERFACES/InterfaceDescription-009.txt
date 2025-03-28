@@ -5,4 +5,3 @@ For the existing user login, the interface will contain a text box to input user
 The sign-up section for new users will contain a text box to input username, valid e-mail, password, and confirm password. It will contain a button titled “CREATE ACCOUNT” to submit user request.
 The interface will show error message next to the invalid input field in case of invalid inputs as described in the requirements.
 
-
