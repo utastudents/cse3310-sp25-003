@@ -1,0 +1,26 @@
+Interfaces – Group 17 (Bot I)
+
+As the Bot I subsystem, we communicate with Game Manager by receiving the current board state when it's the bot's turn. 
+We analyze the board and return a valid move for the bot's piece. We guarantee all moves follow game rules.
+
+Our interfaces include:
+
+1. generateMove(boardState) -> move
+   - Takes the current 8x8 board state (X = human, O = bot, V = valid, ! = invalid)
+   - Returns a legal move in the format: {from: [x1, y1], to: [x2, y2]}
+   - Uses simple rules to decide moves (always follows game rules)
+   - Responds within 10 seconds
+
+2. validateMove(boardState, move) -> boolean
+   - (Optional) Checks if a potential move is legal
+   - Uses same rules as the Game Play subsystem for consistency
+
+Note:
+- We only make legal moves (never break rules)
+- Our bot is simple but follows all game requirements
+- We work with Game Manager to take turns properly
+- Move format matches what Game Play expects
+
+Dependencies:
+- Needs current board state from Game Manager
+- May use Game Play's rules to validate moves
