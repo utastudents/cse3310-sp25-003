@@ -1,0 +1,17 @@
+Group 22: Bot II Interface
+
+The Bot II subsystem will be in direct communication with the Game Manager, in which the Game Manager will request a move from the bot by invoking a method that will pass the current board state. The names and exact specifications of these methods will be determined in unity with other subsystems.
+
+A possible method for the interface could be something like this:
+
+getBotMove(BoardState boardState){
+...
+return move
+}
+ 
+-This is called by the Game Manager when it requires a move from the Bot
+-Our Bot II subsystem will receive the current board state as the input.
+-After determining the best move, Bot II will return a move in the format according to how Game Manager wants it. This is our output that Game Manager will process.
+
+The Bot II subsystem will take the current board state and determine the best possible move according to it's playstyle. It will then return that move back to the Game Manager who will forward it to another subsystem such as Game Play for validation. Bot II will receive a message from Game Manager indicating the validity of the move. If the move is found to be not valid, Game Manager may call getBotMove again, passing on the same board state and a message indicating the previous move was not valid.
+
