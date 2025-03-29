@@ -1,0 +1,34 @@
+Join Game: Interface Description
+
+1. To display usernames as players
+   a. Request to Page manager to access User Names form DB by invoking a method
+   b. Verify duplicate username in the same system
+
+
+2. Player Selection
+   a. Players can select whom to play against: P1 V P2, P1 V B, P2 V B, B V B
+   b. In case a user selects Player 1 or Player 2, the user can join a lobby to be later joined
+      by another Player 2 or Player 1 from a different PC or two users from the same system can join a lobby by selecting both Player 1 and Player 2
+
+3. Join Lobby Button Behavior
+   a. Active (clickable) only if lobby has fewer than 2 players.
+   b. Changes to "LOBBY FULL" and becomes non-clickable after 2 players join.
+     i. Pop up message“This lobby is full. Try another one!”
+
+4. Error Handling
+   a. No two players with same name can join the same lobby.
+      i. NOTE: DataBase can store multiple users with same name
+   b. Show "Connection Error" or "Lobby Unavailable" popups if server fails to respond.
+   c. Provide retry or refresh option.
+
+5. Add Player button talks to Page Manager by invoking a method to direct the page to Login/SignUp, iff there is only                   one player in the game
+
+                                                        Required Methods:
+
+a. Method to get user name from the DB by requesting the PageManager to pull the usernames logged in from the same system.
+
+b. Method to verify no two usernames in the join-game page of the system is the same.
+
+c. Method to send UserName/s and Lobby ID to PageManager after Join Lobby button is pressed
+
+d. Method to request PageManager to direct the page to Login/SignUp if Add Player button is pressed. clickable(), only if there is just one player in the system.
