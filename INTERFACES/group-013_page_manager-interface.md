@@ -11,7 +11,7 @@ Join Game to Pair Up:
 Take inputs from the client to indicate whether the player is a bot or a human. It also keeps track of how many players are waiting to play. This data is sent to PAIR UP along with the username and user ID.
 
 Pair Up
-PAIR UP is responsible for matching players. PAGE MANAGER sends it the username, user ID, and player type input from the Join Game interaction so it can pair players.
+is responsible for matching players. PAGE MANAGER sends it the username, user ID, and player type input from the Join Game interaction so it can pair players.
 
 Game Manager:
 Send the paired player info to GAME MANAGER. During gameplay, it receives the move from the client and forwards it to the GAME MANAGER, which handles the game logic and returns the updated game state.
