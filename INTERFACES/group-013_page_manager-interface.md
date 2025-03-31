@@ -23,8 +23,7 @@ Summary:
 PAGE MANAGER sends the user data to the SUMMARY page, including user ID, username, win/loss ratio, and the leaderboard.
 
 Database:
-PAGE MANAGER sends login information to DATABASE, which validates the user and responds with user data. It also requests leaderboard info from DATABASE when needed.
-
+The PAGE MANAGER sends user login credentials to the DATABASE, which verifies them and responds with user-specific data if valid. For leaderboard access, the PAGE MANAGER requests the information, and the DATABASE returns the latest rankings and scores.
 
 
 Notes:
