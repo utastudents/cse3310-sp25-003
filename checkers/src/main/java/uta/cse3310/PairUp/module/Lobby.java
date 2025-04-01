@@ -1,15 +1,16 @@
 package uta.cse3310.PairUp.module;
 
+/* pairup/model/Lobby.java */
 public class Lobby {
+
     private String lobbyId;
-    private Participant[] slots;
+    private Participant[] slots = new Participant[2];
     private boolean closed;
     private long creationTime;
 
     public Lobby(String lobbyId) {
         this.lobbyId = lobbyId;
-        this.slots = new Participant[2];
-        this.closed = false;
+        this.closed = false; 
         this.creationTime = System.currentTimeMillis();
     }
 
