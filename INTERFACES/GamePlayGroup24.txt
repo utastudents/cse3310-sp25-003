@@ -10,11 +10,6 @@ checkLegalMove(boardState, move) returns a boolean value
 Checks whether the move is valid. This includes verifying that the piece’s destination is within the  bounds, the space is unoccupied, the move follows movement rules for the piece type (normal or king), and that any capture rules are followed.
 
 
-applyMove(boardState, move) which returns to updatedBoardState
-
-If checkLegalMove returns true, this function applies the move to the board. It handles piece movement, captures, king promotion, and multiple jumps if applicable.
-
-
 notifyGameTermination(updatedBoardState)
 
 Sends the updated board state, if there is one, to the Game Termination subsystem.
