@@ -24,6 +24,15 @@ public class GamePlay {
 	{
     	return false;
 	}
+
+	private void promotePiece(Pieces[][] table, Move move) {
+        	//Implementation would check if the piece should be promoted and modify the piece accordingly.
+    	}
+
+	private boolean isEmpty(Pieces[][] table, int row, int col) {
+        	//Would return true if table[row][col] is empty.
+        	return false;
+    	}
 	
 	public boolean isValidMove(Pieces[][] table, Move move) 
 	{
