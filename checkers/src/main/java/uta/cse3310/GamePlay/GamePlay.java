@@ -19,4 +19,14 @@ public class GamePlay {
 
 	private void applyMove(Pieces[][] table, Move move) {}
 	private void notifyTermination(Pieces[][] table) {}
+
+	private boolean isSameTeam(Pieces[][] table, Move move) 
+	{
+    	return false;
+	}
+	
+	public boolean isValidMove(Pieces[][] table, Move move) 
+	{
+    	return false;
+	}
 }
