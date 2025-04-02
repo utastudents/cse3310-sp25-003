@@ -13,3 +13,19 @@ Checks whether the move is valid. This includes verifying that the piece’s des
 notifyGameTermination(updatedBoardState)
 
 Sends the updated board state, if there is one, to the Game Termination subsystem.
+
+**isValidMove(boardState, move) → boolean:**
+
+Checks whether the move is valid. This includes verifying that:
+
+The destination coordinates are within the bounds of the board.
+The move follows the legal movement rules for the piece type (normal or king).
+Any mandatory capture rules are followed.
+
+**isSameTeam(boardState, move) → boolean:**
+Checks whether the source and destination pieces belong to the same team.
+Used as a helper function to ensure a piece does not move into a square occupied by a teammate:
+
+Returns true if both pieces belong to the same player/team.
+
+Returns false if the destination is empty or contains an opponent's piece.
