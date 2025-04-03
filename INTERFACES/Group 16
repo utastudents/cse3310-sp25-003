@@ -1,0 +1,38 @@
+Interfaces – Group 16 (Game Manegeger)
+
+As the Game Manager subsystem, we communicate with Page Maneger by receiving the current board state as well as who is playing if its Player, or BOT. 
+We analyze the board andsend this information to Bot 1 and Bot2 if needed as welll as Game Play when then wait for a return of a valid move for the bot's piece or wait for 
+conformation from game play that the move is valid. 
+
+Our interfaces include:
+├── GameManager/
+
+│   ├── GameManager.java          (Core logic - Oscar)
+
+│   └── exceptions/
+
+│       ├── InvalidMoveException.java (Sagar)
+
+│       └── GameNotFoundException.java (Sagar)
+
+├── models/                       (Shared data structures)
+
+│   ├── Move.java                 (Ishan)
+
+│   ├── GameState.java            (Darshan)
+
+│   ├── Player.java               (Shared)
+
+│   └── Position.java             (Shared)
+
+└── test/                         (Unit tests - Ahmed)
+
+Note:
+- We only make legal moves thanks to gaame play
+- Pair up will infor us if we are playing agenst player or bots
+- We work with Page Maneger to get a current state of the board
+- Bot 1 and Bot 2 will alway make a valid move
+- Move format matches what Game Play expects
+
+Dependencies:
+- Needs current board state from Page Manager
