@@ -1,7 +1,4 @@
-package uta.cse3310;
-
-import java.util.ArrayList;
-import java.util.List;
+package uta.cse3310.GameTermination;
 
 /**
  * Represents the possible statuses of the game.
