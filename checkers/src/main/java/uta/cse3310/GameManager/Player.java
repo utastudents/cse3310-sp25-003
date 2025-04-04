@@ -2,7 +2,7 @@ package uta.cse3310.Model;
 
 
 /* Gamemanager/model/Player.java */
-// construct
+// construct for player id, name, isbot, and score
 public Player(String playerId, String displayName, boolean isBot) {
         this.playerId = playerId;
         this.displayName = displayName;
