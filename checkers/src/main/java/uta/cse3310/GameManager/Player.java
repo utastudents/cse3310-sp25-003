@@ -1,8 +1,11 @@
-package uta.cse3310.Model;
+package uta.cse3310.GameManager;
 
-
+public class Player {
+    String playerId, displayName;
+    boolean isBot;
+    int score;
 /* Gamemanager/model/Player.java */
-public Player(String playerId, String displayName, boolean isBot) {
+ Player(String playerId, String displayName, boolean isBot) {
         this.playerId = playerId;
         this.displayName = displayName;
         this.isBot = isBot;
