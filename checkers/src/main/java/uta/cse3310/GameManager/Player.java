@@ -2,6 +2,7 @@ package uta.cse3310.Model;
 
 
 /* Gamemanager/model/Player.java */
+// construct
 public Player(String playerId, String displayName, boolean isBot) {
         this.playerId = playerId;
         this.displayName = displayName;
@@ -16,7 +17,7 @@ public Player(String playerId, String displayName, boolean isBot) {
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
     }
-//Display the name
+//Display the name on screen
     public String getDisplayName() {
         return displayName;
     }
@@ -24,7 +25,7 @@ public Player(String playerId, String displayName, boolean isBot) {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
-//If player is a bot
+//If player is a bot true or false true or false
     public boolean isBot() {
         return isBot;
     }
@@ -32,7 +33,7 @@ public Player(String playerId, String displayName, boolean isBot) {
     public void setBot(boolean bot) {
         isBot = bot;
     }
-// Score
+// Tracks the score for the player or bot 
     public int getScore() {
         return score;
     }
@@ -41,6 +42,7 @@ public Player(String playerId, String displayName, boolean isBot) {
         this.score++;
     }
 
+//Return information
     @Override
     public String toString() {
         return "Player{" +
