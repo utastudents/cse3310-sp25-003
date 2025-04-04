@@ -66,9 +66,16 @@ public interface GameTermination {
         {
             for (int j = 0; j < state.getSize(); j++ )
             {
+                Piece piece = state.getPiece(i,j); 
+                if(piece != null && piece.getColor() == color)
+                {
+                    count++; 
+                }
 
             }
 
         }
+
+        return count; 
      }
 }
