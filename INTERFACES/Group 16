@@ -36,3 +36,13 @@ Note:
 
 Dependencies:
 - Needs current board state from Page Manager
+
+Negotiated Interfaces:
+- With Page Manager:
+  • Input: JSON object with {gameId, playerId, boardState, turnInfo}
+- With Game Play:
+  • Input: Move object {from, to, playerId}
+  • Output: boolean isMoveValid
+- With Bots:
+  • Input: boardState, current turn
+  • Output: generated Move
