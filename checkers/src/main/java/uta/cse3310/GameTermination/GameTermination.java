@@ -58,4 +58,6 @@ public interface GameTermination {
      * 
      * @return the total amount of pieces of the specified color 
      */
+
+     private int countPieces(BoardSate state, PieceColor color){}
 }
