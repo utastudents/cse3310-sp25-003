@@ -15,13 +15,22 @@ public class BotI {
     }
 
     private ArrayList<Move> getAvailableMoves(Pieces currentBoard) {
-		return null;
+	    ArrayList<Move> availableMoves = new ArrayList<Move>();
+		return availableMoves;
 	}
 
     private Move generateMove(Pieces currentBoard) {
-		return null;
+	    ArrayList<Move> availableMoves = getAvailableMoves(currentBoard);
+	    Move tmp = new Move();
+		return tmp;
 	}
 
     public void onUserMove(Pieces currentBoard, Move userMove) {
+	    Move botMove = generateMove(currentBoard);
+	    if (botMove == null){
+		    |
+	    } else {
+		    
+	    }
     }
 }
