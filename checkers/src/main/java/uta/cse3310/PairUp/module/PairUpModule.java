@@ -6,7 +6,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /* PAIRUP-001/002: Manage list of lobbies, each with up to 2 participants (human or bot) */
-public class PairUpModule {
+public class PairUpModule 
+{
 
     private List<Lobby> activeLobbies = new ArrayList<>();
     private static final int MAX_LOBBIES = 10;
