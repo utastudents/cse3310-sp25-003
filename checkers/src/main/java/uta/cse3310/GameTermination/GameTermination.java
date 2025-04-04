@@ -62,9 +62,13 @@ public interface GameTermination {
      private int countPieces(BoardSate state, PieceColor color)
      {
         int count = 0; 
-        for (int i = 0; i < state; i++)
+        for (int i = 0; i < state.getSize; i++)
         {
-            
+            for (int j = 0; j < state.getSize(); j++ )
+            {
+
+            }
+
         }
      }
 }
