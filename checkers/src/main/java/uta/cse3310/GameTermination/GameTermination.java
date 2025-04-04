@@ -47,4 +47,15 @@ public interface GameTermination {
      * @return TerminationReason enum indicating the termination cause.
      */
     TerminationReason getTerminationReason();
+
+
+    //---------- Helper Methods ----------//
+
+    /*
+     * Counts pieces of a specific color on the board
+     * @param state the board state to analyze
+     * @param color the color of the pieces to count
+     * 
+     * @return the total amount of pieces of the specified color 
+     */
 }
