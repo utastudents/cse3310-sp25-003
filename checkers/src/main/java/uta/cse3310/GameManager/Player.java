@@ -19,7 +19,7 @@ public class Player {
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
     }
-//Display the name
+//Display the name on screen
     public String getDisplayName() {
         return displayName;
     }
@@ -27,7 +27,7 @@ public class Player {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
-//If player is a bot
+//If player is a bot true or false true or false
     public boolean isBot() {
         return isBot;
     }
@@ -35,7 +35,7 @@ public class Player {
     public void setBot(boolean bot) {
         isBot = bot;
     }
-// Score
+// Tracks the score for the player or bot 
     public int getScore() {
         return score;
     }
@@ -44,6 +44,7 @@ public class Player {
         this.score++;
     }
 
+//Return information
     @Override
     public String toString() {
         return "Player{" +
