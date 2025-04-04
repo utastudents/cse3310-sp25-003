@@ -45,4 +45,4 @@ Negotiated Interfaces:
   • Output: boolean isMoveValid
 - With Bots:
   • Input: boardState, current turn
-  • Output: generated Move
+  • Output: generated Moves
