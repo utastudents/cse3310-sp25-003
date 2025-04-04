@@ -1,6 +1,13 @@
 body {
     justify-items: center;
     justify-content: center;
+    background-image: url("backgroundnavy4.jpg"); 
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    color: white; /
+    justify-items: center;
   }
   
   .container {
