@@ -44,10 +44,10 @@ public Player(String playerId, String displayName, boolean isBot) {
     @Override
     public String toString() {
         return "Player{" +
-                "playerId='" + playerId + '\'' +
-                ", displayName='" + displayName + '\'' +
-                ", isBot=" + isBot +
-                ", score=" + score +
+                "Player ID='" + playerId + '\'' +
+                ",Name = '" + displayName + '\'' +
+                ",is Bot =" + isBot +
+                ",Score=" + score +
                 '}';
     }
 }
