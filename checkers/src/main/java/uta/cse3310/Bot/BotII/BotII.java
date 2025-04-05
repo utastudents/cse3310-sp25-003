@@ -146,5 +146,20 @@ public class BotII
         return 0;  
     }
 
+    private int countOpponentKings(BoardState boardState) 
+    {
+        //TODO: Add code to count Opponents kings
+        return 0; 
+    }
     
+       //Count the number of pieces the bot has in the center of the board
+    private int countPiecesInCenter(BoardState boardState) 
+    {
+        int count = 0;
+        //Positions on the checkers board that are considered the center
+        int[][] centerPositions = {{3, 3}, {3, 4}, {4, 3}, {4, 4}};
+        //Loop through the positions and count bot's pieces in the center
+        return count;
+    }
+   
 }
