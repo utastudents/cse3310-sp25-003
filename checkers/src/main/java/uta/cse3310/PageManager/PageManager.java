@@ -13,6 +13,21 @@ public class PageManager {
     Integer turn = 0; // just here for a demo. note it is a global, effectively and
                       // is not unique per client (or game)
 
+    private UserEventReply handleJoinGame(UserEvent U) {
+        // Create placeholder response
+        UserEventReply reply = new UserEventReply();
+        reply.status = new game_status();
+        reply.recipients = new ArrayList<>();
+        reply.recipients.add(U.id);
+
+        // TEMPORARY: dummy info for testing
+        reply.status.message = "Join Game event received";
+        reply.status.gameID = "placeholder-game-id";
+        reply.status.opponent = "Waiting for opponent...";
+
+    return reply;
+}
+
     public UserEventReply ProcessInput(UserEvent U) {
         UserEventReply ret = new UserEventReply();
         ret.status = new game_status();

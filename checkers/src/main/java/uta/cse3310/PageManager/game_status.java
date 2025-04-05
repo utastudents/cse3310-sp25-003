@@ -1,7 +1,10 @@
 package uta.cse3310.PageManager;
 
 public class game_status {
-    // this is just a made up example to demonstrate data flow
-    Integer turn;
-    Float score;
+    public Integer turn;
+    public Float score;
+    public String message;
+    public String gameID;
+    public String opponent;
 }
+
