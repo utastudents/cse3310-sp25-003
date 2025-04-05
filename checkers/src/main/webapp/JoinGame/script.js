@@ -29,6 +29,9 @@
 
     }
 
+    function displayUsers(usernames) {
+        // Displays users in the particular game session
+    }
 
     function addPlayer(player) {
 
@@ -37,6 +40,9 @@
 
     }
 
+    function handleBackButton() {
+        //Button that takes user to previous page
+    }
 
     function refereshLobbies() {
 
