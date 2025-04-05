@@ -1,5 +1,6 @@
 package uta.cse3310.Bot.BotI;
 
+import uta.cse3310.GameManager.GameManager;
 import java.util.ArrayList;
 
 class Pieces {
@@ -10,8 +11,13 @@ class Move {
 
 public class BotI {
 
-	public BotI() {
+	private GameManager gameManager;
+
+
+	public BotI(GameManager gameManager) {
+	this.gameManager = gameManager;
 	}
+
 
 	private boolean validateMove(Pieces currentBoard, Move m) {
 		return false;
