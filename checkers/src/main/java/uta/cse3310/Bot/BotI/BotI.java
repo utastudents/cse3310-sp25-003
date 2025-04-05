@@ -2,7 +2,9 @@ package uta.cse3310.Bot.BotI;
 
 import uta.cse3310.GameManager.GameManager;
 import java.util.ArrayList;
-
+//It represents a piece on the board
+//It has rows and columns on the board showing the current position
+//It may have status flag to check its validity
 class Pieces {
 };
 
