@@ -1,14 +1,16 @@
-*
-{
+* {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
 }
 
-/* Add relevant css for styling
-.....
-....
-...
-..
-.
-*/
+body {
+    background-color: green;
+}
+
+.lobby-list {
+    list-style-type: none; /* Removes default list style */
+    padding: 0;
+    background-color: green;
+    box-sizing: border-box;
+}
