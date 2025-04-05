@@ -19,7 +19,7 @@ public class GameManager {
     public GameManager() {
         gp = new GamePlay();
         gt = new GameTermination();
-        b1 = new BotI();
+        b1 = new BotI(this);
         b2 = new BotII();
         activeGames = new HashMap<>();
     }
