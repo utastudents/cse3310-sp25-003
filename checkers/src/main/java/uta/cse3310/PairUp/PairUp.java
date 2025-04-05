@@ -7,7 +7,7 @@ public class PairUp {
     private PairUpModule pairUpModule;
 
     public PairUp(DB db) {
-        this.pairUpModule = new PairUpModule();
+        this.pairUpModule = new  PairUpModule();
     }
 
     public PairUpModule getPairUpModule() {
