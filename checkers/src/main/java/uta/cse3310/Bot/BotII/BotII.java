@@ -1,6 +1,45 @@
 package uta.cse3310.Bot.BotII;
 
-public class BotII {
+import java.util.ArrayList;
+import java.util.List;
+
+
+// Temporary placeholders
+class BoardState {
+}
+
+class Move {
+}
+
+public class BotII 
+{
+        //Main method that determines the bot's move
+    public void makeMove(BoardState boardState) 
+    {
+        int score = evaluateBoard(boardState);
+
+        //If the evaluation score is high, prioritize offensive moves, else defensive
+        if (score >= 0) 
+        {
+            prioritizeOffense(boardState);
+        } 
+        else 
+        {
+            prioritizeDefense(boardState);
+        }
+    }
+
+    //Offensive strategy
+    private void prioritizeOffense(BoardState boardState) {
+        //first, look for capture oppurtunities
+        if (findCaptureOpportunity(boardState)) {
+            capturePiece(boardState);
+        } 
+        else {
+            //If no capture is available, make a regular valid move
+            makeValidMove(boardState);
+        }
+    }
     private void prioritizeDefense(BoardState boardState) 
     {
         ArrayList<Move> legalMoves = getLegalMoves(boardState);
