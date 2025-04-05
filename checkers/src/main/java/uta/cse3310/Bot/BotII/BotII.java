@@ -126,5 +126,25 @@ public class BotII
         //TODO: Return all legal moves for bot
         return new ArrayList<>();
     }
+        
+    //Helper methods for evaluation
+    private int countBotPieces(BoardState boardState) 
+    {
+        //Add code to count the bot's pieces
+        return 0; 
+    }
+
+    private int countOpponentPieces(BoardState boardState) 
+    {
+        //TODO: Add code to count the opponent's pieces
+        return 0;
+    }
+
+    private int countBotKings(BoardState boardState) 
+    {
+        //TODO: Add code to count the bot's kings
+        return 0;  
+    }
+
     
 }
