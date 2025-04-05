@@ -44,8 +44,6 @@ public interface IGameTermination {
      */
     TerminationReason getTerminationReason();
 
-        return count;
-    }
 
     // ---------- For Complation Purposes ONLY ----------//
     // [TODO]: Laxman- Remove this class once the game logic is implemented by other
