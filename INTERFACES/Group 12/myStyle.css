@@ -1,110 +1,120 @@
 body {
-    justify-items: center;
-    justify-content: center;
-    background-image: url("backgroundnavy4.jpg"); 
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    color: white; /
-    justify-items: center;
+  justify-items: center;
+  justify-content: center;
+  background-image: url("backgroundnavy4.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  color: white;
+  justify-items: center;
+}
+
+.container {
+  width: 600px;
+  height: auto;
+  background-color: blue;
+}
+
+.items {
+  color: white;
+}
+
+.row {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 40px;
+  border: solid black;
+  margin: 3%;
+  align-content: center;
+}
+
+.seen {
+  opacity: 0;
+  transform: translateX(-50%);
+  animation: fadeLeft 2s forwards;
+}
+
+@keyframes fadeLeft {
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
-  
-  .container {
-    width: 600px;
-    height: auto;
-  }
-  
-  .items {
-    color: white;
-  }
-  
-  .row {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 40px;
-    border: solid black;
-    margin: 3%;
-    align-content: center;
-  }
-  
-  .seen {
-    opacity: 0;
-    transform: translateX(-50%);
-    animation: fadeLeft 2s forwards;
-  }
-  
-  @keyframes fadeLeft {
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-  
-  #numberOne {
-    animation-delay: 0ms;
-  }
-  
-  #numberTwo {
-    animation-delay: 250ms;
-  }
-  
-  #numberThree {
-    animation-delay: 500ms;
-  }
-  
-  #numberFour {
-    animation-delay: 750ms;
-  }
-  
-  #numberFive {
-    animation-delay: 1s;
-  }
-  
-  #numberSix {
-    animation-delay: 1.25s;
-  }
-  
-  #numberSeven {
-    animation-delay: 1.5s;
-  }
-  
-  #numberEight {
-    animation-delay: 1.75s;
-  }
-  
-  #numberNine {
-    animation-delay: 2s;
-  }
-  
-  #numberTen {
-    animation-delay: 2.25s;
-  }
-  
-  .rank {
-    display: inline-flex;
-    width: 10%;
-    justify-content: center;
-    margin-left: 5%;
-  }
-  
-  .name {
-    display: inline-flex;
-    width: 50%;
-  }
-  
-  .userId {
-    opacity: 0.4;
-    display: inline-flex;
-    width: 40%;
-    margin-left: 5%;
-  }
-  
-  .score {
-    display: inline-flex;
-    justify-content: end;
-    width: 30%;
-    justify-self: end;
-  }
-  
+}
+
+#numberOne {
+animation-delay: 0ms;
+background-color: tomato;
+}
+
+#numberTwo {
+animation-delay: 250ms;
+background-color: yellow;
+}
+
+#numberThree {
+animation-delay: 500ms;
+background-color: violet;
+}
+
+#numberFour {
+animation-delay: 750ms;
+background-color: orange;
+}
+
+#numberFive {
+animation-delay: 1s;
+background-color: DodgerBlue;
+}
+
+#numberSix {
+animation-delay: 1.25s;
+background-color: grey;
+}
+
+#numberSeven {
+animation-delay: 1.5s;
+background-color: slateblue;
+}
+
+#numberEight {
+animation-delay: 1.75s;
+background-color: lightgray;
+}
+
+#numberNine {
+animation-delay: 2s;
+background-color: gold;
+}
+
+#numberTen {
+animation-delay: 2.25s;
+background-color: mediumseagreen;
+}
+
+.rank {
+  display: inline-flex;
+  width: 10%;
+  justify-content: center;
+  margin-left: 5%;
+}
+
+.name {
+  display: inline-flex;
+  width: 50%;
+}
+
+.userId {
+  opacity: 0.4;
+  display: inline-flex;
+  width: 40%;
+  margin-left: 5%;
+}
+
+.score {
+  display: inline-flex;
+  justify-content: end;
+  width: 30%;
+  justify-self: end;
+}
