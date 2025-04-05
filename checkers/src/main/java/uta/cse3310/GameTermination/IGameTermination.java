@@ -44,30 +44,6 @@ public interface IGameTermination {
      */
     TerminationReason getTerminationReason();
 
-    // ---------- Helper Methods ----------//
-
-    /*
-     * Counts pieces of a specific color on the board
-     * 
-     * @param state the board state to analyze
-     * 
-     * @param color the color of the pieces to count
-     * 
-     * @return the total amount of pieces of the specified color
-     */
-    private int countPieces(BoardState state, PieceColor color) {
-        int count = 0;
-        for (int i = 0; i < state.getSize(); i++) {
-            for (int j = 0; j < state.getSize(); j++) {
-                Piece piece = state.getPiece(i, j);
-                if (piece != null && piece.getColor() == color) {
-                    count++;
-                }
-
-            }
-
-        }
-
         return count;
     }
 
