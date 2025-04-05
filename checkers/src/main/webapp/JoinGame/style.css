@@ -5,12 +5,11 @@
 }
 
 body {
-    background-color: green;
+    background-color: rgb(150, 155, 150);
 }
 
 .lobby-list {
     list-style-type: none; /* Removes default list style */
     padding: 0;
     background-color: green;
-    box-sizing: border-box;
 }
