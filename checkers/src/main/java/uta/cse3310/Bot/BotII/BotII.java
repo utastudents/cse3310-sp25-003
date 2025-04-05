@@ -42,4 +42,50 @@ public class BotII {
         //Capture Move logic will be added here.
         return true;
     }
+    //capture of an opponent's piece
+    private void capturePiece(BoardState boardState) 
+    {
+        //Perform a capture on opponent piece
+
+    }
+
+    // Make a valid move (not involving a capture)
+    private void makeValidMove(BoardState boardState) {
+        //Logic to move a piece
+    }
+
+    
+    private Move findSafeMove(ArrayList<Move> legalMoves) 
+    {
+       //code to find safe moves
+       //Avoid moving from back row
+        //if (startRow != 0 && startRow != 7) 
+        //{
+         //       return move;
+        //}
+        
+        return null;
+    }
+    
+    private Move findBlockMove(List<Move> legalMoves) 
+    {
+       //code to find move that blocks opponents
+       //takes center positions
+       //if (row >= 2 && row <= 5 && col >= 2 && col <= 5) 
+       //{
+       //         return move;
+       //}
+        return null;
+    }
+
+    private void executeMove(Move move) {
+        //TODO: Actually make the move on the board
+    }
+    
+    private ArrayList<Move> getLegalMoves(BoardState boardState) 
+    {
+        //TODO: Return all legal moves for bot
+        return new ArrayList<>();
+    }
+    
 }
