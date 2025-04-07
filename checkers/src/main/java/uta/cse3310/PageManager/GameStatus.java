@@ -1,6 +1,6 @@
 package uta.cse3310.PageManager;
 
-public class game_status {
+public class GameStatus {
     public Integer turn;
     public Float score;
     public String message;
