@@ -4,34 +4,54 @@ import java.util.ArrayList;
 
 import uta.cse3310.DB.DB;
 import uta.cse3310.PairUp.PairUp;
-import uta.cse3310.PageManager.UserEvent;
-import uta.cse3310.PageManager.UserEventReply;
 
 public class PageManager {
-    DB db;
-    PairUp pu;
-    Integer turn = 0; // just here for a demo. note it is a global, effectively and
-                      // is not unique per client (or game)
+    // Database instance
+    private DB db;
 
+    // PairUp instance
+    private PairUp pu;
+
+    // Turn tracker (global, not unique per client or game)
+    private Integer turn = 0;
+
+    // Constructor
+    public PageManager() {
+        db = new DB();
+        pu = new PairUp(db); // Pass the database instance to PairUp
+    }
+
+    /**
+     * Handles the "Join Game" event.
+     * 
+     * @param U UserEvent containing event details
+     * @return UserEventReply with the response
+     */
     private UserEventReply handleJoinGame(UserEvent U) {
-        // Create placeholder response
         UserEventReply reply = new UserEventReply();
-        reply.status = new game_status();
+        reply.status = new GameStatus();
         reply.recipients = new ArrayList<>();
         reply.recipients.add(U.id);
 
-        // TEMPORARY: dummy info for testing
+        // Temporary dummy info for testing
         reply.status.message = "Join Game event received";
         reply.status.gameID = "placeholder-game-id";
         reply.status.opponent = "Waiting for opponent...";
 
-    return reply;
-}
+        return reply;
+    }
 
+    /**
+     * Processes input from the user.
+     * 
+     * @param U UserEvent containing input details
+     * @return UserEventReply with the response
+     */
     public UserEventReply ProcessInput(UserEvent U) {
         UserEventReply ret = new UserEventReply();
-        ret.status = new game_status();
-        // fake data for the example
+        ret.status = new GameStatus();
+
+        // Toggle turn for demonstration purposes
         if (turn == 0) {
             ret.status.turn = 1;
             turn = 1;
@@ -40,20 +60,10 @@ public class PageManager {
             turn = 0;
         }
 
-        // for now, the idea is to send it back where it came from
-        // in the future, all of the id's that need the data will need to
-        // be added to this list
+        // Send response back to the originating user
         ret.recipients = new ArrayList<>();
         ret.recipients.add(U.id);
 
         return ret;
-
     }
-
-    public PageManager() {
-        db = new DB();
-        // pass over a pointer to the single database object in this system
-        pu = new PairUp(db);
-    }
-
 }
