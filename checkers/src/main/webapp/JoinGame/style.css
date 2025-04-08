@@ -1,0 +1,15 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(150, 155, 150);
+}
+
+.lobby-list {
+    list-style-type: none; /* Removes default list style */
+    padding: 0;
+    background-color: green;
+}
