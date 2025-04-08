@@ -6,8 +6,8 @@ import java.sql.*;
 // Compile with
 // javac ./DB.java
 
-// Open Databases with Command below
-// java -classpath ".;sqlite-jdbc-3.7.2.jar" ./DB.java
+// Run with Command below
+// java -classpath ".\sqlite-jdbc-3.49.1.0.jar" .\DB.java
 
 
 public class DB {
@@ -27,11 +27,13 @@ public class DB {
          // ****** ONLY USE WHEN DATABASE IS CORRUPTED ******
          // createDatabase(stmt);
 
-         String userName = "";
-         String email = "";
-         String password= "";
+         // String userName = "zxc";
+         // String email = "asdasd";
+         // String password= "thusaintagoodpassword";
 
-         initUser(stmt,userName,email,password);
+         // initUser(stmt,userName,email,password);
+         initUser(stmt, "Shawnabe12","johnabe5605@gmail.com" , "urgh");
+         getAllUserData(stmt);
 
          closeConnection(c, stmt);
 
@@ -71,7 +73,7 @@ public class DB {
          sql = "CREATE TABLE MATCH_DATABASE " +
                         "(MATCHID        INT     PRIMARY KEY     NOT NULL," + 
                         " BLACKPLAYERID  INT     NOT NULL," +
-                        " WHITEPLAYERID  INT     NOT NULL," +
+                        " REDPLAYERID    INT     NOT NULL," +
                         " BOARDSTATE     TEXT    NOT NULL," + 
                         " WINNER         INT     NOT NULL," +
                         " LOSER          INT     NOT NULL)"; 
@@ -84,7 +86,36 @@ public class DB {
    public static void initUser(Statement stmt, String userName, String email, String password) throws SQLException{
       // PLAYERID (INT), USERNAME(STRING), EMAIL(STRING), PASSWORD(STRING), WINS(INT), LOSSES(INT)
       String sql = "INSERT INTO USER_DATABASE (PLAYERID,USERNAME,EMAIL,PASSWORD, WINS, LOSSES) " +
-                     "VALUES (2,"+userName+","+email+","+password+", 0, 0 )"; 
+                     "VALUES (3,'"+userName+"','"+email+"','"+password+"', 0, 0 );"; 
+      System.err.println(sql);
+                     
       stmt.executeUpdate(sql);
+   }
+   public static void initMatch(Statement stmt, int BLACKPLAYERID, int REDPLAYERID, String BOARDSTATE, int WINNERID, int LOSERID)throws SQLException{
+      // BLACKPLAYERID(INT), REDPLAYERID(INT), BOARDSTATE(STRING), WINNERID(INT), LOSERID(INT)
+      String sql = "INSERT INTO MATCH_DATABASE (MATCHID,BLACKPLAYERID,REDPLAYERID,BOARDSTATE, WINNERID, LOSERID) " +
+                     "VALUES (1,"+BLACKPLAYERID+","+REDPLAYERID+","+BOARDSTATE+","+WINNERID+","+LOSERID+" );"; 
+      stmt.executeUpdate(sql);
+   }
+   public static void getAllUserData(Statement stmt) throws SQLException{
+      // PLAYERID (INT), USERNAME(STRING), EMAIL(STRING), PASSWORD(STRING), WINS(INT), LOSSES(INT)
+      System.out.printf("%-20s %-20s %-25s %-25s %-20s %-20s","PLAYERID","USERNAME","EMAIL","PASSWORD","WINS","LOSSES");
+      System.out.print("\n");
+      
+      String sql = "SELECT * FROM USER_DATABASE";
+      ResultSet rs = stmt.executeQuery(sql);
+      while(rs.next()){
+         int playerID = rs.getInt("PLAYERID");
+         String username = rs.getString("USERNAME");
+         String email = rs.getString("EMAIL");
+         String password = rs.getString("PASSWORD");
+         int wins = rs.getInt("WINS");
+         int losses = rs.getInt("LOSSES");
+
+
+
+         System.out.printf("%-20d %-20s %-25s %-25s %-20d %-20d\n",playerID,username,email,password,wins,losses);
+         // System.out.println("\n");
+      }
    }
 }
