@@ -4,6 +4,6 @@ import java.util.ArrayList;
 
 
 public class UserEventReply {
-    public game_status status;
+    public GameStatus status;
     public ArrayList<Integer> recipients;
 }

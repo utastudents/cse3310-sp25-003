@@ -6,7 +6,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /* PAIRUP-001/002: Manage list of lobbies, each with up to 2 participants (human or bot) */
-public class PairUpModule {
+public class PairUpModule 
+{
 
     private List<Lobby> activeLobbies = new ArrayList<>();
     private static final int MAX_LOBBIES = 10;
@@ -113,8 +114,59 @@ public class PairUpModule {
 
     /* PAIRUP-015: Placeholder logic for pairing 2 idle players from separate lobbies. */
     public void checkIdlePlayersFromDifferentLobbies() {
-        
+        // Gather lonely human players
+        List<Lobby> lonelyLobbies = activeLobbies.stream()
+            .filter(l -> !l.isClosed())
+            .filter(l -> {
+                Participant[] slots = l.getSlots();
+                int count = 0;
+                for (Participant p : slots) {
+                    if (p != null && !p.isBot()) count++;
+                }
+                return count == 1;
+            })
+            .collect(Collectors.toList());
+    
+        // Pair them two at a time
+        while (lonelyLobbies.size() >= 2) {
+            Lobby lobbyA = lonelyLobbies.remove(0);
+            Lobby lobbyB = lonelyLobbies.remove(0);
+    
+            Participant playerA = getHumanFromLobby(lobbyA);
+            Participant playerB = getHumanFromLobby(lobbyB);
+    
+            // Create new lobby
+            String newLobbyId = UUID.randomUUID().toString();
+            Lobby newLobby = new Lobby(newLobbyId);
+            newLobby.getSlots()[0] = playerA;
+            newLobby.getSlots()[1] = playerB;
+            newLobby.setClosed(true); // full lobby
+    
+            // Add to active list
+            activeLobbies.add(newLobby);
+            storeOrUpdateLobby(newLobby);
+    
+            // Remove old lobbies
+            activeLobbies.remove(lobbyA);
+            activeLobbies.remove(lobbyB);
+            notifySubscribers(lobbyA.getLobbyId(), "merged");
+            notifySubscribers(lobbyB.getLobbyId(), "merged");
+    
+            // Notify game manager
+            notifyGameManager(newLobby);
+        }
     }
+    
+    // Helper method to extract the human player from a lobby
+    private Participant getHumanFromLobby(Lobby lobby) {
+        for (Participant p : lobby.getSlots()) {
+            if (p != null && !p.isBot()) {
+                return p;
+            }
+        }
+        return null;
+    }
+    
 
     private Lobby findLobby(String lobbyId) {
         return activeLobbies.stream()

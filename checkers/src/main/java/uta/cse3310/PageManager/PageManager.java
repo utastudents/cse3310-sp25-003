@@ -24,13 +24,34 @@ public class PageManager {
     // cache for waiting players
     private ArrayList<String> waitingPlayers;
     
+    // Turn tracker (global, not unique per client or game)
+    private Integer turn = 0;
+    
+    // Constructor
+    public PageManager() {
+        db = new DB();
+        pairUp = new PairUp(db);
+        activeGames = new HashMap<>();
+        waitingPlayers = new ArrayList<>();
+    }
+    
+    /**
+     * Processes input from the user.
+     */
     public UserEventReply ProcessInput(UserEvent userEvent) {
         UserEventReply ret = new UserEventReply();
         ret.status = new game_status();
         
-        // design: This method will use the userEvent.type to determine how to handle the request
+        // Toggle turn for demonstration purposes
+        if (turn == 0) {
+            ret.status.turn = 1;
+            turn = 1;
+        } else {
+            ret.status.turn = 0;
+            turn = 0;
+        }
         
-        // temporary logic to maintain backward compatibility
+        // Send response back to the originating user
         ret.recipients = new ArrayList<>();
         ret.recipients.add(userEvent.id);
         
@@ -43,8 +64,17 @@ public class PageManager {
     }
     
     public UserEventReply handleJoinGame(UserEvent userEvent) {
-        // Design: add player to waiting list via PairUp
-        return null;
+        UserEventReply reply = new UserEventReply();
+        reply.status = new game_status();
+        reply.recipients = new ArrayList<>();
+        reply.recipients.add(userEvent.id);
+
+        // Temporary dummy info for testing
+        reply.status.message = "Join Game event received";
+        reply.status.gameID = "placeholder-game-id";
+        reply.status.opponent = "Waiting for opponent...";
+
+        return reply;
     }
     
     public UserEventReply handleGameMove(UserEvent userEvent) {
@@ -79,12 +109,5 @@ public class PageManager {
     public game_status getGameStatus(Integer gameId) {
         // Design: get game status
         return null;
-    }
-    
-    public PageManager() {
-        db = new DB();
-        pairUp = new PairUp(db);
-        activeGames = new HashMap<>();
-        waitingPlayers = new ArrayList<>();
     }
 }
