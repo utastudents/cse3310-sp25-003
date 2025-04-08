@@ -19,6 +19,7 @@ public class DB {
       
       try {
          // Create a Connection to the database or create database if not found
+         // And create staement which will be used for inserting data
          c = initConnection();
          stmt = c.createStatement();
 
@@ -32,6 +33,8 @@ public class DB {
 
          initUser(stmt,userName,email,password);
 
+         closeConnection(c, stmt);
+
          
       } catch ( Exception e ) {
          System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -44,7 +47,7 @@ public class DB {
       Class.forName("org.sqlite.JDBC");
       c = DriverManager.getConnection("jdbc:sqlite:Database.db");
       c.setAutoCommit(false);
-      return c
+      return c;
 
    }
    public static void closeConnection(Connection c, Statement stmt) throws SQLException{
