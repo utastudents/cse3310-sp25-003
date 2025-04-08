@@ -32,9 +32,10 @@ public class DB {
          // String password= "thusaintagoodpassword";
 
          // initUser(stmt,userName,email,password);
-         // initUser(stmt, "Shawnabe12","johnabe5605@gmail.com" , "urgh");
+         // initUser(stmt, "sada","joh5605@gmail.com" , "urghqwe");
          // getAllUserData(stmt);
-         getSpecificUserData(stmt, 1);
+         // getSizeOfUserData(stmt);
+         getSpecificUserData(stmt, 4);
 
          closeConnection(c, stmt);
 
@@ -45,6 +46,38 @@ public class DB {
       }
 
    }
+
+   // CREATES THE DATABASE IF THERE IS NOT ONE ALREADY 
+   // CAN BE USED TO CHANGE INPUTTED DATA INTO OBJECTS IN THE FUTURE
+   private static void createDatabase(Statement stmt) throws SQLException{
+      String sql = "CREATE TABLE USER_DATABASE " +
+                     "(PLAYERID       INT     PRIMARY KEY     NOT NULL," +
+                     " USERNAME       TEXT    UNIQUE          NOT NULL," + 
+                     " EMAIL          TEXT    UNIQUE          NOT NULL," + 
+                     " PASSWORD       TEXT    NOT NULL," +
+                     " WINS           INT     NOT NULL," +
+                     " LOSSES         INT     NOT NULL)"; 
+      stmt.executeUpdate(sql);
+
+      System.out.println("USER DATABASE CREATED");
+
+      sql = "CREATE TABLE MATCH_DATABASE " +
+                     "(MATCHID        INT     PRIMARY KEY     NOT NULL," + 
+                     " BLACKPLAYERID  INT     NOT NULL," +
+                     " REDPLAYERID    INT     NOT NULL," +
+                     " BOARDSTATE     TEXT    NOT NULL," + 
+                     " WINNER         INT     NOT NULL," +
+                     " LOSER          INT     NOT NULL)"; 
+      
+      stmt.executeUpdate(sql);
+      System.out.println("MATCH DATABASE CREATED");
+
+
+}
+
+   // RECEIVES A CONNECTION FROM THE DATABASE TO
+   // DO OPERATIONS LIKE INSERTING, UPDATING, AND SEARCHING
+   // WITH THE CONNECTION
    public static Connection initConnection() throws SQLException, ClassNotFoundException{
       Connection c = null;
       Class.forName("org.sqlite.JDBC");
@@ -58,51 +91,36 @@ public class DB {
       c.commit();
       c.close();
    }
-   private static void createDatabase(Statement stmt) throws SQLException{
-         String sql = "CREATE TABLE USER_DATABASE " +
-                        "(PLAYERID       INT     PRIMARY KEY     NOT NULL," +
-                        " USERNAME       TEXT    UNIQUE          NOT NULL," + 
-                        " EMAIL          TEXT    UNIQUE          NOT NULL," + 
-                        " PASSWORD       TEXT    NOT NULL," +
-                        " WINS           INT     NOT NULL," +
-                        " LOSSES         INT     NOT NULL)"; 
-         stmt.executeUpdate(sql);
-
-         System.out.println("USER DATABASE CREATED");
-
-         sql = "CREATE TABLE MATCH_DATABASE " +
-                        "(MATCHID        INT     PRIMARY KEY     NOT NULL," + 
-                        " BLACKPLAYERID  INT     NOT NULL," +
-                        " REDPLAYERID    INT     NOT NULL," +
-                        " BOARDSTATE     TEXT    NOT NULL," + 
-                        " WINNER         INT     NOT NULL," +
-                        " LOSER          INT     NOT NULL)"; 
-         
-         stmt.executeUpdate(sql);
-         System.out.println("MATCH DATABASE CREATED");
-
-
-   }
+   
+   // CREATE A NEW USER IN THE DATABASE 
    public static void initUser(Statement stmt, String userName, String email, String password) throws SQLException{
       // PLAYERID (INT), USERNAME(STRING), EMAIL(STRING), PASSWORD(STRING), WINS(INT), LOSSES(INT)
+      int playerID = getSizeOfUserData(stmt) + 1;
       String sql = "INSERT INTO USER_DATABASE (PLAYERID,USERNAME,EMAIL,PASSWORD, WINS, LOSSES) " +
-                     "VALUES (3,'"+userName+"','"+email+"','"+password+"', 0, 0 );"; 
+                     "VALUES ("+playerID+",'"+userName+"','"+email+"','"+password+"', 0, 0 );"; 
       System.err.println(sql);
                      
       stmt.executeUpdate(sql);
    }
+   // CREATE A NEW MATCH IN THE DATABASE
    public static void initMatch(Statement stmt, int BLACKPLAYERID, int REDPLAYERID, String BOARDSTATE, int WINNERID, int LOSERID)throws SQLException{
       // BLACKPLAYERID(INT), REDPLAYERID(INT), BOARDSTATE(STRING), WINNERID(INT), LOSERID(INT)
       String sql = "INSERT INTO MATCH_DATABASE (MATCHID,BLACKPLAYERID,REDPLAYERID,BOARDSTATE, WINNERID, LOSERID) " +
                      "VALUES (1,"+BLACKPLAYERID+","+REDPLAYERID+","+BOARDSTATE+","+WINNERID+","+LOSERID+" );"; 
       stmt.executeUpdate(sql);
    }
+   
+   // PRINT ALL THE USER DATA
+   // RETURN A VECTOR OF PLAYERINFO 
+   // WHEN THAT CLASS IS FINISHED 
    public static void getAllUserData(Statement stmt) throws SQLException{
       // PLAYERID (INT), USERNAME(STRING), EMAIL(STRING), PASSWORD(STRING), WINS(INT), LOSSES(INT)
-      System.out.printf("%-20s %-20s %-25s %-25s %-20s %-20s\n","PLAYERID","USERNAME","EMAIL","PASSWORD","WINS","LOSSES");
       
       String sql = "SELECT * FROM USER_DATABASE";
       ResultSet rs = stmt.executeQuery(sql);
+
+      System.out.printf("%-20s %-20s %-25s %-25s %-20s %-20s\n","PLAYERID","USERNAME","EMAIL","PASSWORD","WINS","LOSSES");
+
       while(rs.next()){
          int playerID = rs.getInt("PLAYERID");
          String username = rs.getString("USERNAME");
@@ -115,27 +133,39 @@ public class DB {
          // System.out.println("\n");
       }
    }
+   
+   // PRINT A SPECIFIC USER'S DATA
+   // RETURN A VECTOR OF THE PLAYER INFO 
+   // WHEN THAT CLASS IS FINISHED
    public static int getSpecificUserData(Statement stmt, int targetUserID) throws SQLException{
-      System.out.printf("%-20s %-20s %-25s %-25s %-20s %-20s\n","PLAYERID","USERNAME","EMAIL","PASSWORD","WINS","LOSSES");
       
-      String sql = "SELECT * FROM USER_DATABASE";
-      int currentUserID = 0;
+      String sql = "SELECT * FROM USER_DATABASE WHERE PLAYERID == "+targetUserID+"";
       ResultSet rs = stmt.executeQuery(sql);
-      while(rs.next() && currentUserID != targetUserID){
-         currentUserID = rs.getInt("PLAYERID");
-      }
-      if(currentUserID!=targetUserID){
-         System.out.println("THE TARGET ID WAS NOT FOUND");
+      String username = rs.getString("USERNAME");
+      if (username == null){
+         System.out.println("targetUserID does not exist");
          return 0;
       }
-
-      String username = rs.getString("USERNAME");
       String email = rs.getString("EMAIL");
       String password = rs.getString("PASSWORD");
       int wins = rs.getInt("WINS");
       int losses = rs.getInt("LOSSES");
-      System.out.printf("%-20d %-20s %-25s %-25s %-20d %-20d\n",currentUserID,username,email,password,wins,losses);
+
+      System.out.printf("%-20s %-20s %-25s %-25s %-20s %-20s\n","PLAYERID","USERNAME","EMAIL","PASSWORD","WINS","LOSSES");
+      System.out.printf("%-20d %-20s %-25s %-25s %-20d %-20d\n",targetUserID,username,email,password,wins,losses);
       return 1;
 
    }
+   // GET THE NUMBER OF ROWS IN THE DATABASE
+   public static int getSizeOfUserData(Statement stmt) throws SQLException{
+      String sql = "SELECT COUNT(*) AS row_count FROM 'USER_DATABASE'";
+      ResultSet rs = stmt.executeQuery(sql);
+
+      while(rs.next()){
+         int rowCount = rs.getInt("row_count");
+         return rowCount;
+      }
+
+      return 0;
+   } 
 }
