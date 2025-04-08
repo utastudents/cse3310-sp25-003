@@ -32,8 +32,9 @@ public class DB {
          // String password= "thusaintagoodpassword";
 
          // initUser(stmt,userName,email,password);
-         initUser(stmt, "Shawnabe12","johnabe5605@gmail.com" , "urgh");
-         getAllUserData(stmt);
+         // initUser(stmt, "Shawnabe12","johnabe5605@gmail.com" , "urgh");
+         // getAllUserData(stmt);
+         getSpecificUserData(stmt, 1);
 
          closeConnection(c, stmt);
 
@@ -57,7 +58,6 @@ public class DB {
       c.commit();
       c.close();
    }
-   @SuppressWarnings("unused")
    private static void createDatabase(Statement stmt) throws SQLException{
          String sql = "CREATE TABLE USER_DATABASE " +
                         "(PLAYERID       INT     PRIMARY KEY     NOT NULL," +
@@ -99,8 +99,7 @@ public class DB {
    }
    public static void getAllUserData(Statement stmt) throws SQLException{
       // PLAYERID (INT), USERNAME(STRING), EMAIL(STRING), PASSWORD(STRING), WINS(INT), LOSSES(INT)
-      System.out.printf("%-20s %-20s %-25s %-25s %-20s %-20s","PLAYERID","USERNAME","EMAIL","PASSWORD","WINS","LOSSES");
-      System.out.print("\n");
+      System.out.printf("%-20s %-20s %-25s %-25s %-20s %-20s\n","PLAYERID","USERNAME","EMAIL","PASSWORD","WINS","LOSSES");
       
       String sql = "SELECT * FROM USER_DATABASE";
       ResultSet rs = stmt.executeQuery(sql);
@@ -112,10 +111,31 @@ public class DB {
          int wins = rs.getInt("WINS");
          int losses = rs.getInt("LOSSES");
 
-
-
          System.out.printf("%-20d %-20s %-25s %-25s %-20d %-20d\n",playerID,username,email,password,wins,losses);
          // System.out.println("\n");
       }
+   }
+   public static int getSpecificUserData(Statement stmt, int targetUserID) throws SQLException{
+      System.out.printf("%-20s %-20s %-25s %-25s %-20s %-20s\n","PLAYERID","USERNAME","EMAIL","PASSWORD","WINS","LOSSES");
+      
+      String sql = "SELECT * FROM USER_DATABASE";
+      int currentUserID = 0;
+      ResultSet rs = stmt.executeQuery(sql);
+      while(rs.next() && currentUserID != targetUserID){
+         currentUserID = rs.getInt("PLAYERID");
+      }
+      if(currentUserID!=targetUserID){
+         System.out.println("THE TARGET ID WAS NOT FOUND");
+         return 0;
+      }
+
+      String username = rs.getString("USERNAME");
+      String email = rs.getString("EMAIL");
+      String password = rs.getString("PASSWORD");
+      int wins = rs.getInt("WINS");
+      int losses = rs.getInt("LOSSES");
+      System.out.printf("%-20d %-20s %-25s %-25s %-20d %-20d\n",currentUserID,username,email,password,wins,losses);
+      return 1;
+
    }
 }
