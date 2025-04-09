@@ -36,8 +36,8 @@ public class DB {
          // getAllUserData(stmt);
          // int size = getSizeOfUserData(stmt);
          // getSpecificUserData(stmt, 4);
-         incrementWin(stmt, 1);
-         incrementLoss(stmt, 2);
+         // incrementWin(stmt, 1);
+         // incrementLoss(stmt, 2);
 
          closeConnection(c, stmt);
 
@@ -49,9 +49,9 @@ public class DB {
 
    }
 
-   // CREATES THE DATABASE IF THERE IS NOT ONE ALREADY 
-   // CAN BE USED TO CHANGE INPUTTED DATA INTO OBJECTS IN THE FUTURE
-   private static void createDatabase(Statement stmt) throws SQLException{
+   /**CREATES THE DATABASE IF THERE IS NOT ONE ALREADY 
+    * CAN BE USED TO CHANGE INPUTTED DATA INTO OBJECTS IN THE FUTURE*/ 
+   private static void createDatabase(Statement statement) throws SQLException{
       String sql = "CREATE TABLE USER_DATABASE " +
                      "(PLAYERID       INT     PRIMARY KEY     NOT NULL," +
                      " USERNAME       TEXT    UNIQUE          NOT NULL," + 
@@ -59,7 +59,7 @@ public class DB {
                      " PASSWORD       TEXT    NOT NULL," +
                      " WINS           INT     NOT NULL," +
                      " LOSSES         INT     NOT NULL)"; 
-      stmt.executeUpdate(sql);
+      statement.executeUpdate(sql);
 
       System.out.println("USER DATABASE CREATED");
 
@@ -71,15 +71,15 @@ public class DB {
                      " WINNER         INT     NOT NULL," +
                      " LOSER          INT     NOT NULL)"; 
       
-      stmt.executeUpdate(sql);
+      statement.executeUpdate(sql);
       System.out.println("MATCH DATABASE CREATED");
 
 
 }
 
-   // RECEIVES A CONNECTION FROM THE DATABASE TO
-   // DO OPERATIONS LIKE INSERTING, UPDATING, AND SEARCHING
-   // WITH THE CONNECTION
+   /** RECEIVES A CONNECTION FROM THE DATABASE TO
+    * DO OPERATIONS LIKE INSERTING, UPDATING, AND SEARCHING
+    * WITH THE CONNECTION*/
    public static Connection initConnection() throws SQLException, ClassNotFoundException{
       Connection c = null;
       Class.forName("org.sqlite.JDBC");
@@ -89,14 +89,14 @@ public class DB {
 
    }
    
-   // CLOSE CONNECTION ONCE FINISHED WITH DATABASE
-   public static void closeConnection(Connection c, Statement stmt) throws SQLException{
-      stmt.close();
-      c.commit();
-      c.close();
+   /**CLOSE CONNECTION ONCE FINISHED WITH DATABASE */
+   public static void closeConnection(Connection connection, Statement statement) throws SQLException{
+      statement.close();
+      connection.commit();
+      connection.close();
    }
    
-  // GET THE NUMBER OF ROWS IN THE USER DATABASE
+  /**GET THE NUMBER OF ROWS IN THE USER DATABASE*/ 
    public static int getSizeOfUserData(Statement stmt) throws SQLException{
       String sql = "SELECT COUNT(*) AS row_count FROM 'USER_DATABASE'";
       ResultSet rs = stmt.executeQuery(sql);
@@ -108,7 +108,7 @@ public class DB {
 
    } 
 
-   // GET THE NUMBER OF ROWS IN THE MATCH DATABASE
+   /**GET THE NUMBER OF ROWS IN THE MATCH DATABASE*/ 
    public static int getSizeofMatchData(Statement stmt) throws SQLException{
       String sql = "SELECT COUNT(*) AS row_count FROM 'MATCH_DATABASE'";
       ResultSet rs = stmt.executeQuery(sql);
@@ -117,7 +117,7 @@ public class DB {
       return rowCount;      
    }
 
-   // CREATE A NEW USER IN THE DATABASE 
+   /** CREATE A NEW USER IN THE DATABASE */
    public static void initUser(Statement stmt, String userName, String email, String password) throws SQLException{
       // PLAYERID (INT), USERNAME(STRING), EMAIL(STRING), PASSWORD(STRING), WINS(INT), LOSSES(INT)
       int playerID = getSizeOfUserData(stmt) + 1;
@@ -127,7 +127,7 @@ public class DB {
                      
       stmt.executeUpdate(sql);
    }
-   // CREATE A NEW MATCH IN THE DATABASE
+   /** CREATE A NEW MATCH IN THE DATABASE */
    public static void initMatch(Statement stmt, int BLACKPLAYERID, int REDPLAYERID, String BOARDSTATE, int WINNERID, int LOSERID)throws SQLException{
       // BLACKPLAYERID(INT), REDPLAYERID(INT), BOARDSTATE(STRING), WINNERID(INT), LOSERID(INT)
       String sql = "INSERT INTO MATCH_DATABASE (MATCHID,BLACKPLAYERID,REDPLAYERID,BOARDSTATE, WINNERID, LOSERID) " +
@@ -135,9 +135,9 @@ public class DB {
       stmt.executeUpdate(sql);
    }
    
-   // PRINT ALL THE USER DATA
-   // RETURN A VECTOR OF PLAYERINFO 
-   // WHEN THAT CLASS IS FINISHED 
+   /** PRINT ALL THE USER DATA
+    *RETURN A VECTOR OF PLAYERINFO 
+    *WHEN THAT CLASS IS FINISHED */
    public static void getAllUserData(Statement stmt) throws SQLException{
       // PLAYERID (INT), USERNAME(STRING), EMAIL(STRING), PASSWORD(STRING), WINS(INT), LOSSES(INT)
       
@@ -159,9 +159,9 @@ public class DB {
       }
    }
    
-   // PRINT A SPECIFIC USER'S DATA
-   // RETURN A VECTOR OF THE PLAYER INFO 
-   // WHEN THAT CLASS IS FINISHED
+   /** PRINT A SPECIFIC USER'S DATA
+    *  RETURN A VECTOR OF THE PLAYER INFO 
+    *  WHEN THAT CLASS IS FINISHED */
    public static ResultSet getSpecificUserData(Statement stmt, int targetUserID) throws SQLException{
       
       String sql = "SELECT * FROM USER_DATABASE WHERE PLAYERID == "+targetUserID+"";
@@ -182,7 +182,7 @@ public class DB {
 
    }
    
-   // INCREMENT THE PLAYER WINS BY 1
+   /**  INCREMENT THE PLAYER WINS BY 1*/
    public static void incrementWin(Statement stmt, int playerID) throws SQLException{
       ResultSet rs = getSpecificUserData(stmt, playerID);
       int wins = rs.getInt("WINS") + 1;
@@ -191,12 +191,12 @@ public class DB {
 
    }
 
-   // INCREMENT THE PLAYER LOSSES BY 1
+   /** INCREMENT THE PLAYER LOSSES BY 1*/
    public static void incrementLoss(Statement stmt, int playerID) throws SQLException{
       ResultSet rs = getSpecificUserData(stmt, playerID);
       int loss = rs.getInt("LOSSES") + 1;
       String sql = "UPDATE USER_DATABASE SET LOSSES = "+loss+" WHERE PLAYERID = "+playerID+"";
       stmt.executeUpdate(sql);
-
    }
+   
 }
