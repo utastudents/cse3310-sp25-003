@@ -1,13 +1,36 @@
 body {
-  justify-items: center;
-  justify-content: center;
   background-image: url("backgroundnavy4.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
   color: white;
+}
+
+#leaderboard{
+  display: grid;
+  grid-template-areas:
+  "title title title"
+  "board board board"
+  "Button Button Button";
+}
+
+#leaderboard > #title{
+  grid-area: title;
+  justify-self: center;;
   justify-items: center;
+  justify-content: center;
+}
+
+#leaderboard > #board {
+  grid-area: board;
+  justify-items: center;
+  justify-self: center;
+}
+
+#leaderboard > Button{
+  grid-area: Button;
+  justify-self: center;
 }
 
 .container {

@@ -19,7 +19,7 @@ public class PageManager {
     private GameManager gameManager;
     
     // map to track active games by gameId
-    private Map<Integer, game_status> activeGames;
+    private Map<Integer, GameStatus> activeGames;
     
     // cache for waiting players
     private ArrayList<String> waitingPlayers;
@@ -40,7 +40,7 @@ public class PageManager {
      */
     public UserEventReply ProcessInput(UserEvent userEvent) {
         UserEventReply ret = new UserEventReply();
-        ret.status = new game_status();
+        ret.status = new GameStatus();
         
         // Toggle turn for demonstration purposes
         if (turn == 0) {
@@ -65,7 +65,7 @@ public class PageManager {
     
     public UserEventReply handleJoinGame(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
-        reply.status = new game_status();
+        reply.status = new GameStatus();
         reply.recipients = new ArrayList<>();
         reply.recipients.add(userEvent.id);
 
@@ -87,7 +87,7 @@ public class PageManager {
         return null;
     }
     
-    public UserEventReply sendGameUpdate(Integer gameId, game_status gameStatus) {
+    public UserEventReply sendGameUpdate(Integer gameId, GameStatus gameStatus) {
         // Design: create reply with game status
         return null;
     }
@@ -106,7 +106,7 @@ public class PageManager {
         // Design: update waiting players list
     }
     
-    public game_status getGameStatus(Integer gameId) {
+    public GameStatus getGameStatus(Integer gameId) {
         // Design: get game status
         return null;
     }
