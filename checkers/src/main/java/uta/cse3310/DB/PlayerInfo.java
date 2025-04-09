@@ -1,5 +1,11 @@
 package uta.cse3310.DB;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Vector;
+
+import java.sql.*;
+
 
 public class PlayerInfo {
     
@@ -10,6 +16,16 @@ public class PlayerInfo {
     private int wins;
     private int losses;
     private double elo;
+
+    // public PlayerInfo(){
+    //     userName = "";
+    //     passWord = "";
+    //     email = "";
+    //     wins = 0;
+    //     losses = 0;
+    //     elo = 0;
+
+    // }
 
     public String getUserName(String name){
 
@@ -29,9 +45,15 @@ public class PlayerInfo {
 
     }
 
-    public String getEmail(String email){
+    public static String getEmail(int userID) throws SQLException, ClassNotFoundException{
+        
+        Connection c = DB.initConnection();
+        java.sql.Statement stmt = c.createStatement();
 
-        return email;
+        ResultSet rs = DB.getSpecificUserData(stmt, userID);
+        String result = rs.getString("EMAIL");
+        
+        return result;
     }
 
     public void setEmail(String email){

@@ -4,7 +4,7 @@ package uta.cse3310.DB;
 import java.sql.*;
 
 // Compile with
-// javac ./DB.java
+// javac *.java
 
 // Run with Command below
 // java -classpath ".\sqlite-jdbc-3.49.1.0.jar" .\DB.java
@@ -12,12 +12,15 @@ import java.sql.*;
 
 public class DB {
 
-  public static void main( String args[] ) {
+  public static void main( String args[] ){
 
       Connection c = null;
       Statement stmt = null;
+      // PlayerInfo player = new PlayerInfo();
+      // uta.cse3310.DB.PlayerInfo player = new uta.cse3310.DB.PlayerInfo();
       
       try {
+
          // Create a Connection to the database or create database if not found
          // And create staement which will be used for inserting data
          c = initConnection();
@@ -33,11 +36,13 @@ public class DB {
 
          // initUser(stmt,userName,email,password);
          // initUser(stmt, "sada","joh5605@gmail.com" , "urghqwe");
-         // getAllUserData(stmt);
+         getAllUserData(stmt);
          // int size = getSizeOfUserData(stmt);
          // getSpecificUserData(stmt, 4);
          // incrementWin(stmt, 1);
          // incrementLoss(stmt, 2);
+         // player.getEmail(4);
+
 
          closeConnection(c, stmt);
 
@@ -88,7 +93,7 @@ public class DB {
       return c;
 
    }
-   
+
    /**CLOSE CONNECTION ONCE FINISHED WITH DATABASE */
    public static void closeConnection(Connection connection, Statement statement) throws SQLException{
       statement.close();
