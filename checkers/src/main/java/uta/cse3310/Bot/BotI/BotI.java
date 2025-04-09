@@ -3,11 +3,10 @@ package uta.cse3310.Bot.BotI;
 import java.util.ArrayList;
 
 import uta.cse3310.GameManager.GameManager;
+import uta.cse3310.GameManager.Move;
 
 // TODO: Temporary
 class Pieces {
-};
-class Move {
 };
 
 public class BotI {
@@ -43,7 +42,7 @@ public class BotI {
 		// NOTE: availableMoves is pre-validated
 		ArrayList<Move> availableMoves = getAvailableMoves(currentBoard);
 		// If no moves are available, should return null
-		Move tmp = new Move();
+		Move tmp = null;
 		return tmp;
 	}
 
