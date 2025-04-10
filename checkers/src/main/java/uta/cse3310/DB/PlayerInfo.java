@@ -27,18 +27,12 @@ public class PlayerInfo {
 
     // }
 
+   
     public String getUserName(int userID) throws SQLException , ClassNotFoundException{
 
         Connection c = DB.initConnection();
         Statement stmt = c.createStatement();
-    public String getUserName(int userID) throws SQLException , ClassNotFoundException{
-
-        Connection c = DB.initConnection();
-        Statement stmt = c.createStatement();
-
-        ResultSet rs = DB.getSpecificUserData(stmt, userID);
-        String result = rs.getString("USERNAME");
-        return result;
+        
         ResultSet rs = DB.getSpecificUserData(userID);
         String result = rs.getString("USERNAME");
         return result;
@@ -53,19 +47,13 @@ public class PlayerInfo {
         //stmt.executeUpdate(update);
     }
 
+    
     public String getPassWord(int userID) throws SQLException , ClassNotFoundException{
 
         Connection c = DB.initConnection();
         Statement stmt = c.createStatement();
-    public String getPassWord(int userID) throws SQLException , ClassNotFoundException{
 
-        Connection c = DB.initConnection();
-        Statement stmt = c.createStatement();
-
-        ResultSet rs = DB.getSpecificUserData(stmt, userID);
-        String result = rs.getString("PASSWORD");
-        return result;
-        ResultSet rs = DB.getSpecificUserData(userID);
+        ResultSet rs = DB.getSpecificUserData( userID);
         String result = rs.getString("PASSWORD");
         return result;
     }
