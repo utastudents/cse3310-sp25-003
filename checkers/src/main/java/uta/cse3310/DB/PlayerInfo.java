@@ -1,4 +1,6 @@
-package uta.cse3310.DB;
+// package uta.cse3310.DB;
+// import uta.cse3310.DB.*;
+
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -48,7 +50,7 @@ public class PlayerInfo {
     public static String getEmail(int userID) throws SQLException, ClassNotFoundException{
         
         Connection c = DB.initConnection();
-        java.sql.Statement stmt = c.createStatement();
+        Statement stmt = c.createStatement();
 
         ResultSet rs = DB.getSpecificUserData(stmt, userID);
         String result = rs.getString("EMAIL");
