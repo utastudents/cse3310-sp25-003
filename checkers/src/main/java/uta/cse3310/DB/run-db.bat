@@ -1,5 +1,8 @@
 @echo off
 
+echo Going to java Directory
+cd ..\..\..\
+
 echo Compiling...
 javac uta/cse3310/DB/*.java
 
