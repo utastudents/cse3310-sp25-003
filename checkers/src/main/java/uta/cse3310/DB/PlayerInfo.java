@@ -49,10 +49,10 @@ public class PlayerInfo {
 
     public static String getEmail(int userID) throws SQLException, ClassNotFoundException{
         
-        Connection c = DB.initConnection();
-        Statement stmt = c.createStatement();
+        // Connection c = DB.initConnection();
+        // Statement stmt = c.createStatement();
 
-        ResultSet rs = DB.getSpecificUserData(stmt, userID);
+        ResultSet rs = DB.getSpecificUserData(userID);
         String result = rs.getString("EMAIL");
         
         return result;

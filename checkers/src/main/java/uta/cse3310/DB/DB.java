@@ -21,13 +21,13 @@ public class DB {
 
       Connection c = null;
       Statement stmt = null;
-      // PlayerInfo player = new PlayerInfo();
+      PlayerInfo player = new PlayerInfo();
       
       
       
       try {
-         // String x= player.getEmail(1);
-         // System.out.println(x);
+         String x= player.getEmail(1);
+         System.out.println(x);
 
          // Create a Connection to the database or create database if not found
          // And create staement which will be used for inserting data
@@ -99,7 +99,7 @@ public class DB {
    public static Connection initConnection() throws SQLException, ClassNotFoundException{
       Connection c = null;
       Class.forName("org.sqlite.JDBC");
-      c = DriverManager.getConnection("jdbc:sqlite:Database.db");
+      c = DriverManager.getConnection("jdbc:sqlite:uta\\cse3310\\DB\\Database.db");
       c.setAutoCommit(false);
       return c;
 
@@ -178,7 +178,9 @@ public class DB {
    /** PRINT A SPECIFIC USER'S DATA
     *  RETURN A VECTOR OF THE PLAYER INFO 
     *  WHEN THAT CLASS IS FINISHED */
-   public static ResultSet getSpecificUserData(Statement stmt, int targetUserID) throws SQLException{
+   public static ResultSet getSpecificUserData(int targetUserID) throws SQLException, ClassNotFoundException{
+      Connection c = initConnection();
+      Statement stmt = c.createStatement();
       
       String sql = "SELECT * FROM USER_DATABASE WHERE PLAYERID == "+targetUserID+"";
       ResultSet rs = stmt.executeQuery(sql);
@@ -199,8 +201,8 @@ public class DB {
    }
    
    /**  INCREMENT THE PLAYER WINS BY 1*/
-   public static void incrementWin(Statement stmt, int playerID) throws SQLException{
-      ResultSet rs = getSpecificUserData(stmt, playerID);
+   public static void incrementWin(Statement stmt, int playerID) throws SQLException, ClassNotFoundException{
+      ResultSet rs = getSpecificUserData(playerID);
       int wins = rs.getInt("WINS") + 1;
       String sql = "UPDATE USER_DATABASE SET WINS = "+wins+" WHERE PLAYERID = "+playerID+"";
       stmt.executeUpdate(sql);
@@ -208,8 +210,8 @@ public class DB {
    }
 
    /** INCREMENT THE PLAYER LOSSES BY 1*/
-   public static void incrementLoss(Statement stmt, int playerID) throws SQLException{
-      ResultSet rs = getSpecificUserData(stmt, playerID);
+   public static void incrementLoss(Statement stmt, int playerID) throws SQLException, ClassNotFoundException{
+      ResultSet rs = getSpecificUserData(playerID);
       int loss = rs.getInt("LOSSES") + 1;
       String sql = "UPDATE USER_DATABASE SET LOSSES = "+loss+" WHERE PLAYERID = "+playerID+"";
       stmt.executeUpdate(sql);
