@@ -2,8 +2,6 @@ package uta.cse3310.DB;
 // import uta.cse3310.DB.*;
 
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Vector;
 
 import java.sql.*;
@@ -29,18 +27,28 @@ public class PlayerInfo {
 
     // }
 
-    public String getUserName(String name){
+    public String getUserName(int userID) throws SQLException , ClassNotFoundException{
 
-        return userName;
+        Connection c = DB.initConnection();
+        Statement stmt = c.createStatement();
+
+        ResultSet rs = DB.getSpecificUserData(userID);
+        String result = rs.getString("USERNAME");
+        return result;
     }
 
     public void setUserName(String name){
 
     }
 
-    public String getPassWord(String pass){
+    public String getPassWord(int userID) throws SQLException , ClassNotFoundException{
 
-        return passWord;
+        Connection c = DB.initConnection();
+        Statement stmt = c.createStatement();
+
+        ResultSet rs = DB.getSpecificUserData(userID);
+        String result = rs.getString("PASSWORD");
+        return result;
     }
 
     public void setPassWord(String pass){
@@ -52,14 +60,14 @@ public class PlayerInfo {
         Connection c = DB.initConnection();
         Statement stmt = c.createStatement();
 
-        ResultSet rs = DB.getSpecificUserData(stmt, userID);
+        ResultSet rs = DB.getSpecificUserData(userID);
         String result = rs.getString("EMAIL");
         
         return result;
     }
 
-    public void setEmail(String email){
-
+    public void setEmail(Statement stmt, String email, int playerID) throws SQLException, ClassNotFoundException{
+        DB.setSpecificUserDataString(stmt, playerID, "EMAIL", email);
     }
 
     public int getWins(int wins){
