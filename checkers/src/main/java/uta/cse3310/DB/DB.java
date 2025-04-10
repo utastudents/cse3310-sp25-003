@@ -1,5 +1,5 @@
 
-// package uta.cse3310.DB;
+package uta.cse3310.DB;
 // import uta.cse3310.DB.PlayerInfo;
 // import uta.cse3310.DB.MatchHistory;
 
@@ -21,13 +21,13 @@ public class DB {
 
       Connection c = null;
       Statement stmt = null;
-      PlayerInfo player = new PlayerInfo();
+      // PlayerInfo player = new PlayerInfo();
       
       
       
       try {
-         String x= player.getEmail(1);
-         System.out.println(x);
+         // String x= player.getEmail(1);
+         // System.out.println(x);
 
          // Create a Connection to the database or create database if not found
          // And create staement which will be used for inserting data
@@ -44,7 +44,7 @@ public class DB {
          // ******   TEST YOUR FUNCTIONS UNDER HERE    ******
          // *************************************************
 
-         
+
          // initUser(stmt,userName,email,password);
          // initUser(stmt, "sada","joh5605@gmail.com" , "urghqwe");
          getAllUserData(stmt);
