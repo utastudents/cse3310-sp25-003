@@ -29,18 +29,33 @@ public class PlayerInfo {
 
     // }
 
-    public String getUserName(String name){
+    public String getUserName(int userID) throws SQLException , ClassNotFoundException{
 
-        return userName;
+        Connection c = DB.initConnection();
+        Statement stmt = c.createStatement();
+
+        ResultSet rs = DB.getSpecificUserData(stmt, userID);
+        String result = rs.getString("USERNAME");
+        return result;
     }
 
-    public void setUserName(String name){
+    public void setUserName(String name , int userID) throws SQLException , ClassNotFoundException{
 
+        //Connection c = DB.initConnection();
+        //tatement stmt = c.createStatement();
+
+        //String update = "UPDATE USER_DATABASE set USERNAME = " + name + " where ID=" + userID ;
+        //stmt.executeUpdate(update);
     }
 
-    public String getPassWord(String pass){
+    public String getPassWord(int userID) throws SQLException , ClassNotFoundException{
 
-        return passWord;
+        Connection c = DB.initConnection();
+        Statement stmt = c.createStatement();
+
+        ResultSet rs = DB.getSpecificUserData(stmt, userID);
+        String result = rs.getString("PASSWORD");
+        return result;
     }
 
     public void setPassWord(String pass){
