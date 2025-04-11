@@ -4,7 +4,7 @@ import uta.cse3310.GameManager.GameState;
 
 public class GamePlay {
 
-	private boolean isInBounds(Move move){//Checks if the coords of the "to" posititon is in the bounds of the array
+	public boolean isInBounds(Move move){//Checks if the coords of the "to" posititon is in the bounds of the array
 	    if(move.getTo().getX() >= 0 && move.getTo().getX() <= 7){ //If X and Y are both within 0-7
 	        if(move.getTo().getY() >= 0 && move.getTo().getY() <= 7){
 	            return true;
@@ -13,7 +13,7 @@ public class GamePlay {
 	    return false;
 	}
 
-	private boolean isDiagonal(Move move) { //Checks if the intended move is diagonal from its current position
+	public boolean isDiagonal(Move move) { //Checks if the intended move is diagonal from its current position
 		if(Math.abs(move.getTo().getX() - move.getFrom().getX()) == 1){ //If X2 - X1 && Y2 - Y1 both are equal to 1
 		    if(Math.abs(move.getTo().getY() - move.getFrom().getY()) == 1){
 		        return true;
