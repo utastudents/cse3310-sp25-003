@@ -129,7 +129,6 @@ public class DB {
       int rowCount = rs.getInt("row_count");
       return rowCount;
       
-
    } 
 
    /**GET THE NUMBER OF ROWS IN THE MATCH DATABASE*/ 

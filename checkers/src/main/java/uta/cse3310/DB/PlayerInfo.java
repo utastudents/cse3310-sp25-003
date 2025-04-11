@@ -32,7 +32,7 @@ public class PlayerInfo {
 
         Connection c = DB.initConnection();
         Statement stmt = c.createStatement();
-        
+
         ResultSet rs = DB.getSpecificUserData(userID);
         String result = rs.getString("USERNAME");
         return result;
@@ -53,7 +53,7 @@ public class PlayerInfo {
         Connection c = DB.initConnection();
         Statement stmt = c.createStatement();
 
-        ResultSet rs = DB.getSpecificUserData( userID);
+        ResultSet rs = DB.getSpecificUserData(userID);
         String result = rs.getString("PASSWORD");
         return result;
     }
