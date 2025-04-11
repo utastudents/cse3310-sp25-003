@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: rgb(150, 155, 150);
+    background-color: rgb(18, 19, 18);
 }
 
 .lobby-list {
@@ -13,3 +13,12 @@ body {
     padding: 0;
     background-color: green;
 }
+
+.title{
+    font-family: serif;
+    color: whitesmoke;
+    font-size: 50px;
+    text-align: center;
+    margin-top: 10px;
+}
+
