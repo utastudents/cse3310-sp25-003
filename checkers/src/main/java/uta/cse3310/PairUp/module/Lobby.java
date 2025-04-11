@@ -33,4 +33,34 @@ public class Lobby {
     public long getCreationTime() {
         return creationTime;
     }
+
+    // ─── New helper methods ───────────────────────────────────
+
+    /** Returns true if both slots are occupied (human or bot). */
+    public boolean isFull() {
+        return slots[0] != null && slots[1] != null;
+    }
+
+    /** Returns the first human participant, or null if none. */
+    public Participant getHumanParticipant() {
+        for (Participant p : slots) {
+            if (p != null && !p.isBot()) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    /** Removes the participant with the given playerId. 
+      * Returns true if a participant was removed. */
+    public boolean removeParticipant(String playerId) {
+        for (int i = 0; i < slots.length; i++) {
+            Participant p = slots[i];
+            if (p != null && playerId.equals(p.getPlayerId())) {
+                slots[i] = null;
+                return true;
+            }
+        }
+        return false;
+    }
 }
