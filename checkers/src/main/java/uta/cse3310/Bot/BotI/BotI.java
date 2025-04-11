@@ -39,12 +39,79 @@ public class BotI {
 	// and returns a (legal/validated) move
 	// TODO: Implement
 	private Move generateMove(Pieces currentBoard) {
-		// NOTE: availableMoves is pre-validated
-		ArrayList<Move> availableMoves = getAvailableMoves(currentBoard);
-		// If no moves are available, should return null
-		Move tmp = null;
-		return tmp;
-	}
+    ArrayList<Move> availableMoves = getAvailableMoves(currentBoard);
+    
+    // If no moves available, return null
+    if (availableMoves.isEmpty()) {
+        return null;
+    }
+    
+    // Prioritize moves that capture opponent pieces
+    ArrayList<Move> captureMoves = new ArrayList<>();
+    for (Move move : availableMoves) {
+        if (move.isCapture()) {
+            captureMoves.add(move);
+        }
+    }
+    
+    // If there are capture moves, select one (prefer multi-captures)
+    if (!captureMoves.isEmpty()) {
+        // Find the move with the most captures
+        Move bestCapture = captureMoves.get(0);
+        for (Move move : captureMoves) {
+            if (move.getCapturedPieces().size() > bestCapture.getCapturedPieces().size()) {
+                bestCapture = move;
+            }
+        }
+        return bestCapture;
+    }
+    
+    // If no captures, prefer moves that promote to kings
+    ArrayList<Move> promotionMoves = new ArrayList<>();
+    for (Move move : availableMoves) {
+        if (willPromoteToKing(move)) {
+            promotionMoves.add(move);
+        }
+    }
+    
+    if (!promotionMoves.isEmpty()) {
+        // Select a random promotion move for variety
+        return promotionMoves.get((int)(Math.random() * promotionMoves.size()));
+    }
+    
+    // If no special moves, prefer moving pieces toward the center for better positioning
+    ArrayList<Move> centerMoves = new ArrayList<>();
+    for (Move move : availableMoves) {
+        if (isMovingTowardCenter(move)) {
+            centerMoves.add(move);
+        }
+    }
+    
+    if (!centerMoves.isEmpty()) {
+        // Select a random center move
+        return centerMoves.get((int)(Math.random() * centerMoves.size()));
+    }
+    
+    // Default: select a random move from available moves
+    return availableMoves.get((int)(Math.random() * availableMoves.size()));
+}
+
+// Helper method to check if a move will promote the piece to a king
+private boolean willPromoteToKing(Move move) {
+    // Assuming Move has getEndRow() method and we know bot pieces are 'O'
+    // In checkers, promotion happens when a piece reaches the opposite end
+    return (move.getPieceType() == 'O' && move.getEndRow() == 0) || 
+           (move.getPieceType() == 'o' && move.getEndRow() == 7);
+}
+
+// Helper method to check if a move is toward the center of the board
+private boolean isMovingTowardCenter(Move move) {
+    int startCol = move.getStartCol();
+    int endCol = move.getEndCol();
+    
+    // Center columns are 3 and 4 in an 8x8 board (0-indexed)
+    return Math.abs(endCol - 3.5) < Math.abs(startCol - 3.5);
+}
 
 	// This method gets called by the connected GameManager whenever a user has
 	// made their move. 
