@@ -66,12 +66,21 @@ body {
 
 .player1, .player2, .bot1, .bot2{
     display: inline-block;
-    padding: 5px; 
-    margin-top: auto;
-    border-radius: 15px; 
-    background: linear-gradient(to right, #f33726, #fbea8b);
-    margin-top: 25px;
+    width: 120px;
+    height: 60px;
+    box-sizing: border-box;
+    line-height: 50px;
+    text-align: center;
+    font-size: 20px;
+    color: whitesmoke;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-style: solid;
+    border-width: 3px;
+    border-color: magenta;
+    border-radius: 20px;
 }
+
+
 
 
 
