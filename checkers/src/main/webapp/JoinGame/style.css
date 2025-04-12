@@ -84,4 +84,18 @@ body {
     background: linear-gradient(to right, #f33726, #fbea8b);
 }
 
-
+.go-back.button {
+    background-color: whitesmoke;
+    color: black;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+    text-align: center;
+    padding-top: 10px;
+    width: 10em;
+    height: 3em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
