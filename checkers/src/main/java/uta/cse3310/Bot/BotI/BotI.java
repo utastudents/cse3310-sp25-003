@@ -49,9 +49,9 @@ public class BotI {
     // Prioritize moves that capture opponent pieces
     ArrayList<Move> captureMoves = new ArrayList<>();
     for (Move move : availableMoves) {
-        if (move.isCapture()) {
-            captureMoves.add(move);
-        }
+        //if (move.isCapture()) {
+        //    captureMoves.add(move);
+        //}
     }
     
     // If there are capture moves, select one (prefer multi-captures)
@@ -59,9 +59,9 @@ public class BotI {
         // Find the move with the most captures
         Move bestCapture = captureMoves.get(0);
         for (Move move : captureMoves) {
-            if (move.getCapturedPieces().size() > bestCapture.getCapturedPieces().size()) {
-                bestCapture = move;
-            }
+            //if (move.getCapturedPieces().size() > bestCapture.getCapturedPieces().size()) {
+            //    bestCapture = move;
+            //}
         }
         return bestCapture;
     }
@@ -100,17 +100,19 @@ public class BotI {
 private boolean willPromoteToKing(Move move) {
     // Assuming Move has getEndRow() method and we know bot pieces are 'O'
     // In checkers, promotion happens when a piece reaches the opposite end
-    return (move.getPieceType() == 'O' && move.getEndRow() == 0) || 
-           (move.getPieceType() == 'o' && move.getEndRow() == 7);
+    //return (move.getPieceType() == 'O' && move.getEndRow() == 0) || 
+    //       (move.getPieceType() == 'o' && move.getEndRow() == 7);
+    return true;
 }
 
 // Helper method to check if a move is toward the center of the board
 private boolean isMovingTowardCenter(Move move) {
-    int startCol = move.getStartCol();
-    int endCol = move.getEndCol();
+    //int startCol = move.getStartCol();
+    //int endCol = move.getEndCol();
     
     // Center columns are 3 and 4 in an 8x8 board (0-indexed)
-    return Math.abs(endCol - 3.5) < Math.abs(startCol - 3.5);
+    //return Math.abs(endCol - 3.5) < Math.abs(startCol - 3.5);
+    return true;
 }
 
 	// This method gets called by the connected GameManager whenever a user has
