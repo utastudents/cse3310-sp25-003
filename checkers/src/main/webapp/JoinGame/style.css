@@ -63,3 +63,15 @@ body {
     flex-grow: 1;
 }
 
+
+.player1, .player2, .bot1, .bot2{
+    display: inline-block;
+    padding: 5px; 
+    margin-top: auto;
+    border-radius: 15px; 
+    background: linear-gradient(to right, #f33726, #fbea8b);
+    margin-top: 25px;
+}
+
+
+
