@@ -45,8 +45,17 @@ public class DB {
          // ******   TEST YOUR FUNCTIONS UNDER HERE    ******
          // *************************************************
 
-         // setSpecificUserDataString(stmt, 2, "USERNAME", "w");
-         // player.setEmail(stmt,"fortynine", 2);
+         // setSpecificDataString(stmt, 2, "USERNAME", "w21312", "USER");
+         // player.setEmail(stmt,"asddsa123", 1);
+
+
+         // String x = player.getUserName(1);
+         // System.out.println(x);
+         // player.setUserName(stmt, "YOUR", 1);
+
+         // String x = player.getPassWord(1);
+         // System.out.println(x);
+         // player.setPassWord(stmt, "YOUR", 1);
 
          // initUser(stmt,userName,email,password);
          // initUser(stmt, "sada","joh5605@gmail.com" , "urghqwe");
@@ -56,7 +65,8 @@ public class DB {
 
          // getAllUserData(stmt);
 
-         // int size = getSizeOfUserData(stmt);
+         // int size = getSizeOfData(stmt, "USER");
+         // System.out.println(size);
          // getSpecificUserData(stmt, 4);
 
          // incrementWin(stmt, 1);
@@ -121,40 +131,31 @@ public class DB {
    }
    
   /**GET THE NUMBER OF ROWS IN THE USER DATABASE*/ 
-   public static int getSizeOfUserData(Statement stmt) throws SQLException{
-      String sql = "SELECT COUNT(*) AS row_count FROM 'USER_DATABASE'";
+   public static int getSizeOfData(Statement stmt, String database) throws SQLException{
+      String sql = "SELECT COUNT(*) AS row_count FROM '"+database+"_DATABASE'";
       ResultSet rs = stmt.executeQuery(sql);
 
       
       int rowCount = rs.getInt("row_count");
       return rowCount;
-      
+
    } 
-
-   /**GET THE NUMBER OF ROWS IN THE MATCH DATABASE*/ 
-   public static int getSizeofMatchData(Statement stmt) throws SQLException{
-      String sql = "SELECT COUNT(*) AS row_count FROM 'MATCH_DATABASE'";
-      ResultSet rs = stmt.executeQuery(sql);
-
-      int rowCount = rs.getInt("row_count");
-      return rowCount;      
-   }
 
    /** CREATE A NEW USER IN THE DATABASE */
    public static void initUser(Statement stmt, String userName, String email, String password) throws SQLException{
       // PLAYERID (INT), USERNAME(STRING), EMAIL(STRING), PASSWORD(STRING), WINS(INT), LOSSES(INT)
-      int playerID = getSizeOfUserData(stmt) + 1;
+      int playerID = getSizeOfData(stmt,"USER") + 1;
       String sql = "INSERT INTO USER_DATABASE (PLAYERID,USERNAME,EMAIL,PASSWORD, WINS, LOSSES) " +
-                     "VALUES ("+playerID+",'"+userName+"','"+email+"','"+password+"', 0, 0 );"; 
-      System.err.println(sql);
-                     
+                     "VALUES ("+playerID+",'"+userName+"','"+email+"','"+password+"', 0, 0 );";                      
       stmt.executeUpdate(sql);
    }
    /** CREATE A NEW MATCH IN THE DATABASE */
    public static void initMatch(Statement stmt, int BLACKPLAYERID, int REDPLAYERID, String BOARDSTATE, int WINNERID, int LOSERID)throws SQLException{
       // BLACKPLAYERID(INT), REDPLAYERID(INT), BOARDSTATE(STRING), WINNERID(INT), LOSERID(INT)
+      int matchID = getSizeOfData(stmt,"MATCH") + 1;
       String sql = "INSERT INTO MATCH_DATABASE (MATCHID,BLACKPLAYERID,REDPLAYERID,BOARDSTATE, WINNERID, LOSERID) " +
-                     "VALUES (1,"+BLACKPLAYERID+","+REDPLAYERID+","+BOARDSTATE+","+WINNERID+","+LOSERID+" );"; 
+                     "VALUES ("+matchID+","+BLACKPLAYERID+","+REDPLAYERID+","+BOARDSTATE+","+WINNERID+","+LOSERID+" );"; 
+
       stmt.executeUpdate(sql);
    }
    
@@ -187,17 +188,12 @@ public class DB {
    /** PRINT A SPECIFIC USER'S DATA
     *  RETURN A VECTOR OF THE PLAYER INFO 
     *  WHEN THAT CLASS IS FINISHED */
-   public static ResultSet getSpecificUserData(int targetUserID) throws SQLException, ClassNotFoundException{
+   public static ResultSet getSpecificData(int targetUserID, String database) throws SQLException, ClassNotFoundException{
       Connection c = initConnection();
       Statement stmt = c.createStatement();
       
-      String sql = "SELECT * FROM USER_DATABASE WHERE PLAYERID == "+targetUserID+"";
+      String sql = "SELECT * FROM "+database+"_DATABASE WHERE PLAYERID == "+targetUserID+"";
       ResultSet rs = stmt.executeQuery(sql);
-      String username = rs.getString("USERNAME");
-      if (username == null){
-         System.out.println("targetUserID does not exist");
-         return null;
-      }
       
       // String email = rs.getString("EMAIL");
       // String password = rs.getString("PASSWORD");
@@ -210,12 +206,12 @@ public class DB {
 
    }
    
-   public static void setSpecificUserDataString(Statement stmt, int targetUserID, String setValueString, String value) throws SQLException, ClassNotFoundException{
-      String sql = "UPDATE USER_DATABASE SET "+setValueString+" = '"+value+"' WHERE PLAYERID = "+ targetUserID+"";
+   public static void setSpecificDataString(Statement stmt, int targetUserID, String setValueString, String value, String database) throws SQLException, ClassNotFoundException{
+      String sql = "UPDATE "+database+"_DATABASE SET "+setValueString+" = '"+value+"' WHERE PLAYERID = "+ targetUserID+"";
       stmt.executeUpdate(sql);
    }
-   public static void setSpecificUserDataInt(Statement stmt, int targetUserID, String setValueString, int value) throws SQLException, ClassNotFoundException{
-      String sql = "UPDATE USER_DATABASE SET "+setValueString+" = "+value+" WHERE PLAYERID = "+targetUserID+"";
+   public static void setSpecificDataInt(Statement stmt, int targetUserID, String setValueString, int value, String database) throws SQLException, ClassNotFoundException{
+      String sql = "UPDATE "+database+"_DATABASE SET "+setValueString+" = "+value+" WHERE PLAYERID = "+targetUserID+"";
       stmt.executeUpdate(sql);
    }
    
@@ -224,7 +220,7 @@ public class DB {
       Connection c = DB.initConnection();
       Statement stmt = c.createStatement();
 
-      ResultSet rs = getSpecificUserData(playerID);
+      ResultSet rs = getSpecificData(playerID,"USER");
       int wins = rs.getInt("WINS") + 1;
       String sql = "UPDATE USER_DATABASE SET WINS = "+wins+" WHERE PLAYERID = "+playerID+"";
       stmt.executeUpdate(sql);
@@ -234,7 +230,7 @@ public class DB {
       Connection c = DB.initConnection();
       Statement stmt = c.createStatement();
 
-      ResultSet rs = getSpecificUserData(playerID);
+      ResultSet rs = getSpecificData(playerID,"USER");
       int loss = rs.getInt("LOSSES") + 1;
       String sql = "UPDATE USER_DATABASE SET LOSSES = "+loss+" WHERE PLAYERID = "+playerID+"";
       stmt.executeUpdate(sql);

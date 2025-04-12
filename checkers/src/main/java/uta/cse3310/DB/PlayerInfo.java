@@ -29,52 +29,36 @@ public class PlayerInfo {
 
    
     public String getUserName(int userID) throws SQLException , ClassNotFoundException{
-
-        Connection c = DB.initConnection();
-        Statement stmt = c.createStatement();
-
-        ResultSet rs = DB.getSpecificUserData(userID);
+        ResultSet rs = DB.getSpecificData(userID, "USER");
         String result = rs.getString("USERNAME");
         return result;
     }
 
-    public void setUserName(String name , int userID) throws SQLException , ClassNotFoundException{
+    public void setUserName(Statement stmt, String name , int userID) throws SQLException , ClassNotFoundException{
+        DB.setSpecificDataString(stmt, userID, "USERNAME", name, "USER");
 
-        //Connection c = DB.initConnection();
-        //tatement stmt = c.createStatement();
-
-        //String update = "UPDATE USER_DATABASE set USERNAME = " + name + " where ID=" + userID ;
-        //stmt.executeUpdate(update);
     }
 
     
     public String getPassWord(int userID) throws SQLException , ClassNotFoundException{
-
-        Connection c = DB.initConnection();
-        Statement stmt = c.createStatement();
-
-        ResultSet rs = DB.getSpecificUserData(userID);
+        ResultSet rs = DB.getSpecificData(userID, "USER");
         String result = rs.getString("PASSWORD");
         return result;
     }
 
-    public void setPassWord(String pass){
-
+    public void setPassWord(Statement stmt, String pass, int userID) throws SQLException, ClassNotFoundException {
+        DB.setSpecificDataString(stmt, userID, "PASSWORD", pass, "USER");
     }
 
     public static String getEmail(int userID) throws SQLException, ClassNotFoundException{
-        
-        Connection c = DB.initConnection();
-        Statement stmt = c.createStatement();
-
-        ResultSet rs = DB.getSpecificUserData(userID);
+        ResultSet rs = DB.getSpecificData(userID,"USER");
         String result = rs.getString("EMAIL");
         
         return result;
     }
 
     public void setEmail(Statement stmt, String email, int playerID) throws SQLException, ClassNotFoundException{
-        DB.setSpecificUserDataString(stmt, playerID, "EMAIL", email);
+        DB.setSpecificDataString(stmt, playerID, "EMAIL", email, "USER");
     }
 
     public int getWins(int wins){
