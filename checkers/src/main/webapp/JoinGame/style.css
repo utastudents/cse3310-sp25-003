@@ -73,5 +73,15 @@ body {
     margin-top: 25px;
 }
 
+.go-back-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: inline-block;
+    padding: 5px;
+    margin-top: auto;
+    border-radius: 15px;
+    background: linear-gradient(to right, #f33726, #fbea8b);
+}
 
 
