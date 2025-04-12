@@ -6,6 +6,7 @@
 
 body {
     background-color: rgb(18, 19, 18);
+    
 }
 
 
@@ -28,7 +29,7 @@ body {
     font-size: 25px;
 }
 
-.button-wrapper{
+.button-wrapper1{
     display: inline-block;
     padding: 5px; 
     margin-top: auto;
@@ -36,6 +37,15 @@ body {
     background: linear-gradient(to right, #f33726, #fbea8b);
 }
 
+.button-wrapper2{
+    display: inline-block;
+    padding: 5px; 
+    margin-top: auto;
+    border-radius: 20px; 
+    background: linear-gradient(to right, #d01449, #271ed3);
+    position: relative;
+    top: -50px;
+}
     
 .addPlayer-button{
     background-color: whitesmoke;
@@ -63,9 +73,22 @@ body {
     flex-grow: 1;
 }
 
+.container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-left: 5%;
+}
+
+.main-left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 1000px;
+}
 
 .player1, .player2, .bot1, .bot2{
-    display: inline-block;
     width: 120px;
     height: 60px;
     box-sizing: border-box;
@@ -78,7 +101,51 @@ body {
     border-width: 3px;
     border-color: magenta;
     border-radius: 20px;
+
 }
+.players-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 30px;
+    width: 80%;
+}
+.left-column, .right-column, .middle-column{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.middle-column{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.selectPlayer{
+    width: 300px;
+    height: 60px;
+    z-index: 1;
+    box-sizing: border-box;
+    line-height: 50px;
+    text-align: center;
+    font-size: 20px;
+    color: whitesmoke;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-radius: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    background-color: black;
+    cursor: pointer;
+}
+
+.main-right{
+    width: 20%;
+}
+
+
 
 
 
