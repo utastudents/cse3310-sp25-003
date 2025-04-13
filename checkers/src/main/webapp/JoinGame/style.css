@@ -242,3 +242,20 @@ body {
     margin-right: 150px;
     box-sizing: border-box;
 }
+
+.lobby-item {
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    justify-content: space-between;
+    height: 40px;
+    width: 100%;
+    background: rgb(11, 88, 100);
+    color: white;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    margin-top: 20px;
+}
