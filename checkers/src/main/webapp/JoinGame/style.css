@@ -233,3 +233,12 @@ body {
     margin-left: 630px;
     display: block;
 }
+
+.lobby-bottom {
+    width: 800px;
+    height: 640px;
+    overflow-y: auto;
+    background: rgb(195, 193, 193);
+    margin-right: 150px;
+    box-sizing: border-box;
+}
