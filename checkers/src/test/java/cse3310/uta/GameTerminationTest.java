@@ -56,10 +56,65 @@ public class GameTerminationTest {
             }
         };
 
+
         GameTermination gt = new GameTermination();
         List<Move> moves = new ArrayList<>();
         GameStatus result = gt.checkForGameEnd(state, moves);
 
         assertEquals(GameStatus.BLACK_WIN, result);
+        
+    }
+
+
+    //TC-002: Red wins with no pieces of Black
+    @Test
+    public void testRedWinsWhenBlackHasNoPieces()
+    {
+        //creating BoardState with only Red PIeces
+        BoardState state = new BoardState()
+        {
+            @Override
+            public int getSize()
+            {
+                return 8;
+            }
+
+            @Override
+            public Piece getPiece(int i, int j )
+            {
+                return new Piece()
+                {
+                    @Override
+                    public PieceColor getColor()
+                    {
+                        return PieceColor.RED;
+                    }
+                };
+            }
+
+            @Override 
+            public boolean hasValidMovesFor(PieceColor Color)
+            {
+                return true; 
+            }
+
+            @Override
+            public BoardState copy()
+            {
+                return this; 
+
+            }     
+            
+            public PieceColor getCurrentPlayer()
+            {
+                return PieceColor.BLACK;
+            }
+        };
+
+        GameTermination gt = new GameTermination();
+        List<Move> moves = new ArrayList<>();
+        GameStatus result = gt.checkForGameEnd(state, moves); 
+
+        assertEquals(GameStatus.RED_WIN, result);
     }
 }
