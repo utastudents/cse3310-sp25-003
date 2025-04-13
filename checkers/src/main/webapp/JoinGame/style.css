@@ -171,3 +171,31 @@ body {
     cursor: pointer;
     transition: 0.3s;
 }
+
+.main-right-wrapper {
+    position: fixed;
+    display: inline-block;
+    padding: 5px;
+    margin-top: 70px;
+    border-radius: 12px;
+    background: linear-gradient(to bottom, rgb(115, 233, 115), rgb(87, 3, 198), rgb(255, 255, 255));
+    right: 20px;
+}
+
+.main-right {
+    color: black;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+    text-align: center;
+    padding: 10px;
+    height: 270px;
+    width: 200px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(155, 116, 231));
+    transition: 0.3s;
+}
+
+
