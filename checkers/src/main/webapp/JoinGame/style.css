@@ -189,7 +189,7 @@ body {
     font-size: 13px;
     text-align: center;
     padding: 10px;
-    height: 270px;
+    height: 240px;
     width: 200px;
     border-radius: 10px;
     border: none;
@@ -205,11 +205,12 @@ body {
     text-align: center;
     padding: 5px;
     height: 40px;
-    width: 350px;
+    width: 345px;
     border-radius: 10px;
     border: none;
     cursor: pointer;
     background: linear-gradient(to right, rgb(2, 253, 2), white, orange);
     transition: 0.3s;
     margin-top: 100px;
+    margin-left: 210px;
 }
