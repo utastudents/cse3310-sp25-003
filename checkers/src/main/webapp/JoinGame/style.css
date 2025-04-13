@@ -214,3 +214,22 @@ body {
     margin-top: 100px;
     margin-left: 210px;
 }
+
+
+.refresh {
+    color: white;
+    font-family: sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 10px;
+    width: 180px;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    background: rgb(18, 19, 18);
+    margin-left: 630px;
+    display: block;
+}
