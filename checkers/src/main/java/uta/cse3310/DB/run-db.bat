@@ -1,5 +1,5 @@
 @echo off
-
+echo "how can there be a batch file in a project that requires using linux?"
 echo Going to java Directory
 cd ..\..\..\
 
