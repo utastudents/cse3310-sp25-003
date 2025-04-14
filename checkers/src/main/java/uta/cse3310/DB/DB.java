@@ -46,6 +46,7 @@ public class DB {
          // *************************************************
 
          // setSpecificDataString(stmt, 2, "USERNAME", "w21312", "USER");
+         initMatch(stmt, 1, 2, "SADASDSADAS", 2, 1);
          // player.setEmail(stmt,"asddsa123", 1);
 
 
@@ -153,8 +154,8 @@ public class DB {
    public static void initMatch(Statement stmt, int BLACKPLAYERID, int REDPLAYERID, String BOARDSTATE, int WINNERID, int LOSERID)throws SQLException{
       // BLACKPLAYERID(INT), REDPLAYERID(INT), BOARDSTATE(STRING), WINNERID(INT), LOSERID(INT)
       int matchID = getSizeOfData(stmt,"MATCH") + 1;
-      String sql = "INSERT INTO MATCH_DATABASE (MATCHID,BLACKPLAYERID,REDPLAYERID,BOARDSTATE, WINNERID, LOSERID) " +
-                     "VALUES ("+matchID+","+BLACKPLAYERID+","+REDPLAYERID+","+BOARDSTATE+","+WINNERID+","+LOSERID+" );"; 
+      String sql = "INSERT INTO MATCH_DATABASE (MATCHID,BLACKPLAYERID,REDPLAYERID,BOARDSTATE, WINNER, LOSER) " +
+                     "VALUES ("+matchID+","+BLACKPLAYERID+","+REDPLAYERID+",'"+BOARDSTATE+"',"+WINNERID+","+LOSERID+" );"; 
 
       stmt.executeUpdate(sql);
    }
@@ -185,14 +186,14 @@ public class DB {
       }
    }
    
-   /** PRINT A SPECIFIC USER'S DATA
-    *  RETURN A VECTOR OF THE PLAYER INFO 
+   /** PRINT A SPECIFIC DATA
+    *  RETURN A VECTOR OF THE DATABSE INFO 
     *  WHEN THAT CLASS IS FINISHED */
-   public static ResultSet getSpecificData(int targetUserID, String database) throws SQLException, ClassNotFoundException{
+   public static ResultSet getSpecificData(int targetID, String database) throws SQLException, ClassNotFoundException{
       Connection c = initConnection();
       Statement stmt = c.createStatement();
       
-      String sql = "SELECT * FROM "+database+"_DATABASE WHERE PLAYERID == "+targetUserID+"";
+      String sql = "SELECT * FROM "+database+"_DATABASE WHERE PLAYERID == "+targetID+"";
       ResultSet rs = stmt.executeQuery(sql);
       
       // String email = rs.getString("EMAIL");

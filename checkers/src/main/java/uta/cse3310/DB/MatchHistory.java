@@ -4,24 +4,20 @@ import java.sql.*;
 
 public class MatchHistory {
     
-    private int playerID;
+    private int blackPlayerID;
+    private int redPlayerID;
+
     private String boardState;
 
 
 
-    public int getplayerID(String userName) throws SQLException , ClassNotFoundException{
+    public int getBlackPlayerID(int matchID) throws SQLException , ClassNotFoundException{
 
-        Connection c = null;
-        Class.forName("org.sqlite.JDBC");
-        c = DriverManager.getConnection("jdbc:sqlite:uta\\cse3310\\DB\\Database.db");
-        c.setAutoCommit(false);
-        Statement stmt = c.createStatement();
-      
-        String sql = "SELECT * FROM USER_DATABASE WHERE USERNAME == "+userName+"";
-        ResultSet rs = stmt.executeQuery(sql);
+        ResultSet rs = DB.getSpecificData(matchID, "MATCH");
 
-        int result = rs.getInt("PLAYERID");
-        return result;
+        int result = rs.getInt("BLACKPLAYERID");
+        // return result;
+        return 0;
     }
 
     public void setplayerID(int playerID){}
