@@ -4,7 +4,15 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  color: white;
+}
+
+.hide{
+  display: none;
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin-inline: auto;
+  width: fit-content;
 }
 
 #leaderboard{
