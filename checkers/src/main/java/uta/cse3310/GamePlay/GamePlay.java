@@ -1,6 +1,7 @@
 package uta.cse3310.GamePlay;
 import uta.cse3310.GameManager.Move;
 import uta.cse3310.GameManager.GameState;
+import uta.cse3310.GameManager.Position;
 
 public class GamePlay {
 
@@ -22,7 +23,14 @@ public class GamePlay {
 		return false;
 	}
 
-	private void applyMove(GameState boardState, Move move) {}
+	private void applyMove(GameState boardState, Move move) {
+		Position from = new Position(move.getFrom().getX(),
+					move.getFrom().getY());
+		Position to = new Position(move.getTo().getX(),
+					move.getTo().getY());
+
+		boardState.applyMove(from, to);
+	}
 
 	private boolean isSameTeam(GameState boardState, Move move) 
 	{
