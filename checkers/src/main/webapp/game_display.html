@@ -68,6 +68,18 @@
       outline: 4px solid yellow;
       transform: scale(1.1);
     }
+
+    /* King styling - crown symbol */
+    .king::after {
+      content: "♛";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 30px;
+      color: gold;
+      text-shadow: 0 0 3px black;
+    }
   </style>
 </head>
 <body>
@@ -105,8 +117,19 @@
 
           cell.addEventListener("click", () => {
             if (selectedPiece && cell.childNodes.length === 0 && cell.classList.contains("dark")) {
+              // Move the piece
               cell.appendChild(selectedPiece);
               selectedPiece.classList.remove("selected");
+              
+              // Check if the piece reached the opposite end to become a king
+              const newRow = parseInt(cell.dataset.row);
+              const pieceColor = selectedPiece.classList.contains("red") ? "red" : "blue";
+              
+              // Red pieces become kings at row 7 (bottom), blue at row 0 (top)
+              if ((pieceColor === "red" && newRow === 7) || (pieceColor === "blue" && newRow === 0)) {
+                selectedPiece.classList.add("king");
+              }
+              
               selectedPiece = null;
             }
           });
