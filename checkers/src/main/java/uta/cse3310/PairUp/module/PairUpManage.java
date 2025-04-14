@@ -15,8 +15,4 @@ public class PairUpManage {
         this.pairUpModule = pairUpModule;
     }
 
-    public PairResponsePayload pairPlayer(String playerHandle, String opponentType, String action, String lobbyId) {
-        PairResponsePayload response = new PairResponsePayload();
-
-    
-    }
+}
