@@ -67,7 +67,8 @@ public class PlayerInfo {
     }
 
     public void setWins(int wins){
-
+        
+        this.wins = wins;
     }
 
     public int getLosses(int losses){
@@ -76,6 +77,7 @@ public class PlayerInfo {
     }
 
     public void setLosses(int losses){
+        this.losses = losses;
 
     }
 
