@@ -1,4 +1,10 @@
 <script>
+{/*     
+    document.getElementById('join-game').addEventListener('click', () =>
+        {
+            joinLobby()
+        }
+    ) */}
 
     function displayPlayers() {
 
@@ -11,12 +17,14 @@
 
         // This method sends a request to get all usernames
 
+
     }
 
 
     function requestPlayersName(playerId) {
 
         // This method requests the name of a specific player
+
 
     }
 

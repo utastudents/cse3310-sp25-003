@@ -2,45 +2,284 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="wclassth=device-wclassth, initial-scale=1.0">
     <title>Join Game</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="script.js">
+    <script src="script.js"></script>
+
 </head>
 <body>
-    <div class="container">
-        <div class="banner">
-            <!-- Add Section3(text), and Button-->
-             <h2 id="section">Section 3</h2> <!-- Edited from h1, to h2. Small error fix-->
-             <button id = "addPlayer">Add Player</button>
-        </div>
-        <div class="title">
-            <!--This div is for title-->
-            <h1 id="title">CHECKERS</h1>
-        </div>
-    
-        <div class="main">
-            <!--Contains Select player buttons and displays current active and logged in players in the game-->
-        </div>
-    
-        <div class="lobby">
-            <div class="lobbyTitle">
-                <!--Text-->
-            </div>
 
-            <div class="refresh">
-                <!--Refresh Button-->
+    <section class = "banner">
+        <div class="top-banner">
+            <div class="section3">
+                <!-- Code: Section 3 -->
+                 section 3
             </div>
-
-            <div class="lobbyList">
-                <!--List all Available lobbies-->
-                <!--Containes more divs and sections-->
-            </div>
-            
-            <button>Join Lobby</button>
+            <div class="button-wrapper1">
+                <div class="addPlayer button">
+                    <!-- Code: Button (add player) -->
+                     Add Player
+                </div>
+            </div>  
         </div>
-    </div>
+
+        <div class="lower-banner">
+            <div class="title">
+                <!-- Code:Title for the game -->
+                 Checkers
+            </div>
+        </div>
+    </section>
+
+  
+
+    <section class="main">
+        <div class="container">
+            <div class="main-left">
+                <!--Code: to put in Buttons for selecting Players -->
+                <div class="players-row">
+                    <div class="left-column">
+                        <div class="player1 button">
+                        Player 1
+                        </div>
+                        <div class="bot1 button">
+                        BOT
+                        </div>
+                    </div>
+                    <div class="mclassdle-column">
+                        <div class="button-wrapper2">
+                            <div class="selectPlayer">
+                                Select Players
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-column">
+                        <div class="player2 button">
+                        Player 2
+                        </div>
+                        <div class="bot2 button">
+                        BOT
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-wrapper main-right-wrapper">
+                <div class="main-right">
+                    <!--Code: to put in the list of Active Players in the game -->
+                    Active Players
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="lobby">
+        <div class="container">
+            <div class="lobby-main">
+                <div class="lobby-top">
+                    <div class="lobby-Title-Card">
+                        <!-- Code: "Lobby" Name(only the name) -->
+                         LOBBIES
+                    </div>
+                    <div class="refresh">
+                        <!-- Code: Put in referesh button -->
+                         REFRESH
+                    </div>
+                </div>
+                <div class="lobby-bottom">  <!-- It should be scrollable-->
+                    <!-- This is where all 10 lobbies go -->
+                    <ul>
+                        <li class="lobby-item">
+                            <div class="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                 Lobby Name 1
+                            </div>
     
+                            <div class="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                 0/2
+                            </div>
+    
+                            <div class="join-game button"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </div>
+    
+                        </li>
+                        <li class="lobby-item">
+                            <div class="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 2
+                            </div>
+    
+                            <div class="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <div class="join-game button"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </div>
+    
+                        </li>
+                        <li class="lobby-item">
+                            <div class="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 3
+                            </div>
+    
+                            <div class="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                 0/2
+                            </div>
+    
+                            <div class="join-game button"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </div>
+    
+                        </li>
+                        <li class="lobby-item">
+                            <div class="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 4
+                            </div>
+    
+                            <div class="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <div class="join-game button"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </div>
+    
+                        </li>
+                        <li class="lobby-item">
+                            <div class="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 5
+                            </div>
+    
+                            <div class="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <div class="join-game button"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </div>
+    
+                        </li>
+                        <li class="lobby-item">
+                            <div class="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 6
+                            </div>
+    
+                            <div class="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <div class="join-game button"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </div>
+    
+                        </li>
+                        <li class="lobby-item">
+                            <div class="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 7
+                            </div>
+    
+                            <div class="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <div class="join-game button"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </div>
+    
+                        </li>
+                        <li class="lobby-item">
+                            <div class="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 8
+                            </div>
+    
+                            <div class="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <div class="join-game button"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </div>
+    
+                        </li>
+                        <li class="lobby-item">
+                            <div class="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 9
+                            </div>
+    
+                            <div class="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <div class="join-game button"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </div>
+    
+                        </li>
+                        <li class="lobby-item">
+                            <div class="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 10
+                            </div>
+    
+                            <div class="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <div class="join-game button"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </div>
+    
+                        </li>
+                    </ul>
+                </div>
+            </div>  
+            <div class="button-wrapper go-back-wrapper">
+                <div class="go-back button">
+                    <!-- to put in button that lets user to go back -->
+                     Go Back
+                </div>
+            </div>   
+        </div>
+    </section>    
 
 </body>
 </html>
