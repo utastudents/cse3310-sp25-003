@@ -108,11 +108,11 @@
   <script>
     const board = document.getElementById("board");
 
-    function getPlayerdata(player1name, player2name, player1value, player2value){
+    function getPlayerdata(player1name, player2name, player1value, player2value, isplayer1bot, isplayer2bot){
       document.getElementbyId("player1username").textContent = player1name;
       document.getElementbyId("player2username").textContent = player2name;
-      document.getElementbyId("player1elo").textContent = player1value;
-      document.getElementById("player2elo").textContent = player2value;
+      document.getElementbyId("player1elo").textContent = isplayer1bot ? "BOT" : player1value;
+      document.getElementById("player2elo").textContent = isplayer2bot ? "BOT" : player2value;
     }
 
     let selectedPiece = null;
