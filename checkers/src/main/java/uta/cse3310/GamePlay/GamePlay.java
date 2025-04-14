@@ -2,6 +2,11 @@ package uta.cse3310.GamePlay;
 import uta.cse3310.GameManager.Move;
 import uta.cse3310.GameManager.GameState;
 import uta.cse3310.GameManager.Position;
+import uta.cse3310.GameTermination.IGameTermination.Piece;
+/* Game termination has a piece class that Game Manager is using in their Gamestate.java file. 
+	I could implement it here, but I would have to talk to Game Manager first, so for compilation
+	purposes I imported Game termination's piece class. (Written by Devyn)
+*/
 
 public class GamePlay {
 
@@ -34,7 +39,15 @@ public class GamePlay {
 
 	private boolean isSameTeam(GameState boardState, Move move) 
 	{
-    	return false;
+    	Piece fromPiece = boardState.getPieceAt(move.getFrom());
+    	Piece toPiece = boardState.getPieceAt(move.getTo());
+
+    	if (fromPiece == null || toPiece == null) 
+			{
+        		return false;
+    		}
+
+    	return fromPiece.getColor() == toPiece.getColor(); //piece color class from iGameTermination 
 	}
 
 	private void promotePiece(GameState boardState, Move move) {
