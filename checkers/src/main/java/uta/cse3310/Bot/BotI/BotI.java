@@ -171,22 +171,23 @@ public class BotI {
     // - If no moves available, return null.
     // TODO: Implement
     private Move generateMove(Pieces currentBoard) {
-            Random random = new Random();
+        Random random = new Random();
 
         // Pick capture move if available. If multiple are available, pick at random
         ArrayList<Move> availableCaptureMoves = getAvailableStandardMoves(currentBoard);
-        	if (!captureMoves.isEmpty()) {
-        // If there are capture moves, pick one at random
-        		int index = random.nextInt(captureMoves.size());
-        		return captureMoves.get(index);
-    }
+        if (!availableCaptureMoves.isEmpty()) {
+            // If there are capture moves, pick one at random
+            int index = random.nextInt(availableCaptureMoves.size());
+            return availableCaptureMoves.get(index);
+        }
+
         // Pick standard move if no capture moves available. If multiple are available, pick at random
         ArrayList<Move> availableStandardMoves = getAvailableStandardMoves(currentBoard);
-		if (!standardMoves.isEmpty()) {
-        // If we have standard moves, randomly choose one
-        		int index = random.nextInt(standardMoves.size());
-        		return standardMoves.get(index);
-    }
+		if (!availableStandardMoves.isEmpty()) {
+            // If we have standard moves, randomly choose one
+            int index = random.nextInt(availableStandardMoves.size());
+            return availableStandardMoves.get(index);
+        }
         // If no moves are available, should return null
         return null;
     }
