@@ -4,13 +4,15 @@ public class Player {
     String playerId, displayName;
     boolean isBot;
     int score;
-/* Gamemanager/model/Player.java */
+    
+// Gamemanager/model/Player.java 
  Player(String playerId, String displayName, boolean isBot) {
         this.playerId = playerId;
         this.displayName = displayName;
         this.isBot = isBot;
         this.score = 0;
     }
+    
 //Player ID
     public String getPlayerId() {
         return playerId;
@@ -27,7 +29,7 @@ public class Player {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
-//If player is a bot true or false true or false
+//If player is a bot true or false 
     public boolean isBot() {
         return isBot;
     }
