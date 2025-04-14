@@ -1,6 +1,7 @@
 package uta.cse3310.Bot.BotI;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import uta.cse3310.GameManager.GameManager;
 // TODO: Would like to use existing Move class, but I don't know if we need String playerId
@@ -170,13 +171,22 @@ public class BotI {
     // - If no moves available, return null.
     // TODO: Implement
     private Move generateMove(Pieces currentBoard) {
-        
+            Random random = new Random();
+
         // Pick capture move if available. If multiple are available, pick at random
         ArrayList<Move> availableCaptureMoves = getAvailableStandardMoves(currentBoard);
-        
+        	if (!captureMoves.isEmpty()) {
+        // If there are capture moves, pick one at random
+        		int index = random.nextInt(captureMoves.size());
+        		return captureMoves.get(index);
+    }
         // Pick standard move if no capture moves available. If multiple are available, pick at random
         ArrayList<Move> availableStandardMoves = getAvailableStandardMoves(currentBoard);
-
+		if (!standardMoves.isEmpty()) {
+        // If we have standard moves, randomly choose one
+        		int index = random.nextInt(standardMoves.size());
+        		return standardMoves.get(index);
+    }
         // If no moves are available, should return null
         return null;
     }
