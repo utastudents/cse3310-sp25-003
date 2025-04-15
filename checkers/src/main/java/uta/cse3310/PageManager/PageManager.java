@@ -39,6 +39,30 @@ public class PageManager {
      * Processes input from the user.
      */
     public UserEventReply ProcessInput(UserEvent userEvent) {
+        
+        if (userEvent.eventType == null || userEvent.eventType.isEmpty()) {
+            return handleDefaultEvent(userEvent);
+        }
+        
+        
+        switch (userEvent.eventType) {
+            case "login":
+                return handleLogin(userEvent);
+            case "joinGame":
+                return handleJoinGame(userEvent);
+            case "gameMove":
+                return handleGameMove(userEvent);
+            case "summaryRequest":
+                return handleSummaryRequest(userEvent);
+            case "getPlayersUsername":
+                return handleGetPlayersUsername(userEvent);
+            default:
+                return handleDefaultEvent(userEvent);
+        }
+    }
+    
+   
+    private UserEventReply handleDefaultEvent(UserEvent userEvent) {
         UserEventReply ret = new UserEventReply();
         ret.status = new GameStatus();
         
@@ -58,6 +82,30 @@ public class PageManager {
         return ret;
     }
     
+    
+    public UserEventReply handleGetPlayersUsername(UserEvent userEvent) {
+        UserEventReply reply = new UserEventReply();
+        reply.status = new GameStatus();
+        reply.recipients = new ArrayList<>();
+        reply.recipients.add(userEvent.id);
+        reply.type = "playersUsernameList";
+        
+        
+        ArrayList<String> players = new ArrayList<>();
+        
+        
+        if (waitingPlayers != null && !waitingPlayers.isEmpty()) {
+            players.addAll(waitingPlayers);
+        }
+        
+        
+        reply.status.playersList = players;
+        reply.status.success = true;
+        reply.status.message = "Players list retrieved successfully";
+        
+        return reply;
+    }
+    
     public UserEventReply handleLogin(UserEvent userEvent) {
         // Design: validate user with DB or create new user
         return null;
@@ -68,11 +116,13 @@ public class PageManager {
         reply.status = new GameStatus();
         reply.recipients = new ArrayList<>();
         reply.recipients.add(userEvent.id);
+        reply.type = "joinGameResult";
 
         // Temporary dummy info for testing
         reply.status.message = "Join Game event received";
         reply.status.gameID = "placeholder-game-id";
         reply.status.opponent = "Waiting for opponent...";
+        reply.status.success = true;
 
         return reply;
     }
@@ -104,6 +154,7 @@ public class PageManager {
     
     public void updateWaitingPlayers(ArrayList<String> waitingPlayers) {
         // Design: update waiting players list
+        this.waitingPlayers = waitingPlayers;
     }
     
     public GameStatus getGameStatus(Integer gameId) {
