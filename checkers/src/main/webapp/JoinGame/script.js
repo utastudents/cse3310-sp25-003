@@ -1,3 +1,41 @@
+// var connection = null;
+
+// var serverUrl;
+// serverUrl = "ws://" + window.location.hostname + ":" + (parseInt(location.port) + 100);
+// connection = new WebSocket(serverUrl);
+
+// connection.onopen = function (evt) {
+//     console.log("open");
+// }
+
+// connection.onclose = function (evt) {
+//     console.log("close");
+// }
+
+// connection.onmessage = function (evt) {
+//     var msg;
+//     msg = evt.data;
+
+//     console.log("Message received: " + msg);
+//     document.getElementById("tbox").innerHTML = msg + '\n' + document.getElementById("tbox").innerHTML;
+//     //const obj = JSON.parse(msg);
+// }
+
+// class UserEvent {
+//     msg;
+// }
+
+// function msg() {
+//     console.log("button clicked");
+//     U = new UserEvent();
+//     U.msg="i pushed a button";
+//     connection.send(JSON.stringify(U));
+//     console.log(JSON.stringify(U))
+// }
+
+while(!(connection.readyState === WebSocket.OPEN))    
+{};
+
 window.addEventListener("load", requestPlayersUserName);
 
 let entity1;
