@@ -167,7 +167,7 @@ public class PairUpModule
         return null;
     }
 
-    // Helper to find the opponent in the lobby
+    /* Helper to find the opponent in the lobby
     private String findOpponentHandle(Lobby lobby, String currentPlayerId) {
         for (Participant p : lobby.getSlots()) {
             if (p != null && !p.isBot() && !p.getPlayerId().equals(currentPlayerId)) {
@@ -175,7 +175,7 @@ public class PairUpModule
             }
         }
         return null;
-    }
+    }*/
     
     private Lobby findLobby(String lobbyId) {
         return activeLobbies.stream()
