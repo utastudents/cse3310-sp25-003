@@ -56,7 +56,7 @@ public class PlayerInfo {
 
     }
 
-    public double getElo(double elo){
+    public double getElo(){
 
         return elo;
     }
@@ -66,8 +66,23 @@ public class PlayerInfo {
     }
 
     public double calculateElo(int win , int loss){
-
-        return elo;
+        double kFactor = 32; // K-factor used for Elo rating systems
+        int opponentElo = 1200; // Example opponent Elo
+    
+        // Calculate expected score (score = 1/(1 + 10^((opponent Elo - Elo) / 400)))
+        double expectedScore = 1 / (1 + Math.pow(10, (opponentElo - this.elo) / 400.0));
+    
+        // Calculate actual score based on win/loss
+        double actualScore = win > loss ? 1 : 0; // 1 for win, 0 for loss
+    
+        // Update Elo rating (Elo = Elo + K-factor * (actual score - expected score))
+        this.elo = this.elo + kFactor * (actualScore - expectedScore);
+    
+        // Update wins and losses
+        this.wins += win;
+        this.losses += loss;
+    
+        return this.elo;
     }
 
 }
