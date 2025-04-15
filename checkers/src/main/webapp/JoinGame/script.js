@@ -1,90 +1,93 @@
-<script>
-{/*     
-    document.getElementById('join-game').addEventListener('click', () =>
-        {
-            joinLobby()
-        }
-    ) */}
+window.addEventListener("load", requestPlayersUserName);
 
-    function displayPlayers() {
+let entity1;
+let entity2;
 
-        // This method displays the list of players that are active and logged in
+function requestPlayersUserName() {
+    // This method requests the name of a specific player    
+    let request = {
+        eventType: "getPlayersUsername"
+    };
 
-    }
+    msg(request);
+}
 
+function handleUsernames(usernames) {
 
-    function requestAllUsername() {
-
-        // This method sends a request to get all usernames
-
-
-    }
+    // This method processes the list of usernames
+    // If both player's username are present then they are assigned player
+    // 1 and 2 respectively else, just player 1
 
 
-    function requestPlayersName(playerId) {
-
-        // This method requests the name of a specific player
+}
 
 
-    }
+
+function displayPlayers() {
+
+    // This method displays the list of players that are active and logged in
+
+}
 
 
-    function handleUsernames(usernames) {
+function requestAllUsername() {
 
-        // This method processes the list of usernames
-        // If both player's username are present then they are assigned player
-        // 1 and 2 respectively else, just player 1
-
-    }
-
-    function displayUsers(usernames) {
-        // Displays users in the particular game session
-    }
-
-    function addPlayer(player) {
-
-        // This method adds a player to the current lobby
-        // One addButton is clicked it initites the fuction
-
-    }
-
-    function handleBackButton() {
-        //Button that takes user to previous page
-    }
-
-    function refereshLobbies() {
-
-        // This method refreshes the list of game lobbies
-
-    }
+    // This method sends a request to get all usernames
 
 
-    function toggleEntitySelection(entityId) {
-
-        // This method selects or deselects a player or bot
-
-    }
+}
 
 
-    function joinLobby(entity1, entity2, lobbyId) {
-
-        // This method allows the player to join a specified lobby
-        // Tells page manager which two entity joined which lobby
-
-    }
 
 
-    function displayLobbies() {
 
-        // This method shows a list of all available lobbies
+function displayUsers(usernames) {
+    // Displays users in the particular game session
+}
 
-    }
+function addPlayer(player) {
 
-    function selectPlayer(playerId) {
+    // This method adds a player to the current lobby
+    // One addButton is clicked it initites the fuction
 
-        // This method selects a player by their ID
+}
 
-    } 
+function handleBackButton() {
+    //Button that takes user to previous page
+}
+
+function refereshLobbies() {
+
+    // This method refreshes the list of game lobbies
+
+}
 
 
-</script>
+function toggleEntitySelection(entityId) {
+
+    // This method selects or deselects a player or bot
+
+}
+
+
+function joinLobby(entity1, entity2, lobbyId) {
+
+    // This method allows the player to join a specified lobby
+    // Tells page manager which two entity joined which lobby
+
+}
+
+
+function displayLobbies() {
+
+    // This method shows a list of all available lobbies
+
+}
+
+function selectPlayer(playerId) {
+
+    // This method selects a player by their ID
+
+} 
+
+
