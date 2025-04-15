@@ -109,9 +109,24 @@
       transition: background-color 0.2s ease;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
-
+    
     .resign-button:hover {
       background-color: #c62828;
+    }
+    .draw-button {
+      background-color: #1e90ff;
+      color: white;
+      font-size: 1.2em;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .draw-button:hover {
+      background-color: #155caa;
     }
 
   </style>
@@ -124,6 +139,9 @@
   <h1 class="playerdata"><span id = "player2username">Player2 </span><span id="player2elo">0</span></h1>
 
   <button id="resignBtn" class="resign-button">Resign</button>
+  <button id="drawBtn" class="draw-button">Propose Draw</button>
+  <div id="drawNotification" style="display:none; margin-top: 10px; font-weight: bold; color: #0077cc;"></div>
+
 
   </div>
   <script>
@@ -218,6 +236,7 @@
         alert("You have resigned from the game.");
       }
     });
+
   </script>
 </body>
 </html>
