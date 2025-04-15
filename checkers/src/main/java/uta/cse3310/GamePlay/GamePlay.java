@@ -63,12 +63,6 @@ public class GamePlay {
 		return false;
 	}
 
-	public boolean isJump(GameState boardState, Move move) {
-		// Would return true if intended move intended move captures an enemy piece is
-		// valid
-		return false;
-	}
-
 	public boolean isJump(GameState boardState, Move move) {// Would return true if intended move intended move captures
 															// an enemy piece is valid
 		boolean jump2;
