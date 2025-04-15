@@ -143,6 +143,7 @@
   <button id="resignBtn" class="resign-button">Resign</button>
   <button id="drawBtn" class="draw-button">Propose Draw</button>
   <div id="drawNotification" style="display:none; margin-top: 10px; font-weight: bold; color: #0077cc;"></div>
+  <button id="acceptDrawBtn" class="draw-button" style="display: none;">Accept Draw</button>
 
 
   </div>
@@ -232,17 +233,27 @@
 
     createBoard();
 
+    // Resign button
     document.getElementById("resignBtn").addEventListener("click", () => {
       const confirmResign = confirm("Are you sure you want to resign?");
       if (confirmResign) {
         alert("You have resigned from the game.");
       }
     });
+    // Proposing a draw
     document.getElementById("drawBtn").addEventListener("click", () => {
       const confirmProposal = confirm("Are you sure you want to propose a draw?");
       if (confirmProposal) {
         document.getElementById("drawNotification").style.display = "block";
         document.getElementById("drawNotification").textContent = "Draw proposed! Waiting for opponent to accept...";
+        document.getElementById("acceptDrawBtn").style.display = "inline-block";
+      }
+    });
+    // Accept draw
+    document.getElementById("acceptDrawBtn").addEventListener("click", () => {
+      const confirmAccept = confirm("Are you sure you want to accept the draw?");
+      if (confirmAccept) {
+        alert("Draw accepted. The game has ended.");
       }
     });
 
