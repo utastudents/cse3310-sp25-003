@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Checkers (Large View)</title>
+  <style>
+    body 
+    {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+
+    .board 
+    {
+      display: grid;
+      grid-template-columns: repeat(8, 80px);
+      grid-template-rows: repeat(8, 80px);
+      border: 5px solid #333;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center - 20;
+    }
+
+    .playerdata {
+      margin-bottom: 20px;
+      font-family: Arial, sans-serif;
+      font-size: 2em;
+      color: #333;
+    }
+    .cell 
+    {
+      width: 80px;
+      height: 80px;
+      position: relative;
+    }
+
+    .light 
+    {
+      background-color: #dd5f45;
+    }
+
+    .dark 
+    {
+      background-color: #615956;
+    }
+
+    .piece 
+    {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .red 
+    {
+      background-color: rgb(229, 25, 25);
+    }
+
+    .faded
+    {
+      background-color: rgb(180, 168, 168);
+    }
+
+    .blue 
+    {
+      background-color: rgb(1, 1, 19);
+    }
+
+    .selected 
+    {
+      outline: 4px solid yellow;
+      transform: scale(1.1);
+    }
+
+    /* King styling - crown symbol */
+    .king::after {
+      content: "♛";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 30px;
+      color: gold;
+      text-shadow: 0 0 3px black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  <h1 class="playerdata"><span id = "player1username">Player1 </span><span id="player1elo">0</span></h1>
+
+  <div class="board" id="board"></div>
+  <h1 class="playerdata"><span id = "player2username">Player2 </span><span id="player2elo">0</span></h1>
+  <script>
+    const board = document.getElementById("board");
+
+    function getPlayerdata(player1name, player2name, player1value, player2value, isplayer1bot, isplayer2bot){
+      document.getElementbyId("player1username").textContent = player1name;
+      document.getElementbyId("player2username").textContent = player2name;
+      document.getElementbyId("player1elo").textContent = isplayer1bot ? "BOT" : player1value;
+      document.getElementById("player2elo").textContent = isplayer2bot ? "BOT" : player2value;
+    }
+
+    let selectedPiece = null;
+
+    function createBoard() 
+    {
+      for (let row = 0; row < 8; row++) 
+      {
+        for (let col = 0; col < 8; col++)
+        {
+          const cell = document.createElement("div");
+          cell.classList.add("cell");
+          cell.dataset.row = row;
+          cell.dataset.col = col;
+
+          const isDark = (row + col) % 2 !== 0;
+          cell.classList.add(isDark ? "dark" : "light");
+
+          // Add pieces on dark squares
+          if (isDark) 
+          {
+            if (row < 3) {
+              const piece = createPiece("red");
+              cell.appendChild(piece);
+            } else if (row > 4) {
+              const piece = createPiece("blue");
+              cell.appendChild(piece);
+            }
+          }
+
+          cell.addEventListener("click", () => {
+            if (selectedPiece && cell.childNodes.length === 0 && cell.classList.contains("dark")) {
+              // Move the piece
+              cell.appendChild(selectedPiece);
+              selectedPiece.classList.remove("selected");
+              
+              // Check if the piece reached the opposite end to become a king
+              const newRow = parseInt(cell.dataset.row);
+              const pieceColor = selectedPiece.classList.contains("red") ? "red" : "blue";
+              
+              // Red pieces become kings at row 7 (bottom), blue at row 0 (top)
+              if ((pieceColor === "red" && newRow === 7) || (pieceColor === "blue" && newRow === 0)) {
+                selectedPiece.classList.add("king");
+              }
+              
+              selectedPiece = null;
+            }
+          });
+
+          board.appendChild(cell);
+        }
+      }
+    }
+
+    function createPiece(color) 
+    {
+      const piece = document.createElement("div");
+      piece.classList.add("piece", color);
+
+      piece.addEventListener("click", (e) => {
+        e.stopPropagation(); // prevent cell click
+        if (selectedPiece) {
+          selectedPiece.classList.remove("selected");
+        }
+
+        if (selectedPiece === piece) {
+          selectedPiece = null;
+        } else {
+          selectedPiece = piece;
+          piece.classList.add("selected");
+        }
+      });
+
+      return piece;
+    }
+
+    createBoard();
+  </script>
+</body>
+</html>
