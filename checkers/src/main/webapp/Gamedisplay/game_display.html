@@ -109,7 +109,7 @@
       transition: background-color 0.2s ease;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
-    
+
     .resign-button:hover {
       background-color: #c62828;
     }
@@ -234,6 +234,13 @@
       const confirmResign = confirm("Are you sure you want to resign?");
       if (confirmResign) {
         alert("You have resigned from the game.");
+      }
+    });
+    document.getElementById("drawBtn").addEventListener("click", () => {
+      const confirmProposal = confirm("Are you sure you want to propose a draw?");
+      if (confirmProposal) {
+        document.getElementById("drawNotification").style.display = "block";
+        document.getElementById("drawNotification").textContent = "Draw proposed! Waiting for opponent to accept...";
       }
     });
 
