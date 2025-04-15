@@ -1,4 +1,4 @@
-As the Game Play subsystem, we communicate with Game Manager by receiving the current board state and a proposed move for a singular checker’s piece. After checking the legality of the move and updating the table as necessary, we send a boolean variable back to Game Manager. While if the move is legal, we send the updated game state to Game Termination.
+As the Game Play subsystem, we communicate with Game Manager by receiving the current board state and a proposed move for a singular checker’s piece. After checking the legality of the move and updating the table as necessary, we send a boolean variable back to Game Manager.
 
 The interfaces we will be using are methods in java that are dependent on the classes we decide on with the other subsystems.
 
@@ -7,12 +7,7 @@ Our possible interfaces (methods) include:
 
 checkLegalMove(boardState, move) returns a boolean value
 
-Checks whether the move is valid. This includes verifying that the piece’s destination is within the  bounds, the space is unoccupied, the move follows movement rules for the piece type (normal or king), and that any capture rules are followed.
-
-
-notifyGameTermination(updatedBoardState)
-
-Sends the updated board state, if there is one, to the Game Termination subsystem.
+Checks whether the move is valid. This includes verifying that the piece’s destination is within the bounds, the space is unoccupied, the move follows movement rules for the piece type (normal or king), and that any capture rules are followed.
 
 **isValidMove(boardState, move) → boolean:**
 
