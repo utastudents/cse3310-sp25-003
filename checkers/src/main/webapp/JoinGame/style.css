@@ -10,26 +10,26 @@ body {
 }
 
 
-.lobby-list {
+#lobby-list {
     list-style-type: none; /* Removes default list style */
     padding: 0;
     background-color: green;
 }
 
-.top-banner{
+#top-banner{
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
 }
 
-.section3{
+#section3{
     color: whitesmoke;
     font-family: serif;
     font-size: 25px;
 }
 
-.button-wrapper1{
+#button-wrapper1{
     display: inline-block;
     padding: 5px; 
     margin-top: auto;
@@ -37,7 +37,7 @@ body {
     background: linear-gradient(to right, #f33726, #fbea8b);
 }
 
-.button-wrapper2{
+#button-wrapper2{
     display: inline-block;
     padding: 5px; 
     margin-top: auto;
@@ -47,7 +47,7 @@ body {
     top: -50px;
 }
     
-.addPlayer-button{
+#addPlayer-button{
     background-color: whitesmoke;
     color: black;
     font-family: sans-serif;
@@ -64,7 +64,7 @@ body {
 }
 
 
-.title{
+#title{
     font-family: serif;
     color: whitesmoke;
     font-size: 60px;
@@ -73,12 +73,12 @@ body {
     flex-grow: 1;
 }
 
-.container{
+#container{
     display: flex;
     justify-content: center;  
 }
 
-.main-left{
+#main-left{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -88,7 +88,7 @@ body {
     max-width: 1000px;
 }
 
-.player1, .player2, .bot1, .bot2{
+#player1, #player2, #bot1, #bot2{
     width: 120px;
     height: 60px;
     box-sizing: border-box;
@@ -103,7 +103,7 @@ body {
     border-radius: 20px;
 
 }
-.players-row {
+#players-row {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -111,20 +111,20 @@ body {
     margin-top: 30px;
     width: 90%
 }
-.left-column, .right-column, .middle-column{
+#left-column, #right-column, #middle-column{
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 40px;
 }
 
-.middle-column{
+#middle-column{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.selectPlayer{
+#selectPlayer{
     width: 300px;
     height: 60px;
     z-index: 1;
@@ -144,7 +144,7 @@ body {
 
 
 
-.go-back-wrapper {
+#go-back-wrapper {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -155,7 +155,7 @@ body {
     background: linear-gradient(to right, #f33726, #fbea8b);
 }
 
-.go-back.button {
+#go-back#button {
     background-color: whitesmoke;
     color: black;
     font-family: sans-serif;
@@ -171,7 +171,7 @@ body {
     transition: 0.3s;
 }
 
-.main-right-wrapper {
+#main-right-wrapper {
     position: fixed;
     display: inline-block;
     padding: 5px;
@@ -181,7 +181,7 @@ body {
     right: 20px;
 }
 
-.main-right {
+#main-right {
     color: black;
     font-family: sans-serif;
     font-weight: bold;
@@ -198,7 +198,7 @@ body {
     
 }
 
-.lobby-Title-Card {
+#lobby-Title-Card {
     color: black;
     font-family: sans-serif;
     font-size: 30px;
@@ -216,7 +216,7 @@ body {
 }
 
 
-.refresh {
+#refresh {
     color: white;
     font-family: sans-serif;
     font-size: 22px;
@@ -234,7 +234,7 @@ body {
     display: block;
 }
 
-.lobby-bottom {
+#lobby-bottom {
     width: 800px;
     height: 640px;
     overflow-y: auto;
@@ -243,7 +243,7 @@ body {
     box-sizing: border-box;
 }
 
-.lobby-item {
+#lobby-item {
     display: flex;
     align-items: center;
     font-size: 22px;
@@ -260,23 +260,23 @@ body {
     margin-top: 20px;
 }
 
-.lobby-item:first-child {
+#lobby-item:first-child {
     margin-top: 40px;
 }
 
-.lobby-name {
+#lobby-name {
     margin-left: 50px;
 }
 
-.capacity {
+#capacity {
     margin-left: 150px;
 }
 
-.join-game {
+#join-game {
     margin-left: 60px;
 }
 
-.join-game.button {
+#join-game#button {
     background-color: rgb(2, 253, 2);
     border: none;
     padding: 8px 12px;
