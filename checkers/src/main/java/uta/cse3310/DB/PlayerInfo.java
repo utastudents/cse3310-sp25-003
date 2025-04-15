@@ -62,7 +62,7 @@ public class PlayerInfo {
     }
 
     public void setElo(double elo){
-
+        this.elo = elo;
     }
 
     public double calculateElo(int win , int loss){
