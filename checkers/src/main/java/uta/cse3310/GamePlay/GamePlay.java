@@ -38,8 +38,8 @@ public class GamePlay {
 		boardState.applyMove(from, to);
 	}
 
-	private boolean isSameTeam(GameState boardState, Move move) {
-		Piece fromPiece = boardState.getPieceAt(move.getFrom());
+	private boolean isSameTeam(GameState boardState, Move move) { //Note this function may not work properly, waiting on Game manager
+		Piece fromPiece = boardState.getPieceAt(move.getFrom());  // to make their own piece/character class
 		Piece toPiece = boardState.getPieceAt(move.getTo());
 
 		if (fromPiece == null || toPiece == null) {
@@ -60,8 +60,53 @@ public class GamePlay {
 	}
 
 	public boolean isValidMove(GameState boardState, Move move) {
+		/* Note: This is temporary functionality for isValidMove,
+			I'd expect this to receive lots of changes, once Game Manager
+			changes their code/requirements. Alot of the code is all over the place
+			since someone pushed that outdated build. Included printout text
+			for debugging purposes. Written by: Devyn
+		*/
+	// Check 1: Is move within bounds?
+	if (!isInBounds(move)) {
+		System.out.println("Invalid move: destination out of bounds.");
 		return false;
 	}
+
+	// Check 2: Is there a piece at the start?
+	Piece fromPiece = boardState.getPieceAt(move.getFrom());
+	if (fromPiece == null) {
+		System.out.println("Invalid move: no piece at starting position.");
+		return false;
+	}
+
+	// Check 3: Is the destination already occupied?
+	if (boardState.getPieceAt(move.getTo()) != null) {
+		System.out.println("Invalid move: destination is already occupied.");
+		return false;
+	}
+
+	// Check 4: Is the destination on the same team?
+	if (isSameTeam(boardState, move)) {
+		System.out.println("Invalid move: cannot move to a square occupied by the same team.");
+		return false;
+	}
+
+	// Check 5: Is it a simple diagonal move?
+	if (isDiagonal(move)) {
+		System.out.println("Valid move: regular diagonal move.");
+		return true;
+	}
+
+	// Check 6: Is it a valid jump?
+	if (isJump(boardState, move)) {
+		System.out.println("Valid move: jump move.");
+		return true;
+	}
+
+	// If it’s none of the above
+	System.out.println("Invalid move: does not match any valid movement rules.");
+	return false;
+}
 
 	public boolean isJump(GameState boardState, Move move) {// Would return true if intended move intended move captures
 															// an enemy piece is valid
