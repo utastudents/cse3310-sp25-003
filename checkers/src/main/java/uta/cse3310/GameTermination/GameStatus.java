@@ -1,19 +1,15 @@
 package uta.cse3310.GameTermination;
 import uta.cse3310.GameManager.Player;
 import uta.cse3310.GamePlay.GamePlay;
-import Java.util.Map;
+import java.util.Map;
 
 /**
  * Represents the possible statuses of the game.
  */
-//yet to implement
 
-/*
-public class GameStatus{
-    public void endGame(){
-        return;
+enum GameStatus {
+    BLACK_WIN,
+    RED_WIN,
+    ONGOING,
+    DRAW
 }
-    public String showwinner(){
-        returm winner;
-}
-*/
