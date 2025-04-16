@@ -167,6 +167,19 @@
       color: #666;
     }
 
+    .last-move {
+      box-shadow: 0 0 10px 4px gold;
+    }
+
+    .dark-theme {
+      background-color: #121212;
+      color: white;
+    }
+
+    .dark-theme .board {
+      border-color: #ccc;
+      box-shadow: none;
+    }
 
   </style>
 </head>
@@ -185,6 +198,7 @@
   <div id="drawNotification" style="display:none; margin-top: 10px; font-weight: bold; color: #0077cc;"></div>
   <div id="drawTimer" style="display:none; font-size: 1.2em; margin-top: 5px;"></div>
   <button id="acceptDrawBtn" class="draw-button" style="display: none;">Accept Draw</button>
+  <button id="toggleTheme" class="draw-button">Toggle Dark Mode</button>
 
 
   </div>
@@ -295,6 +309,12 @@
 
               // Move the piece
               cell.appendChild(selectedPiece);
+              // Highlight the piece temporarily
+              selectedPiece.classList.add("last-move");
+              setTimeout(() => {
+                selectedPiece.classList.remove("last-move");
+              }, 2000);
+
               selectedPiece.classList.remove("selected");
               
               // Play move sound if not a capture
@@ -394,6 +414,11 @@
       location.reload();
       }
     });
+
+    document.getElementById("toggleTheme").addEventListener("click", () => {
+      document.body.classList.toggle("dark-theme");
+    });
+
   </script>
 </body>
 </html>
