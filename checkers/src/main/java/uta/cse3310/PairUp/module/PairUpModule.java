@@ -178,9 +178,26 @@ public class PairUpModule
     }
         
     public synchronized PairResponsePayload pairPlayer(String playerHandle, boolean opponentType, String action, String lobbyId) throws LobbyException {
+    PairResponsePayload response = new PairResponsePayload();
+        if (!opponentType) { // false = bot
+            String newLobbyId = createBotLobby(playerHandle);
+            response.gameID = newLobbyId;
+            response.opponentHandle = "BOT";
+            return response;
+        }
+            // true = human
+        if (action.equals("wait")) {
+            String newLobbyId = createLobby(playerHandle);
+            response.gameID = newLobbyId;
+            response.opponentHandle = "WAITING";
+            return response;
+        } else if (action.equals("join")) {
+            if (lobbyId == null || lobbyId.isEmpty()) {
+                throw new LobbyException("Lobby ID is required when joining a human lobby.");
+            }
 
-    }
-    
+        }
+        
     
     
     
