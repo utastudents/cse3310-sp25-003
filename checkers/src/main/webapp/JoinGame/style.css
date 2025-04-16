@@ -71,6 +71,11 @@ body {
     border-radius: 10px;
     transition: 0.3s;
 }
+#addPlayer:hover, #back:hover{
+    background-color: rgb(219, 99, 20);
+    color: whitesmoke;
+    transition: 0.3s;
+}
 
     
 #lower-banner{
@@ -367,6 +372,7 @@ body {
     margin-right: 150px;
     position: sticky;
     bottom: 2px;
+    cursor: pointer;
 }
 
 #back
