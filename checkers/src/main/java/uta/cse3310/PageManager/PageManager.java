@@ -113,10 +113,13 @@ public class PageManager {
         reply.type = "joinGameResult";
 
         // Parse JoinGamePayload from JSON string
-        JoinGamePayload payload = JsonConverter.getGson().fromJson(userEvent.msg, JoinGamePayload.class);
+        JoinGamePayload payload = JsonConverter.parseJsonObject(userEvent.msg) == null
+            ? null
+            : JsonConverter.toJson(JsonConverter.parseJsonObject(userEvent.msg)).equals("") ? null
+            : new com.google.gson.Gson().fromJson(userEvent.msg, JoinGamePayload.class);
 
         // Safety check in case payload fails to parse
-        if (payload == null || payload.playerHandle == null || payload.opponentType == null) {
+        if (payload == null || payload.playerHandle == null) {
             return JsonConverter.createErrorReply("Invalid join game payload.", userEvent.id);
         }
 
@@ -130,18 +133,11 @@ public class PageManager {
             return reply;
         }
 
-        // TODO: Call pairUp.pairPlayer once implemented
-        // PairResponsePayload response = pairUp.pairPlayer(
-        //     payload.playerHandle, payload.opponentType, payload.action, payload.lobbyId
-        // );
+        // Sample logic if pairing were implemented:
+        // boolean isHuman = payload.opponentType;
+        // if (!isHuman) -> pair with bot
+        // else -> wait for another human
 
-        // // Fill status with response from PairUp
-        // reply.status.success = true;
-        // reply.status.message = "Paired successfully";
-        // reply.status.gameID = response.gameID;
-        // reply.status.opponent = response.opponentHandle;
-
-        // Dummy response for now
         reply.status.success = true;
         reply.status.message = "Join Game request processed (no pairing yet)";
         reply.status.gameID = "dummy-game-id";
@@ -180,7 +176,6 @@ public class PageManager {
     }
 
     public GameStatus getGameStatus(Integer gameId) {
-        // TODO: Retrieve game status for a given game
         return null;
     }
 }
