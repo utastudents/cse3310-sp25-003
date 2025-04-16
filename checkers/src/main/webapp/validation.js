@@ -29,12 +29,22 @@ class inputValidator{
         if (!/[0-9]/.test(password))
             return "Password must contain at least one number.";
         if (!/[!@#$%^&*]/.test(password))
-            return "PAssword must contain one special character (! @ # $ % ^ & *).";
+            return "Password must contain one special character (! @ # $ % ^ & *).";
         //if (/\s/.test (password))
             //return "Password cannot contain spaces.";
     }
 
-    
+    //email validation
+    static validateEmail(email){
+        //regex that validates . or - in username, followed by @ and accepts domains with . or -, period and TLD of atleast 2 characters
+        //example: john12.abc@mavs.uta
+        const regex= /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+        if (!email)
+            return "Email cannot be empty";
+        if (!regex.test(email) )
+            return "Invalid email format. (eg: john12-abc.az@uta.edu)";
+    }
+
 
 
 }
