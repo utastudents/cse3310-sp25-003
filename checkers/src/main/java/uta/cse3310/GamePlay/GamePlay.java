@@ -29,7 +29,7 @@ public class GamePlay {
 		return false;
 	}
 
-	private void applyMove(GameState boardState, Move move) {
+	public void applyMove(GameState boardState, Move move) {
 		Position from = new Position(move.getFrom().getX(),
 				move.getFrom().getY());
 		Position to = new Position(move.getTo().getX(),
