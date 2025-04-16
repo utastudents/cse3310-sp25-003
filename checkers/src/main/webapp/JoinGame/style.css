@@ -10,7 +10,6 @@ body {
     
 }
 
-
 #lobby-list {
     list-style-type: none; /* Removes default list style */
     padding: 0;
@@ -27,11 +26,11 @@ body {
 
 #line
 {
-    width: 58%;
+    width: 68%;
     background: linear-gradient(to right, #ff6ec4, #7873f5, #42e695, #f9ed69, #f33726);
 
     height: 1px;
-    margin: 50px 100px 50px 300px;
+    margin: 50px 100px 50px 100px;
 }
 
 #section3{
@@ -72,19 +71,18 @@ body {
 }
 
 
-
 #title{
     font-family: serif;
     color: whitesmoke;
     font-size: 60px;
     text-align: center;
-    margin: 0px 170px 10px 0px;
+    margin: auto;
     flex-grow: 1;
 }
 
 #main{
     width: 100%;
-    margin: 50px 0px;
+    margin: 50px 0px 0px 0px;
     height: 300px;
 }
 
@@ -94,17 +92,15 @@ body {
     justify-content: space-between;
     height: 100%;
     width: 100%;
-    margin: 50px 0px;
 }
 
 #main-left{
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 80%;
-    max-width: 1000px;
+    width: 70%;
     height: 100%;
-    margin: 0px 0px 0px 300px;
+    margin: 0px 0px 0px 120px;
 }
 
 #players-row {
@@ -125,8 +121,8 @@ body {
 
 #player1, #player2, #bot1, #bot2{
     cursor: pointer;
-    width: 176px;
-    height: 86px;
+    width: 160px;
+    height: 70px;
     text-align: center;
     font-size: 24px;
     color: rgb(255, 255, 255);
@@ -134,16 +130,18 @@ body {
     border-style: solid;
     border-width: 3px;
     border-color: #CC00FF;
-    border-radius: 34px;
+    border-radius: 25px;
     background-color: black;
 }
 
 
 #middle-column{
     display: flex;
+    width: 25%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-right: 150px;
 }
 
 #button-wrapper2{
@@ -152,8 +150,8 @@ body {
     margin: auto;
     border-radius: 20px; 
     background: linear-gradient(to right, #d01449, #271ed3);
-    width: 370px;
-    height: 81px;
+    width: 350px;
+    height: 80px;
 }
 
 #selectPlayer{
@@ -173,12 +171,13 @@ body {
 #sp{
     text-align: center;
     align-items: center;
-    font-size: 44px;
+    font-size: 40px;
     color: whitesmoke;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 #right-column{
+    width: 25%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -200,7 +199,7 @@ body {
     text-align: center;
     padding: 10px;
     height: 100%;
-    width: 280px;
+    width: 100%;
     border-radius: 10px;
     background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(155, 116, 231));
     transition: 0.3s;
@@ -215,8 +214,8 @@ body {
 }
 
 #lobby{
+    margin-top: -20px;
     width: 100%;
-    margin: 50px 0px;
 }
 
 #lobby #container
@@ -224,15 +223,15 @@ body {
     display: flex;
     justify-content: space-between;
     height: 100%;
-    width: 83%;
-    margin: 150px 0px 0px 300px;
+    width: 100%;
+    margin: 150px 0px 0px 130px;
 }
 
 #lobby-main{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 70%;
+    width: 65%;
 }
 
 #lobby-top{
@@ -320,12 +319,10 @@ body {
     margin-left: 150px;
 }
 
-#join-game {
-    margin-left: 60px;
-}
 
 #join-game {
     cursor: pointer;
+    margin-left: 60px;
     background-color: rgb(2, 253, 2);
     border: none;
     padding: 8px 12px;
@@ -346,13 +343,14 @@ body {
 
 
 
+
 #back-button{
     display: inline-block;
     padding: 5px; 
     margin-top: auto;
     border-radius: 15px; 
     background: linear-gradient(to right, #f33726, #fbea8b);
-    margin-right: 10px;
+    margin-right: 150px;
     position: sticky;
     bottom: 2px;
 }

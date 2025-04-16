@@ -38,6 +38,49 @@ function msg(msg) {
 // while(!(connection.readyState === WebSocket.OPEN))    
 // {};
 
+let selections = [];
+
+const buttons = document.querySelectorAll('.selection-button');
+const joinButton = document.querySelector('.join-game');
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        const value = button.getAttribute('data-value');
+        
+        if (button.classList.contains('selected')) {
+            // Deselect the button
+            button.classList.remove('selected');
+            const index = selections.indexOf(value);
+            if (index > -1) {
+                selections.splice(index, 1);
+            }
+        } else {
+            // Only allow selection if fewer than 2 are already selected
+            if (selections.length < 2) {
+                button.classList.add('selected');
+                selections.push(value);
+            }
+        }
+        
+        // Update the display
+        updateSelectionDisplay();
+    });
+});
+
+// Update the selection display
+function updateSelectionDisplay() {
+    // Update entity displays
+    entity1Element.textContent = selections[0] || 'None';
+    entity2Element.textContent = selections[1] || 'None';
+    selectionCountElement.textContent = selections.length;
+    
+    // Enable/disable join button
+    joinButton.disabled = selections.length !== 2;
+}
+
+
+
+
 window.addEventListener("load", requestPlayersUserName);
 
 
