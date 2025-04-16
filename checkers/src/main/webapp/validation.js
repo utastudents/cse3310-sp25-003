@@ -30,11 +30,11 @@ class inputValidator{
             return "Password must contain at least one number.";
         if (!/[!@#$%^&*]/.test(password))
             return "Password must contain one special character (! @ # $ % ^ & *).";
-        //if (/\s/.test (password))
-            //return "Password cannot contain spaces.";
+        
     }
 
     //email validation
+    //Requirement [8]
     static validateEmail(email){
         //regex that validates . or - in username, followed by @ and accepts domains with . or -, period and TLD of atleast 2 characters
         //example: john12.abc@mavs.uta
@@ -45,6 +45,24 @@ class inputValidator{
             return "Invalid email format. (eg: john12-abc.az@uta.edu)";
     }
 
+    //display error message under the error field related to html
+    //Requirement [18-24]
+    static displayError(fieldID, message){
+        const elementError= document.getElementById (fieldID);
+        //if there is an error
+        if(elementError)
+        {
+            elementError.innerText=message; //display error message
+            elementError.style.color= "red";// display in red
+
+
+        }
+    }
+
+    //clear error once the user tries to resubmit the form/ reset form
+
+
+    static 
 
 
 }
