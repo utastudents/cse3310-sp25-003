@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import uta.cse3310.GamePlay.*;
 import uta.cse3310.GameManager.*;
+import uta.cse3310.GameTermination.*;
 
 public class GamePlayTest{
     @Test //TC-001
@@ -33,5 +34,25 @@ public class GamePlayTest{
         GamePlay gp = new GamePlay();
         Move move = new Move(new Position(0,1), new Position(2,2), "Player1"); //Set "From" = 0,1 "To" = "2,2"
         assertFalse(gp.isDiagonal(move));
+    }
+    @Test //TC-005
+    public void testApplyMove() {
+	GamePlay gp = new GamePlay();
+	Move move1 = new Move(new Position(2, 5), new Position(1, 4));
+	Move move2 = new Move(new Position(3, 2), new Position(2, 3));
+	Move move3 = new Move(new Position(5, 2), new Position(6, 3));
+
+	GameState board = new GameState("xxx", "xxx");
+
+	gp.applyMove(board, move1);
+	gp.applyMove(board, move2);
+	gp.applyMove(board, move3);
+
+	if(gp.getPieceAt(new Position(1, 4)) == null |
+	   gp.getPieceAt(new Position(2, 3)) == null |
+	   gp.getPieceAt(new Position(6, 3)) == null) {
+		assertTrue(true);
+	}
+	
     }
 }
