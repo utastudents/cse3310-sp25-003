@@ -131,7 +131,7 @@ function handleBackButton() {
     //Button that takes user to previous page
 
     let request = {
-        eventType: "login"
+        eventType: "goToLoginPage"
     };
 
     msg(request);
