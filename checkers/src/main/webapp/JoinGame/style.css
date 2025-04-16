@@ -154,6 +154,12 @@ body {
     transition: 0.3s;
 }
 
+.selected{
+    background-color: rgb(224, 50, 157);
+    color: whitesmoke;
+    transition: 0.3s;
+}
+
 #middle-column{
     display: flex;
     width: 25%;
