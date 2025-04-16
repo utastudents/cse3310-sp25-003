@@ -35,7 +35,9 @@ function handleLeaderboardData(){
     const heading = document.createElement('div');
     heading.className ='container'
     heading.id = 'board';
-    heading.innerHTML = '<div><div class="rank"><h3>Rank</h3></div><div class="name"><h3>Name</h3><div class="userId"><h3>#userId</h3></div></div><div class="score"><h3>Wins</h3></div></div>'
+    heading.innerHTML = '<div><div class="rank"><h3>Rank</h3></div>\
+    <div class="name"><h3>Name</h3><div class="userId"><h3>#userId</h3>\
+    </div></div><div class="score"><h3>Wins</h3></div></div>';
 
     leaderboardDiv.appendChild(title);
     leaderboardDiv.appendChild(heading);
@@ -49,7 +51,9 @@ function handleLeaderboardData(){
 
         entry.className = 'row seen';
         entry.id = `number${count}`;
-        entry.innerHTML = `<div class="rank">${count}</div><div class="name">${playerData[count - 1].name}<div class="userId">${playerData[count - 1].id}</div></div><div class="score">${playerData[count - 1].score}</div>`;
+        entry.innerHTML = `<div class="rank">${count}</div><div class="name">\
+        ${playerData[count - 1].name}<div class="userId">${playerData[count - 1].id}\
+        </div></div><div class="score">${playerData[count - 1].score}</div>`;
         heading.appendChild(entry);
     }
 
