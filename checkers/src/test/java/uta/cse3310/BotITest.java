@@ -192,4 +192,16 @@ public class BotITest {
                 assertTrue(move3.getTo().getX() == 1);
                 assertTrue(move3.getTo().getY() == 2);
         }
+        
+        // TC-004: Test getAvailableCaptureMove()
+        // TODO: Write test
+        @Test
+        public void testValidateStandardMove() {
+        }
+        
+        // TC-005: Test getAvailableCaptureMove()
+        // TODO: Write test
+        @Test
+        public void testValidateCaptureMove() {
+        }
 }
