@@ -11,14 +11,7 @@ import uta.cse3310.GameManager.Position;
 
 public class BotI {
 
-    private GameManager gameManager;
-
-    public BotI(GameManager gameManager) {
-        // BotI needs a reference to GameManager, as this is how it will communicate
-        // with the game (e.g., receiving notice a user has made a move, retrieving
-        // the current state of the checkers board)
-        this.gameManager = gameManager;
-    }
+    public BotI() {}
 
     // Helper function that verifies x, y positions are on the board
     // TODO: We can possibly leverage the same function found in GamePlay
