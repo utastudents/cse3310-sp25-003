@@ -2,6 +2,10 @@
   ----------------------              JOIN GAME CSS
 */
 
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Italiana&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Italiana&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
     margin: 0px;
     padding: 0px;
@@ -39,9 +43,12 @@ body {
 
 #section3{
     position: sticky;
-    top: 0px;
+    top: 40px;
+    height: 47px;
+    left: 30px;
+    font-weight: 400px;
     color: whitesmoke;
-    font-family: serif;
+    font-family: Italiana;
     font-size: 40px;
 }
 
@@ -68,6 +75,11 @@ body {
     border-radius: 10px;
     transition: 0.3s;
 }
+#addPlayer:hover, #back:hover{
+    background-color: rgb(219, 99, 20);
+    color: whitesmoke;
+    transition: 0.3s;
+}
 
     
 #lower-banner{
@@ -76,9 +88,10 @@ body {
 
 
 #title{
-    font-family: serif;
+    font-family: Italiana;
     color: whitesmoke;
-    font-size: 60px;
+    font-size: 72px;
+    font-weight: 400px;
     text-align: center;
     margin: auto;
     flex-grow: 1;
@@ -130,7 +143,8 @@ body {
     text-align: center;
     font-size: 24px;
     color: rgb(255, 255, 255);
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: poppins;
+    font-weight: 700px;
     border-style: solid;
     border-width: 3px;
     border-color: #CC00FF;
@@ -138,6 +152,17 @@ body {
     background-color: black;
 }
 
+#player1:hover, #player2:hover, #bot1:hover, #bot2:hover{
+    background-color: rgb(224, 50, 157);
+    color: whitesmoke;
+    transition: 0.3s;
+}
+
+.selected{
+    background-color: rgb(224, 50, 157);
+    color: whitesmoke;
+    transition: 0.3s;
+}
 
 #middle-column{
     display: flex;
@@ -166,7 +191,8 @@ body {
     align-items: center;
     font-size: 44px;
     color: whitesmoke;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: Italiana;
+    font-weight: 400px;
     border-radius: 20px;
     background-color: black;
     padding-top: 8px;
@@ -331,17 +357,16 @@ body {
     border: none;
     padding: 8px 12px;
     border-radius: 6px;
-    cursor: pointer;
     height: 20px;
     width: 120px;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
+    font-family: Irish Grover;
+    font-size: 17px;
+    font-weight: 400px;
+    color: rgba(146, 66, 66, 1);
     white-space: nowrap;
 }
 
@@ -357,6 +382,7 @@ body {
     margin-right: 150px;
     position: sticky;
     bottom: 2px;
+    cursor: pointer;
 }
 
 #back
@@ -376,3 +402,7 @@ body {
     cursor: pointer;
     transition: 0.3s;
 }
+
+/*
+  ----------------------      END OF JOIN GAME CSS
+*/
