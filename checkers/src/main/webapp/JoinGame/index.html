@@ -16,10 +16,10 @@
                  section 3
             </div>
             <div id="button-wrapper1">
-                <div id="addPlayer-button">
+                <button id="addPlayer" onclick = "addPlayerToLobby">
                     <!-- Code: Button (add player) -->
                      Add Player
-                </div>
+                </button>
             </div>  
         </div>
 
@@ -37,12 +37,12 @@
                 <!--Code: to put in Buttons for selecting Players -->
                 <div id="players-row">
                     <div id="left-column">
-                        <div id="player1 button">
+                        <button id="player1">
                         Player 1
-                        </div>
-                        <div id="bot1 button">
+                        </button>
+                        <button id="bot1">
                         BOT
-                        </div>
+                        </button>
                     </div>
                     <div id="middle-column">
                         <div id="button-wrapper2">
@@ -52,12 +52,12 @@
                         </div>
                     </div>
                     <div id="right-column">
-                        <div id="player2 button">
+                        <button id="player2">
                         Player 2
-                        </div>
-                        <div id="bot2 button">
+                        </button>
+                        <button id="bot2">
                         BOT
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -278,6 +278,11 @@
         </div>
     </section>    
 
+    <section id = "end">
+        <div id="back-button" onclick="handleBackButton()">
+            <button id="back">Back</button>
+        </div>
+    </section>
 </body>
 </html>
 

@@ -1,27 +1,27 @@
-var connection = null;
-let entity1;
-let entity2;
+// var connection = null;
+// let entity1;
+// let entity2;
 
-var serverUrl;
-serverUrl = "ws://" + window.location.hostname + ":" + (parseInt(location.port) + 100);
-connection = new WebSocket(serverUrl);
+// var serverUrl;
+// serverUrl = "ws://" + window.location.hostname + ":" + (parseInt(location.port) + 100);
+// connection = new WebSocket(serverUrl);
 
-connection.onopen = function (evt) {
-    console.log("open");
-}
+// connection.onopen = function (evt) {
+//     console.log("open");
+// }
 
-connection.onclose = function (evt) {
-    console.log("close");
-}
+// connection.onclose = function (evt) {
+//     console.log("close");
+// }
 
-connection.onmessage = function (evt) {
-    var msg;
-    msg = evt.data;
+// connection.onmessage = function (evt) {
+//     var msg;
+//     msg = evt.data;
 
-    console.log("Message received: " + msg);
-    document.getElementById("tbox").innerHTML = msg + '\n' + document.getElementById("tbox").innerHTML;
-    //const obj = JSON.parse(msg);
-}
+//     console.log("Message received: " + msg);
+//     document.getElementById("tbox").innerHTML = msg + '\n' + document.getElementById("tbox").innerHTML;
+//     //const obj = JSON.parse(msg);
+// }
 
 class UserEvent {
     msg;
@@ -56,19 +56,19 @@ function handleUsernames(usernames) {
     // If both player's username are present then they are assigned player
     // 1 and 2 respectively else, just player 1
         // Split the string by commas to get an array
-    const usernameArray = usernames.split(",");
+    const playerList = usernames.status.playersList;
 
     // Display or assign players based on how many usernames are received
     if (usernameArray.length >= 2) {
-        entity1 = usernameArray[0].trim();
-        entity2 = usernameArray[1].trim();
+        entity1 = playerList[0];
+        entity2 = playerList[1];
         console.log("Player 1:", entity1);
         console.log("Player 2:", entity2);
 
         displayPlayers(2);
     }
     else if (usernameArray.length === 1) {
-        const entity1 = usernameArray[0].trim();
+        const entity1 = playerList[0];
         console.log("Only one player connected. Player 1:", entity1);
         displayPlayers(1);
     }
@@ -114,15 +114,27 @@ function displayUsers(usernames) {
 
 }
 
-function addPlayer(player) {
+function addPlayerToLobby() {
 
     // This method adds a player to the current lobby
     // One addButton is clicked it initites the fuction
+
+    let request = {
+        eventType: "addPlayerToLobby"
+    };
+
+    msg(request);
 
 }
 
 function handleBackButton() {
     //Button that takes user to previous page
+
+    let request = {
+        eventType: "login"
+    };
+
+    msg(request);
 }
 
 function refereshLobbies() {
@@ -135,6 +147,7 @@ function refereshLobbies() {
 function toggleEntitySelection(entityId) {
 
     // This method selects or deselects a player or bot
+    
 
 }
 
@@ -143,6 +156,7 @@ function joinLobby(entity1, entity2, lobbyId) {
 
     // This method allows the player to join a specified lobby
     // Tells page manager which two entity joined which lobby
+
 
 }
 
