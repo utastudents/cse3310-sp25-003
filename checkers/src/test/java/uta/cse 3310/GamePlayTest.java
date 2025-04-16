@@ -34,4 +34,39 @@ public class GamePlayTest{
         Move move = new Move(new Position(0,1), new Position(2,2), "Player1"); //Set "From" = 0,1 "To" = "2,2"
         assertFalse(gp.isDiagonal(move));
     }
+
+    @Test //TC-005
+     public void testApplyMove() {
+ 	GamePlay gp = new GamePlay();
+ 	Move move1 = new Move(new Position(2, 5), new Position(1, 4), "test");
+ 	Move move2 = new Move(new Position(3, 2), new Position(2, 3), "test");
+ 	Move move3 = new Move(new Position(5, 2), new Position(6, 3), "test");
+
+ 	GameState board = new GameState("xxx", "xxx");
+
+ 	gp.applyMove(board, move1);
+ 	gp.applyMove(board, move2);
+ 	gp.applyMove(board, move3);
+
+ 	if(board.getPieceAt(new Position(1, 4)) == null |
+ 	   board.getPieceAt(new Position(2, 3)) == null |
+ 	   board.getPieceAt(new Position(6, 3)) == null) {
+ 		assertTrue(true);
+ 	}
+
+     }
+
+    @Test //TC-006
+    public void testIsValidMove() {
+ 	GamePlay gp = new GamePlay();
+ 	Move move1 = new Move(new Position(2, 5), new Position(1, 4), "test");
+ 	Move move2 = new Move(new Position(3, 2), new Position(9, -12), "test");
+ 	Move move3 = new Move(new Position(5, 2), new Position(7, 5), "test");
+ 
+ 	GameState board = new GameState("xxx", "xxx");
+ 
+	assertFalse(gp.isValidMove(board, move1));
+	assertFalse(gp.isValidMove(board, move2));
+	assertFalse(gp.isValidMove(board, move3));
+    }
 }

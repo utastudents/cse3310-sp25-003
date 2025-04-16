@@ -83,6 +83,17 @@ public class PlayerInfo {
         this.losses += loss;
     
         return this.elo;
+
+        //USAGE:
+        //PlayerInfo player = new PlayerInfo();
+        //player.setElo(1200); // Initial Elo (example value)
+        //player.setWins(0);
+        //player.setLosses(0);
+
+        //double newElo = player.calculateElo(1, 0); // Player wins the match
+        //System.out.println("Updated Elo: " + newElo);
+        //System.out.println("Total Wins: " + player.getWins(0));
+        //System.out.println("Total Losses: " + player.getLosses(0));
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.Map;
  * Represents the possible statuses of the game.
  */
 
-enum GameStatus {
+public enum GameStatus {
     BLACK_WIN,
     RED_WIN,
     ONGOING,
