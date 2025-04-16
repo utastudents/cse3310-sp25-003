@@ -143,6 +143,11 @@ body {
     background-color: black;
 }
 
+#player1:hover, #player2:hover, #bot1:hover, #bot2:hover{
+    background-color: rgb(224, 50, 157);
+    color: whitesmoke;
+    transition: 0.3s;
+}
 
 #middle-column{
     display: flex;
