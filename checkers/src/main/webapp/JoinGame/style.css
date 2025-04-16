@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Italiana&display=swap');
 * {
     margin: 0px;
     padding: 0px;
@@ -35,9 +37,12 @@ body {
 
 #section3{
     position: sticky;
-    top: 0px;
+    top: 40px;
+    height: 47px;
+    left: 30px;
+    font-weight: 400px;
     color: whitesmoke;
-    font-family: serif;
+    font-family: Italiana;
     font-size: 40px;
 }
 
@@ -72,9 +77,10 @@ body {
 
 
 #title{
-    font-family: serif;
+    font-family: Italiana;
     color: whitesmoke;
-    font-size: 60px;
+    font-size: 72px;
+    font-weight: 400px;
     text-align: center;
     margin: auto;
     flex-grow: 1;
@@ -327,17 +333,16 @@ body {
     border: none;
     padding: 8px 12px;
     border-radius: 6px;
-    cursor: pointer;
     height: 20px;
     width: 120px;
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: sans-serif;
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
+    font-family: Irish Grover;
+    font-size: 17px;
+    font-weight: 400px;
+    color: rgba(146, 66, 66, 1);
     white-space: nowrap;
 }
 
