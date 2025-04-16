@@ -72,6 +72,8 @@ public class GamePlay {
 		System.out.println("Invalid move: destination out of bounds.");
 		return false;
 	}
+	return false; //added to fix compilation, remove if needed - Gavin, Group 14 DB
+}
 
 	public boolean isJump(GameState boardState, Move move) {// Would return true if intended move intended move captures
 															// an enemy piece is valid
