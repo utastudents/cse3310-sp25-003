@@ -58,6 +58,13 @@ public class GameState {
     public Piece getPieceAt(int row, int col) {
         return board[row][col];
     }
+    public void applyMove(Position from, Position to) {
+    applyMove(from.getX(), from.getY(), to.getX(), to.getY());
+}
+
+public Piece getPieceAt(Position pos) {
+    return getPieceAt(pos.getX(), pos.getY());
+}
 
     // ✅ Converts internal board to char[][] for BotI
     public char[][] getBoardAsArray() {
