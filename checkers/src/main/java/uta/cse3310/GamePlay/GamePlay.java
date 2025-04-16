@@ -29,7 +29,7 @@ public class GamePlay {
 		return false;
 	}
 
-	private void applyMove(GameState boardState, Move move) {
+	public void applyMove(GameState boardState, Move move) {
 		Position from = new Position(move.getFrom().getX(),
 				move.getFrom().getY());
 		Position to = new Position(move.getTo().getX(),
@@ -38,8 +38,9 @@ public class GamePlay {
 		boardState.applyMove(from, to);
 	}
 
-	private boolean isSameTeam(GameState boardState, Move move) {
-		Piece fromPiece = boardState.getPieceAt(move.getFrom());
+	private boolean isSameTeam(GameState boardState, Move move) { // Note this function may not work properly, waiting
+																	// on Game manager
+		Piece fromPiece = boardState.getPieceAt(move.getFrom()); // to make their own piece/character class
 		Piece toPiece = boardState.getPieceAt(move.getTo());
 
 		if (fromPiece == null || toPiece == null) {
@@ -60,6 +61,15 @@ public class GamePlay {
 	}
 
 	public boolean isValidMove(GameState boardState, Move move) {
+		/* Note: This is temporary functionality for isValidMove,
+			I'd expect this to receive lots of changes, once Game Manager
+			changes their code/requirements. Alot of the code is all over the place
+			since someone pushed that outdated build. Included printout text
+			for debugging purposes. Written by: Devyn
+		*/
+	// Check 1: Is move within bounds?
+	if (!isInBounds(move)) {
+		System.out.println("Invalid move: destination out of bounds.");
 		return false;
 	}
 
