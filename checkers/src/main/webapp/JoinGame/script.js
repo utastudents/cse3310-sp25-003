@@ -30,9 +30,9 @@ class UserEvent {
 function msg(msg) {
     console.log("button clicked");
     U = new UserEvent();
-    U.msg=msg;
+    U.msg = msg;
     connection.send(JSON.stringify(U));
-    console.log(JSON.stringify(U))
+    console.log(JSON.stringify(U));
 }
 
 // while(!(connection.readyState === WebSocket.OPEN))    
@@ -70,19 +70,19 @@ buttons.forEach(button => {
 // Update the selection display
 function updateSelectionDisplay() {
     // Update entity displays
-    entity1Element.textContent = selections[0] || 'None';
-    entity2Element.textContent = selections[1] || 'None';
-    selectionCountElement.textContent = selections.length;
-    
+    const entity1Element = document.getElementById("player1");
+    const entity2Element = document.getElementById("player2");
+    const selectionCountElement = document.getElementById("selectionCount");
+
+    if (entity1Element) entity1Element.textContent = selections[0] || 'None';
+    if (entity2Element) entity2Element.textContent = selections[1] || 'None';
+    if (selectionCountElement) selectionCountElement.textContent = selections.length;
+
     // Enable/disable join button
-    joinButton.disabled = selections.length !== 2;
+    if (joinButton) joinButton.disabled = selections.length !== 2;
 }
 
-
-
-
 window.addEventListener("load", requestPlayersUserName);
-
 
 function requestPlayersUserName() {
     // This method requests the name of a specific player    
@@ -94,84 +94,70 @@ function requestPlayersUserName() {
 }
 
 function handleUsernames(usernames) {
-
     // This method processes the list of usernames
     // If both player's username are present then they are assigned player
     // 1 and 2 respectively else, just player 1
-        // Split the string by commas to get an array
+
     const playerList = usernames.status.playersList;
 
     // Display or assign players based on how many usernames are received
-    if (usernameArray.length >= 2) {
+    if (playerList.length >= 2) {
         entity1 = playerList[0];
         entity2 = playerList[1];
         console.log("Player 1:", entity1);
         console.log("Player 2:", entity2);
-
         displayPlayers(2);
-    }
-    else if (usernameArray.length === 1) {
-        const entity1 = playerList[0];
+    } else if (playerList.length === 1) {
+        entity1 = playerList[0];
         console.log("Only one player connected. Player 1:", entity1);
         displayPlayers(1);
-    }
-    else {
+    } else {
         console.log("No players connected.");
         displayPlayers(0);
     }
-
 }
-
-
 
 function displayPlayers(num) {
-
     // This method displays the list of players that are active and logged in
-    if (num === 2)
-    {
+    if (num === 2) {
         document.getElementById("player1").innerHTML = entity1;
-        document.getElementById("player1").innerHTML = entity2;
-    }
-    else if(num === 1)
-    {
+        document.getElementById("player2").innerHTML = entity2;
+    } else if (num === 1) {
         document.getElementById("player1").innerHTML = entity1;
+        document.getElementById("player2").innerHTML = "Waiting...";
+    } else {
+        document.getElementById("player1").innerHTML = "None";
+        document.getElementById("player2").innerHTML = "None";
     }
-    else
-    {}
-    
 }
-
 
 function requestAllUsername() {
-
     // This method sends a request to get all usernames
+    let request = {
+        eventType: "getAllUsernames"
+    };
 
-
+    msg(request);
 }
-
-
-
 
 function displayUsers(usernames) {
     // Displays users in the particular game session
-
+    console.log("Active users in session:", usernames);
 }
 
 function addPlayerToLobby() {
-
     // This method adds a player to the current lobby
-    // One addButton is clicked it initites the fuction
+    // One addButton is clicked it initiates the function
 
     let request = {
         eventType: "addPlayerToLobby"
     };
 
     msg(request);
-
 }
 
 function handleBackButton() {
-    //Button that takes user to previous page
+    // Button that takes user to previous page
 
     let request = {
         eventType: "goToLoginPage"
@@ -181,39 +167,57 @@ function handleBackButton() {
 }
 
 function refereshLobbies() {
-
     // This method refreshes the list of game lobbies
 
-}
+    let request = {
+        eventType: "refreshLobbies"
+    };
 
+    msg(request);
+}
 
 function toggleEntitySelection(entityId) {
-
     // This method selects or deselects a player or bot
-    
 
+    let request = {
+        eventType: "toggleEntitySelection",
+        entityId: entityId
+    };
+
+    msg(request);
 }
 
-
 function joinLobby(entity1, entity2, lobbyId) {
-
     // This method allows the player to join a specified lobby
     // Tells page manager which two entity joined which lobby
 
+    let request = {
+        eventType: "joinLobby",
+        PlayerHandle: entity1,
+        opponentType: entity2,
+        LobbyId: lobbyId.toString()
+    };
 
+    msg(request);
 }
 
-
 function displayLobbies() {
-
     // This method shows a list of all available lobbies
 
+    let request = {
+        eventType: "displayLobbies"
+    };
+
+    msg(request);
 }
 
 function selectPlayer(playerId) {
-
     // This method selects a player by their ID
 
-} 
+    let request = {
+        eventType: "selectPlayer",
+        playerId: playerId
+    };
 
-
+    msg(request);
+}
