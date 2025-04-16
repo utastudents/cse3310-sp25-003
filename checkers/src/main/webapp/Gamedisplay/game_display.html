@@ -361,7 +361,27 @@
       if (confirmProposal) { 
         document.getElementById("drawNotification").style.display = "block";
         document.getElementById("drawNotification").textContent = "Draw proposed! Waiting for opponent to accept...";
-        document.getElementById("acceptDrawBtn").style.display = "inline-block"; 
+
+        const acceptBtn = document.getElementById("acceptDrawBtn");
+        const timerDisplay = document.getElementById("drawTimer");
+
+        acceptBtn.style.display = "inline-block";
+        acceptBtn.disabled = false;
+        timerDisplay.style.display = "block";
+
+        let timeLeft = 10;
+        timerDisplay.textContent = `Time left to accept: ${timeLeft}s`;
+
+        const countdown = setInterval(() => {
+          timeLeft--;
+          timerDisplay.textContent = `Time left to accept: ${timeLeft}s`;
+
+          if (timeLeft <= 0) {
+            clearInterval(countdown);
+            timerDisplay.textContent = "Draw offer expired.";
+            acceptBtn.disabled = true;
+          }
+        }, 1000);
       }
     });
     
