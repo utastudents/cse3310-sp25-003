@@ -205,27 +205,50 @@
       background-color: #8b5cf6;
     }
 
+    .game-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 50px;
+      padding: 30px;
+    }
+
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      }
+
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      padding-top: 30px;
+    }
+
   </style>
 </head>
+
 <body>
-  <div class="container">
-  <h1 class="playerdata"></h1>><span id = "player1username">Player1 </span><span id="player1elo">0</span></h1>
-  <div class="container">
-  <button id="soundToggle" class="sound-control" title="Toggle Sound">🔊</button>
-    
-
-  <div class="board" id="board"></div>
-  <h1 class="playerdata"><span id = "player2username">Player2 </span><span id="player2elo">0</span></h1>
-
-  <button id="resignBtn" class="resign-button">Resign</button>
-  <button id="drawBtn" class="draw-button">Propose Draw</button>
-  <div id="drawNotification" style="display:none; margin-top: 10px; font-weight: bold; color: #0077cc;"></div>
-  <div id="drawTimer" style="display:none; font-size: 1.2em; margin-top: 5px;"></div>
-  <button id="acceptDrawBtn" class="draw-button" style="display: none;">Accept Draw</button>
-  <button id="toggleTheme" class="theme-toggle-button">Toggle Mode</button>
-
-
+<div class="game-wrapper">
+  <div class="left-column">
+    <h1 class="playerdata"><span id = "player1username">Player1 </span><span id="player1elo">0</span></h1>
+    <div class="board" id="board"></div>
+    <h1 class="playerdata"><span id ="player2username">Player2 </span><span id="player2elo">0</span></h1>
   </div>
+
+  <div class="right-column">
+    <button id="soundToggle" class="sound-control" title="Toggle Sound">🔊</button>
+
+    <button id="resignBtn" class="resign-button">Resign</button>
+    <button id="drawBtn" class="draw-button">Propose Draw</button>
+    <button id="toggleTheme" class="theme-toggle-button">Toggle Mode</button>
+    <div id="drawNotification" style="display:none; margin-top: 10px; font-weight: bold; color: #0077cc;"></div>
+    <div id="drawTimer" style="display:none; font-size: 1.2em; margin-top: 5px;"></div>
+    <button id="acceptDrawBtn" class="draw-button" style="display: none;">Accept Draw</button>
+  </div>
+
   <script>
     // Sound Manager Implementation
     const soundManager = {
