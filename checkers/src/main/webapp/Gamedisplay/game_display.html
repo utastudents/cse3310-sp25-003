@@ -350,10 +350,10 @@
     // Draw button with sound
     document.getElementById("drawBtn").addEventListener("click", () => {
       const confirmProposal = confirm("Are you sure you want to propose a draw?");
-      if (confirmProposal) {
+      if (confirmProposal) { 
         document.getElementById("drawNotification").style.display = "block";
         document.getElementById("drawNotification").textContent = "Draw proposed! Waiting for opponent to accept...";
-        document.getElementById("acceptDrawBtn").style.display = "inline-block";
+        document.getElementById("acceptDrawBtn").style.display = "inline-block"; 
       }
     });
     
@@ -361,6 +361,7 @@
     document.getElementById("acceptDrawBtn").addEventListener("click", () => {
       soundManager.playSound('gameDraw');
       alert("Draw accepted! The game is a draw.");
+      location.reload();
     });
   </script>
 </body>
