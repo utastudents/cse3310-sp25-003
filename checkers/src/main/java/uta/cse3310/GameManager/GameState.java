@@ -3,7 +3,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-import uta.cse3310.GameTermination.IGameTermination.Piece;
 
 public class GameState {
     private String gameId;
