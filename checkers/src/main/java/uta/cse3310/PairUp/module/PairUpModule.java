@@ -175,7 +175,17 @@ public class PairUpModule
             }
         }
         return null;
-    }*/
+    }
+        
+    public synchronized PairResponsePayload pairPlayer(String playerHandle, boolean opponentType, String action, String lobbyId) throws LobbyException {
+
+    }
+    
+    
+    
+    
+    
+    */
     
     private Lobby findLobby(String lobbyId) {
         return activeLobbies.stream()
