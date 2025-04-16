@@ -167,6 +167,9 @@
       color: #666;
     }
 
+    .last-move {
+      box-shadow: 0 0 10px 4px gold;
+    }
 
   </style>
 </head>
@@ -295,6 +298,12 @@
 
               // Move the piece
               cell.appendChild(selectedPiece);
+              // Highlight the piece temporarily
+              selectedPiece.classList.add("last-move");
+              setTimeout(() => {
+                selectedPiece.classList.remove("last-move");
+              }, 2000);
+
               selectedPiece.classList.remove("selected");
               
               // Play move sound if not a capture
