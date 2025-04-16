@@ -73,6 +73,7 @@ body {
 
 
 
+
 #title{
     font-family: serif;
     color: whitesmoke;
@@ -320,12 +321,10 @@ body {
     margin-left: 150px;
 }
 
-#join-game {
-    margin-left: 60px;
-}
 
 #join-game {
     cursor: pointer;
+    margin-left: 60px;
     background-color: rgb(2, 253, 2);
     border: none;
     padding: 8px 12px;
@@ -343,6 +342,7 @@ body {
     color: white;
     white-space: nowrap;
 }
+
 
 
 
