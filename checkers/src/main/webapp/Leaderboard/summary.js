@@ -8,3 +8,56 @@ function hideContent(){
     document.querySelector(".show").style.display = "flex";
 }
 
+function handleLeaderboardData(){
+    
+    const playerData = [
+        {name: "John", id: "#239", score: 583},
+        {name: "Jane", id: "#193", score: 439},
+        {name: "Zach", id: "#352", score: 412},
+        {name: "Debra", id: "#692", score: 391},
+        {name: "Adam", id: "#572", score: 390},
+        {name: "Christi", id: "#294", score: 284},
+        {name: "Heidi", id: "#482", score: 201},
+        {name: "Johnny", id: "#204", score: 129},
+        {name: "Dave", id: "#483", score: 122},
+        {name: "Shane", id: "#572", score: 100},
+    ]
+
+    const leaderboardDiv = document.getElementById('leaderboard');
+    leaderboardDiv.innerHTML = "";
+
+    const title = document.createElement('h1');
+    title.id = 'title';
+
+    title.innerHTML = 'Leaderboard';
+
+    const heading = document.createElement('div');
+    heading.className ='container'
+    heading.id = 'board';
+    heading.innerHTML = '<div><div class="rank"><h3>Rank</h3></div><div class="name"><h3>Name</h3><div class="userId"><h3>#userId</h3></div></div><div class="score"><h3>Wins</h3></div></div>'
+
+    leaderboardDiv.appendChild(title);
+    leaderboardDiv.appendChild(heading);
+
+    let count = 1;
+
+    playerData.sort((aPlayer, bPlayer) => {return bPlayer.score - aPlayer.score});
+
+    playerData.forEach(player => {
+        const entry = document.createElement('div')
+
+        entry.className = 'row seen';
+        entry.id = `number${count}`;
+        entry.innerHTML = `<div class="rank">${count}</div><div class="name">${player.name}<div class="userId">${player.id}</div></div><div class="score">${player.score}</div>`;
+        count += 1;
+        heading.appendChild(entry);
+    })
+
+    const button = document.createElement('button');
+    button.innerHTML = 'Return';
+    leaderboardDiv.appendChild(button);
+    button.onclick = hideContent;
+}
+
+window.onload = handleLeaderboardData;
+

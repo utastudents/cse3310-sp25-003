@@ -73,43 +73,43 @@ body {
   }
 }
 
-#numberOne {
+#number1 {
 animation-delay: 0ms;
 }
 
-#numberTwo {
+#number2 {
 animation-delay: 250ms;
 }
 
-#numberThree {
+#number3 {
 animation-delay: 500ms;
 }
 
-#numberFour {
+#number4 {
 animation-delay: 750ms;
 }
 
-#numberFive {
+#number5 {
 animation-delay: 1s;
 }
 
-#numberSix {
+#number6 {
 animation-delay: 1.25s;
 }
 
-#numberSeven {
+#number7 {
 animation-delay: 1.5s;
 }
 
-#numberEight {
+#number8 {
 animation-delay: 1.75s;
 }
 
-#numberNine {
+#number9 {
 animation-delay: 2s;
 }
 
-#numberTen {
+#number10 {
 animation-delay: 2.25s;
 }
 
