@@ -11,16 +11,17 @@ function hideContent(){
 function handleLeaderboardData(){
     
     const playerData = [
-        {name: "John", id: "#239", score: 583},
+        
         {name: "Jane", id: "#193", score: 439},
+        {name: "Christi", id: "#294", score: 284},
         {name: "Zach", id: "#352", score: 412},
         {name: "Debra", id: "#692", score: 391},
         {name: "Adam", id: "#572", score: 390},
-        {name: "Christi", id: "#294", score: 284},
+        {name: "Shane", id: "#572", score: 100},
         {name: "Heidi", id: "#482", score: 201},
         {name: "Johnny", id: "#204", score: 129},
         {name: "Dave", id: "#483", score: 122},
-        {name: "Shane", id: "#572", score: 100},
+        {name: "John", id: "#239", score: 583},
     ]
 
     const leaderboardDiv = document.getElementById('leaderboard');
@@ -39,19 +40,18 @@ function handleLeaderboardData(){
     leaderboardDiv.appendChild(title);
     leaderboardDiv.appendChild(heading);
 
-    let count = 1;
 
     playerData.sort((aPlayer, bPlayer) => {return bPlayer.score - aPlayer.score});
 
-    playerData.forEach(player => {
+    for(let count = 1; count < 11; count++){
+        
         const entry = document.createElement('div')
 
         entry.className = 'row seen';
         entry.id = `number${count}`;
-        entry.innerHTML = `<div class="rank">${count}</div><div class="name">${player.name}<div class="userId">${player.id}</div></div><div class="score">${player.score}</div>`;
-        count += 1;
+        entry.innerHTML = `<div class="rank">${count}</div><div class="name">${playerData[count - 1].name}<div class="userId">${playerData[count - 1].id}</div></div><div class="score">${playerData[count - 1].score}</div>`;
         heading.appendChild(entry);
-    })
+    }
 
     const button = document.createElement('button');
     button.innerHTML = 'Return';
