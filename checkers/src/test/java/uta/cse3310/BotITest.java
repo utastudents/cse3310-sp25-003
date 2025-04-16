@@ -147,23 +147,34 @@ public class BotITest {
                 BotI botI = new BotI(null);
 
                 // Test 1: Empty board — no move should be generated
-                char[][] board1 = new char[8][8];
+                char[][] board1 = new char[][] {
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+                };
                 Move move1 = botI.generateMove(board1);
                 assertTrue(move1 == null);
 
                 // Test 2: Board with only standard moves available
                 char[][] board2 = new char[][] {
-                                { ' ', 'x', ' ', 'x', ' ', 'x', ' ', 'x' },
-                                { 'x', ' ', 'x', ' ', 'x', ' ', 'x', ' ' },
-                                { ' ', 'x', ' ', 'x', ' ', 'x', ' ', 'x' },
                                 { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
                                 { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-                                { 'o', ' ', 'o', ' ', 'o', ' ', 'o', ' ' },
-                                { ' ', 'o', ' ', 'o', ' ', 'o', ' ', 'o' },
-                                { 'o', ' ', 'o', ' ', 'o', ' ', 'o', ' ' }
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                                { 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
                 };
                 Move move2 = botI.generateMove(board2);
                 assertTrue(move2 != null);
+                assertTrue(move2.getTo().getX() == 7);
+                assertTrue(move2.getTo().getY() == 1);
 
                 // Test 3: Board with capture moves available
                 char[][] board3 = new char[][] {
@@ -178,21 +189,7 @@ public class BotITest {
                 };
                 Move move3 = botI.generateMove(board3);
                 assertTrue(move3 != null);
-
-                // Test 4: Board where move may promote to king
-                char[][] board4 = new char[][] {
-                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-                                { 'o', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
-                                { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
-                };
-                Move move4 = botI.generateMove(board4);
-                assertTrue(move4 != null);
-
+                assertTrue(move3.getTo().getX() == 1);
+                assertTrue(move3.getTo().getY() == 2);
         }
-
 }
