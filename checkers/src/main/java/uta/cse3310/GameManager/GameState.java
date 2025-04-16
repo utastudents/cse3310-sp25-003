@@ -1,34 +1,38 @@
 package uta.cse3310.GameManager;
-import java.util.HashMap;
-import java.util.Map;
-
-
 
 public class GameState {
     private String gameId;
     private String currentPlayerId;
-    private Map<Position, Piece> board;  
+    private Piece[][] board;
+
     public GameState(String gameId, String startingPlayerId) {
         this.gameId = gameId;
         this.currentPlayerId = startingPlayerId;
-        this.board = new HashMap<>();
+        this.board = new Piece[8][8]; // 8x8 checkers board
         initializeBoard();
-    } 
+    }
+
     private void initializeBoard() {
+        // BotI pieces (top) - PlayerId = "BotI"
         for (int row = 0; row < 3; row++) {
             for (int col = (row + 1) % 2; col < 8; col += 2) {
-                board.put(new Position(row, col), new Piece("Player2", false));
+                board[row][col] = new Piece("BotI", false);
             }
         }
+
+        // Player1 pieces (bottom)
         for (int row = 5; row < 8; row++) {
             for (int col = (row + 1) % 2; col < 8; col += 2) {
-                board.put(new Position(row, col), new Piece("Player1", false));
+                board[row][col] = new Piece("Player1", false);
             }
         }
+        // rows 3–4 are left null (empty) by default
     }
+
     public String getGameId() {
         return gameId;
     }
+
     public String getCurrentPlayerId() {
         return currentPlayerId;
     }
@@ -37,23 +41,44 @@ public class GameState {
         this.currentPlayerId = nextPlayerId;
     }
 
-    public Map<Position, Piece> getBoard() {
+    public Piece[][] getBoard() {
         return board;
     }
 
-    public void applyMove(Position from, Position to) {
-        if (board.containsKey(from)) {
-            Piece movingPiece = board.remove(from);
-            board.put(to, movingPiece);
+    public void applyMove(int fromRow, int fromCol, int toRow, int toCol) {
+        Piece movingPiece = board[fromRow][fromCol];
+        board[fromRow][fromCol] = null;
+        board[toRow][toCol] = movingPiece;
+    }
+
+    public void removePiece(int row, int col) {
+        board[row][col] = null;
+    }
+
+    public Piece getPieceAt(int row, int col) {
+        return board[row][col];
+    }
+
+    // ✅ Converts internal board to char[][] for BotI
+    public char[][] getBoardAsArray() {
+        char[][] array = new char[8][8];
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Piece piece = board[row][col];
+
+                if (piece == null) {
+                    array[row][col] = ' ';
+                } else if (piece.getPlayerId().equals("Player1")) {
+                    array[row][col] = piece.isKing() ? 'X' : 'x';  // Player1 (user)
+                } else if (piece.getPlayerId().equals("BotI")) {
+                    array[row][col] = piece.isKing() ? 'O' : 'o';  // BotI
+                } else {
+                    array[row][col] = '?'; // Optional: handle unexpected player
+                }
+            }
         }
-    }
 
-    public void removePiece(Position pos) {
-        board.remove(pos);
+        return array;
     }
-
-    public Piece getPieceAt(Position pos) {
-        return board.get(pos);
-    }
-
 }
