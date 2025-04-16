@@ -118,30 +118,34 @@ public class PageManager {
             : JsonConverter.toJson(JsonConverter.parseJsonObject(userEvent.msg)).equals("") ? null
             : new com.google.gson.Gson().fromJson(userEvent.msg, JoinGamePayload.class);
 
-        // Safety check in case payload fails to parse
-        if (payload == null || payload.playerHandle == null) {
+        // Safety check
+        if (payload == null || payload.entity1 == null || payload.entity2 == null || payload.action == null) {
             return JsonConverter.createErrorReply("Invalid join game payload.", userEvent.id);
         }
 
-        // If the player is waiting, add them to waiting list
+        // Convert opponentType1 and opponentType2 to booleans: 0 = bot, 1 = human
+        boolean isEntity1Bot = !payload.opponentType1; // false means human, true means bot
+        boolean isEntity2Bot = !payload.opponentType2;
+
+
+        // If action is "wait", add entity1 to waiting list
         if (payload.action.equalsIgnoreCase("wait")) {
-            waitingPlayers.add(payload.playerHandle);
-            reply.status.message = "Waiting for opponent...";
+            waitingPlayers.add(payload.entity1);
+            reply.status.message = payload.entity1 + " is waiting for a match.";
             reply.status.success = true;
-            reply.status.gameID = "waiting-" + payload.playerHandle;
+            reply.status.gameID = payload.lobbyId;
             reply.status.opponent = "None yet";
             return reply;
         }
 
-        // Sample logic if pairing were implemented:
-        // boolean isHuman = payload.opponentType;
-        // if (!isHuman) -> pair with bot
-        // else -> wait for another human
+        // TODO: When PairUp integration is ready, pass to PairUp
+        // PairResponsePayload response = pairUp.pairPlayer(payload.entity1, isEntity2Bot, payload.action, payload.lobbyId);
 
+        // Placeholder response
+        reply.status.message = "JoinGame request acknowledged. PairUp not yet called.";
         reply.status.success = true;
-        reply.status.message = "Join Game request processed (no pairing yet)";
-        reply.status.gameID = "dummy-game-id";
-        reply.status.opponent = "dummy-opponent";
+        reply.status.gameID = payload.lobbyId;
+        reply.status.opponent = payload.entity2;
 
         return reply;
     }

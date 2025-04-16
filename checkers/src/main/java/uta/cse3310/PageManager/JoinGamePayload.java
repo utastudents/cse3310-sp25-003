@@ -1,8 +1,10 @@
 package uta.cse3310.PageManager;
 
 public class JoinGamePayload {
-    public String playerHandle;
-    public String action;        // join or wait
-    public boolean opponentType;  // bot (0) or human (1)
-    public String lobbyId;       // same as game ID if joining existing lobby
+    public String entity1;
+    public String entity2;
+    public boolean opponentType1; // "bot" (0) or "human" (1)
+    public boolean opponentType2; // "bot" (0) or "human" (1)
+    public String lobbyId;       // shared lobby/game ID
+    public String action;        // "join" or "wait" or other possible instructions
 }
