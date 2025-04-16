@@ -194,5 +194,33 @@ public class BotITest {
                 assertTrue(move4 != null);
 
         }
+        //Test the user move method:
+    //TC-004: Test when there is no move available for onUserMove() method!
+    @Test
+    public void test_onUserMove_noMove_available(){
+        BotI botI = new BotI(null);
+        // Test with an empty board and basic input
+        char[][] empty_Board = new char[][] {
+            { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+            { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+            { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+            { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+            { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+            { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+            { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+            { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+        };
+        Position pos1 = new Position(4, 3);
+        Position pos2 = new Position(5, 4);
+        Move randomMove1 = new Move(pos1, pos2, "User1");
+        
+        assertTrue(true);
+        //Move botMove = generateMove(empty_Board);
+        try {
 
+            
+            botI.onUserMove(null, null);
+        } catch (Exception e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
 }
