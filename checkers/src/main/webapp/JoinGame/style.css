@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Italiana&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Italiana&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
     margin: 0px;
     padding: 0px;
@@ -132,7 +134,8 @@ body {
     text-align: center;
     font-size: 24px;
     color: rgb(255, 255, 255);
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: poppins;
+    font-weight: 700px;
     border-style: solid;
     border-width: 3px;
     border-color: #CC00FF;
@@ -168,7 +171,8 @@ body {
     align-items: center;
     font-size: 44px;
     color: whitesmoke;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: Italiana;
+    font-weight: 400px;
     border-radius: 20px;
     background-color: black;
     padding-top: 8px;
