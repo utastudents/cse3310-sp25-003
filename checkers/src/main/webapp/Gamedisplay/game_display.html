@@ -161,6 +161,13 @@
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     }
 
+    .draw-button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      color: #666;
+    }
+
+
   </style>
 </head>
 <body>
@@ -176,6 +183,7 @@
   <button id="resignBtn" class="resign-button">Resign</button>
   <button id="drawBtn" class="draw-button">Propose Draw</button>
   <div id="drawNotification" style="display:none; margin-top: 10px; font-weight: bold; color: #0077cc;"></div>
+  <div id="drawTimer" style="display:none; font-size: 1.2em; margin-top: 5px;"></div>
   <button id="acceptDrawBtn" class="draw-button" style="display: none;">Accept Draw</button>
 
 
