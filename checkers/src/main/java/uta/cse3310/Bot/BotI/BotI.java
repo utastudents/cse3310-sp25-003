@@ -9,11 +9,6 @@ import uta.cse3310.GameManager.GameManager;
 import uta.cse3310.GameManager.Move;
 import uta.cse3310.GameManager.Position;
 
-// TODO: Temporary
-class Pieces {
-    char[][] board;
-};
-
 public class BotI {
 
     private GameManager gameManager;
@@ -204,17 +199,8 @@ public class BotI {
         return null;
     }
 
-    // This method gets called by the connected GameManager whenever a user has
-    // made their move.
-    // TODO: Implement
-    public void onUserMove(char[][] currentBoard, Move userMove) {
-        Move botMove = generateMove(currentBoard);
-
-        // botMove will be null if no moves are available. The game should end here
-        if (botMove == null) {
-            // Game should end here
-        } else {
-            // Make move
-        }
+    // This method gets called by the connected GameManager whenever a user has made their move.
+    public Move onUserMove(char[][] currentBoard) {
+        return generateMove(currentBoard);
     }
 }
