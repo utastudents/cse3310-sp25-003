@@ -8,11 +8,11 @@ class inputValidator{
         if (username.length <4 || username.length >20)
             return "Username must be 4-20 characters long.";
         //using regex for input validation
-        if (!/^[a-zA-Z0-9_]+$/.test (username))
+        if (!/^[a-zA-Z0-9_]+$/.test(username))
             return "Username can only contain letters, numbers and underscores.";
         if (/\s/.test(username))
             return "Username cannot contain spaces.";
-
+        return "";
     }
 
     //password validation using regex
@@ -21,8 +21,8 @@ class inputValidator{
         if (!password)
             return "Password cannot be empty.";
         if (password.length <8) 
-            return "Password must be 8 characters long.";
-        if (!/ [A-Z]/.test(password))
+            return "Password must be at least 8 characters long.";
+        if (!/[A-Z]/.test(password))
             return "Password must contain at least one uppecare letter.";
         if (!/[a-z]/.test(password))
             return "Password must contain at least one lowwercase letter.";
@@ -30,7 +30,7 @@ class inputValidator{
             return "Password must contain at least one number.";
         if (!/[!@#$%^&*]/.test(password))
             return "Password must contain one special character (! @ # $ % ^ & *).";
-        
+        return "";
     }
 
     //email validation
@@ -42,7 +42,8 @@ class inputValidator{
         if (!email)
             return "Email cannot be empty";
         if (!regex.test(email) )
-            return "Invalid email format. (eg: john12-abc.az@uta.edu)";
+            return "Invalid email format. (eg: example-123@uta.edu)";
+        return "";
     }
 
     //display error message under the error field related to html
@@ -54,16 +55,23 @@ class inputValidator{
         {
             elementError.innerText=message; //display error message
             elementError.style.color= "red";// display in red
-
+            
 
         }
     }
 
     //clear error once the user tries to resubmit the form/ reset form
+    static clearErrors()
+    {
+        const clearElements= document.querySelectorAll(".error");
 
-
-    static 
+        //clear the error msg for each error element
+        clearElements.forEach((elementError) => {
+            elementError.innerText= "";
+        });
+    }
 
 
 }
+export {inputValidator};
 
