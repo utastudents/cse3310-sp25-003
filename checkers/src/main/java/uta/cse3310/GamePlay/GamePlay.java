@@ -3,11 +3,8 @@ package uta.cse3310.GamePlay;
 import uta.cse3310.GameManager.Move;
 import uta.cse3310.GameManager.GameState;
 import uta.cse3310.GameManager.Position;
-import uta.cse3310.GameTermination.IGameTermination.Piece;
-/* Game termination has a piece class that Game Manager is using in their Gamestate.java file. 
-	I could implement it here, but I would have to talk to Game Manager first, so for compilation
-	purposes I imported Game termination's piece class. (Written by Devyn)
-*/
+import uta.cse3310.GameManager.Piece;
+import uta.cse3310.GameManager.Player;
 
 public class GamePlay {
 
@@ -38,19 +35,16 @@ public class GamePlay {
 		boardState.applyMove(from, to);
 	}
 
-	private boolean isSameTeam(GameState boardState, Move move) { // Note this function may not work properly, waiting
-																	// on Game manager
-		// Piece fromPiece = boardState.getPieceAt(move.getFrom()); // to make their own
-		// piece/character class
-		// Piece toPiece = boardState.getPieceAt(move.getTo());
-		Piece fromPiece = null;
-		Piece toPiece = null;
-		if (fromPiece == null || toPiece == null) {
-			return false;
-		}
+	private boolean isSameTeam(GameState boardState, Move move) {
+        Piece fromPiece = boardState.getPieceAt(move.getFrom()); //should be fixed since piece class is properly determined 
+        Piece toPiece = boardState.getPieceAt(move.getTo());
 
-		return fromPiece.getColor() == toPiece.getColor(); // piece color class from iGameTermination
-	}
+        if (fromPiece == null || toPiece == null) {
+            return false;
+        }
+
+        return fromPiece.getPlayerId().equals(toPiece.getPlayerId()); //Now using GameManager's player class
+    }
 
 	private void promotePiece(GameState boardState, Move move) {
 		// String currentPlayer = gameSession.getCurrentPlayer();
@@ -87,20 +81,24 @@ public class GamePlay {
 	}
 
 	public boolean isValidMove(GameState boardState, Move move) {
-		/*
-		 * Note: This is temporary functionality for isValidMove,
-		 * I'd expect this to receive lots of changes, once Game Manager
-		 * changes their code/requirements. Alot of the code is all over the place
-		 * since someone pushed that outdated build. Included printout text
-		 * for debugging purposes. Written by: Devyn
-		 */
-		// Check 1: Is move within bounds?
-		if (!isInBounds(move)) {
-			System.out.println("Invalid move: destination out of bounds.");
-			return false;
-		}
-		return false; // added to fix compilation, remove if needed - Gavin, Group 14 DB
-	}
+    if (!isInBounds(move)) {
+        return false;
+    }
+
+    if (!isDiagonal(move)) {
+        return false;
+    }
+
+    if (!isEmpty(boardState, move.getTo().getX(), move.getTo().getY())) {
+        return false;
+    }
+
+    if (isSameTeam(boardState, move)) {
+        return false;
+    }
+
+    return true; //changed back to return true (should be fixed if not will change it back)
+}
 
 	public boolean isJump(GameState boardState, Move move) {// Would return true if intended move intended move captures
 		boolean jump2 = true;
