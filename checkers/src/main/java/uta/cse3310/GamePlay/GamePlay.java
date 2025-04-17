@@ -51,14 +51,35 @@ public class GamePlay {
 	}
 
 	private void promotePiece(GameState boardState, Move move) {
-		// Implementation would check if the piece should be promoted and modify the
-		// piece accordingly.
-	}
+		//String currentPlayer = gameSession.getCurrentPlayer();
+		//getCurrentPlayer() is not public, need to talk with GameManager on making it public as 
+		// the logic can't work unless we know whose peice is on the edge
+
+		String currentPlayer = "Player1"; //Placeholder till we get the current player
+		boolean isKing = false; // Placeholder until I know when to use a king piece
+
+	        Piece piece = boardState.getPieceAt(move.getTo());
+	        if (piece == null) {
+	            return;
+	        }
+	
+	        if (isKing == true) {
+	            return;
+	        }
+	
+		//Promotion Logic
+		//This might require some modifications in the future regarding if the appropriate peice on the oppoent's edge
+	        if (currentPlayer == "Player1" && move.getTo().getY() == 0) {
+	            isKing = true;
+	        } else if (currentPlayer == "Player2" && move.getTo().getY() == 7) {
+	            isKing = true;
+	        }
+    	}
 
 	private boolean isEmpty(GameState boardState, int row, int col) {
-		// Would return true if table[row][col] is empty.
-		return false;
-	}
+        	Position pos = new Position(row, col);
+        	return boardState.getPieceAt(pos) == null;
+    	}
 
 	public boolean isValidMove(GameState boardState, Move move) {
 		/* Note: This is temporary functionality for isValidMove,
