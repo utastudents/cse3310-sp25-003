@@ -21,7 +21,7 @@ public class BotI {
     }
 
     // Checks if a potential move is legal
-    private boolean validateStandardMove(char[][] currentBoard, Position pos) {
+    public boolean validateStandardMove(char[][] currentBoard, Position pos) {
 
         boolean isValid = false;
 
@@ -36,7 +36,7 @@ public class BotI {
 
     // opponentPos - 1x diagnoal move from the bot piece
     // jumpPos - 2x diagonal moves from the bot piece
-    private boolean validateCaptureMove(char[][] currentBoard, Position opponentPos, Position jumpPos) {
+    public boolean validateCaptureMove(char[][] currentBoard, Position opponentPos, Position jumpPos) {
 
         boolean isValid = false;
 
