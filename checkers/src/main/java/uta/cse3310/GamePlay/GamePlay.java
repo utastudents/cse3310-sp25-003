@@ -40,10 +40,11 @@ public class GamePlay {
 
 	private boolean isSameTeam(GameState boardState, Move move) { // Note this function may not work properly, waiting
 																	// on Game manager
-		//Piece fromPiece = boardState.getPieceAt(move.getFrom()); // to make their own piece/character class
-		//Piece toPiece = boardState.getPieceAt(move.getTo());
-        Piece fromPiece = null;
-        Piece toPiece = null;
+		// Piece fromPiece = boardState.getPieceAt(move.getFrom()); // to make their own
+		// piece/character class
+		// Piece toPiece = boardState.getPieceAt(move.getTo());
+		Piece fromPiece = null;
+		Piece toPiece = null;
 		if (fromPiece == null || toPiece == null) {
 			return false;
 		}
@@ -52,64 +53,79 @@ public class GamePlay {
 	}
 
 	private void promotePiece(GameState boardState, Move move) {
-		//String currentPlayer = gameSession.getCurrentPlayer();
-		//getCurrentPlayer() is not public, need to talk with GameManager on making it public as 
+		// String currentPlayer = gameSession.getCurrentPlayer();
+		// getCurrentPlayer() is not public, need to talk with GameManager on making it
+		// public as
 		// the logic can't work unless we know whose peice is on the edge
 
-		String currentPlayer = "Player1"; //Placeholder till we get the current player
+		String currentPlayer = "Player1"; // Placeholder till we get the current player
 		boolean isKing = false; // Placeholder until I know when to use a king piece
 
-	        //Piece piece = boardState.getPieceAt(move.getTo());
-            Piece piece=null;
-	        if (piece == null) {
-	            return;
-	        }
-	
-	        if (isKing == true) {
-	            return;
-	        }
-	
-		//Promotion Logic
-		//This might require some modifications in the future regarding if the appropriate peice on the oppoent's edge
-	        if (currentPlayer == "Player1" && move.getTo().getY() == 0) {
-	            isKing = true;
-	        } else if (currentPlayer == "Player2" && move.getTo().getY() == 7) {
-	            isKing = true;
-	        }
-    	}
+		// Piece piece = boardState.getPieceAt(move.getTo());
+		Piece piece = null;
+		if (piece == null) {
+			return;
+		}
+
+		if (isKing == true) {
+			return;
+		}
+
+		// Promotion Logic
+		// This might require some modifications in the future regarding if the
+		// appropriate peice on the oppoent's edge
+		if (currentPlayer == "Player1" && move.getTo().getY() == 0) {
+			isKing = true;
+		} else if (currentPlayer == "Player2" && move.getTo().getY() == 7) {
+			isKing = true;
+		}
+	}
 
 	private boolean isEmpty(GameState boardState, int row, int col) {
-        	Position pos = new Position(row, col);
-        	return boardState.getPieceAt(pos) == null;
-    	}
+		Position pos = new Position(row, col);
+		return boardState.getPieceAt(pos) == null;
+	}
 
 	public boolean isValidMove(GameState boardState, Move move) {
-		/* Note: This is temporary functionality for isValidMove,
-			I'd expect this to receive lots of changes, once Game Manager
-			changes their code/requirements. Alot of the code is all over the place
-			since someone pushed that outdated build. Included printout text
-			for debugging purposes. Written by: Devyn
-		*/
-	// Check 1: Is move within bounds?
-	if (!isInBounds(move)) {
-		System.out.println("Invalid move: destination out of bounds.");
-		return false;
+		/*
+		 * Note: This is temporary functionality for isValidMove,
+		 * I'd expect this to receive lots of changes, once Game Manager
+		 * changes their code/requirements. Alot of the code is all over the place
+		 * since someone pushed that outdated build. Included printout text
+		 * for debugging purposes. Written by: Devyn
+		 */
+		// Check 1: Is move within bounds?
+		if (!isInBounds(move)) {
+			System.out.println("Invalid move: destination out of bounds.");
+			return false;
+		}
+		return false; // added to fix compilation, remove if needed - Gavin, Group 14 DB
 	}
-	return false; //added to fix compilation, remove if needed - Gavin, Group 14 DB
-}
 
 	public boolean isJump(GameState boardState, Move move) {// Would return true if intended move intended move captures
-															// an enemy piece is valid
-		boolean jump2;
-		boolean empty;
-		boolean teammate;
+		boolean jump2 = true;
 		boolean isKing = false; // Placeholder until I know when to use a king piece
+		int positionX;
+		int positionY;
+
+		if (move.getTo().getX() < move.getFrom().getX()) {
+			positionX = move.getTo().getX() - 1;
+		} else {
+			positionX = move.getTo().getX() + 1;
+		}
+
+		if (move.getTo().getY() < move.getFrom().getY()) {
+			positionY = move.getTo().getY() - 1;
+		} else {
+			positionY = move.getTo().getY() + 1;
+		}
 
 		if (isKing == true) {
 			if (Math.abs(move.getTo().getX() - move.getFrom().getX()) == 2) { // If X2 - X1 && Y2 - Y1 both are equal to
-																				// 2
 				if (Math.abs(move.getTo().getY() - move.getFrom().getY()) == 2) {
-					jump2 = true;
+					if (isEmpty(boardState, positionX, positionY) == false || isSameTeam(boardState, move) == true) {
+						jump2 = true;
+					}
 				}
 			}
 		} else {
@@ -119,13 +135,15 @@ public class GamePlay {
 		if (isKing = false) {
 			if (Math.abs(move.getTo().getX() - move.getFrom().getX()) == 2) {// X value can the absolute value of 2 but
 																				// Y cannot
-				if (move.getTo().getY() - move.getFrom().getY() == 2) {
-					jump2 = true;
+				if (move.getTo().getY() - move.getFrom().getY() == 1) {
+					if (isEmpty(boardState, positionX, positionY) == false || isSameTeam(boardState, move) == true) {
+						jump2 = true;
+					}
 				}
 			}
 		} else {
 			jump2 = false;
 		}
-		return false;
+		return jump2;
 	}
 }
