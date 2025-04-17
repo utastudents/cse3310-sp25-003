@@ -154,7 +154,7 @@ body {
     transition: 0.3s;
 }
 
-.selected{
+#selected{
     background-color: rgb(224, 50, 157);
     color: whitesmoke;
     transition: 0.3s;
@@ -421,4 +421,39 @@ body {
     font-weight: 400px;
     color: rgba(146, 66, 66, 1);
     white-space: nowrap;
+}
+
+/* Adding Button Click effect and Animation */
+button {
+    transition: all 0.25s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+button::after {
+    content: "";
+    position: absolute;
+    background: rgba(255, 255, 255, 0.4);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: -100%;
+    transition: left 0.3s ease;
+    z-index: 0;
+}
+
+button:hover::after {
+    left: 0;
+}
+
+button:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+/* Container to hold both buttons side by side with space */
+#lobby-buttons {
+    display: flex;
+    gap: 10px; /* Adjusting spacing here */
+    justify-content: flex-start;
+    align-items: center;
 }
