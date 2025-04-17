@@ -48,6 +48,58 @@
                         inputValidator.displayError("signupUsernameError", "Something went wrong.");
                     });
                         }
+          function validateLogin()
+            {
+                inputValidator.clearErrors();
+                const username = document.getElementById("loginUsername").value;
+                const password = document.getElementById("loginPassword").value;
+
+                let valid = true;
+
+                const usernameError = inputValidator.validateUsername(username);
+
+                if (usernameError)
+                {
+                inputValidator.displayError("loginUsernameError", usernameError);
+                valid = false;
+                }
+
+                if (!password)
+                {
+                inputValidator.displayError("loginPasswordError", "Password cannot be empty.");
+                valid = false;
+                }
+
+                if (valid)
+                {
+                fetch('/login', {
+                method: 'POST',
+                headers: 
+                {
+                'Content-Type': 'application/json'
+                },
+                    body: JSON.stringify
+                    ({
+                        username: username,
+                        password: password
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) 
+                    {
+                        alert("Login successful!");
+                    } else 
+                    {
+                        inputValidator.displayError("LoginUsernameError", data.message || "Login failed.");
+                    }
+                })
+                .catch(err => {
+                        console.error(err);
+                        inputValidator.displayError("LoginUsernameError", "Something went wrong.");
+                });
+                }
+            }
         </script>
   </head>
 
