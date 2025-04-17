@@ -21,8 +21,8 @@ public class GameTermination implements IGameTermination {
         int redPieces = countPieces(state, PieceColor.RED);
         int blackPieces = countPieces(state, PieceColor.BLACK);
 
-         // Check mutual stalemate
-         if (!hasAnyValidMoves(state, PieceColor.RED) && !hasAnyValidMoves(state, PieceColor.BLACK)) {
+        // Check mutual stalemate
+        if (!hasAnyValidMoves(state, PieceColor.RED) && !hasAnyValidMoves(state, PieceColor.BLACK)) {
             terminationReason = TerminationReason.MUTUAL_STALEMATE;
             return GameStatus.DRAW;
         }
@@ -59,8 +59,6 @@ public class GameTermination implements IGameTermination {
             terminationReason = TerminationReason.THREEFOLD_REPETITION;
             return GameStatus.DRAW;
         }
-
-       
 
         return GameStatus.ONGOING;
     }

@@ -114,9 +114,9 @@ public class PageManager {
 
         // Parse JoinGamePayload from JSON string
         JoinGamePayload payload = JsonConverter.parseJsonObject(userEvent.msg) == null
-            ? null
-            : JsonConverter.toJson(JsonConverter.parseJsonObject(userEvent.msg)).equals("") ? null
-            : new com.google.gson.Gson().fromJson(userEvent.msg, JoinGamePayload.class);
+                ? null
+                : JsonConverter.toJson(JsonConverter.parseJsonObject(userEvent.msg)).equals("") ? null
+                        : new com.google.gson.Gson().fromJson(userEvent.msg, JoinGamePayload.class);
 
         // Safety check
         if (payload == null || payload.entity1 == null || payload.entity2 == null || payload.action == null) {
@@ -126,7 +126,6 @@ public class PageManager {
         // Convert opponentType1 and opponentType2 to booleans: 0 = bot, 1 = human
         boolean isEntity1Bot = !payload.opponentType1; // false means human, true means bot
         boolean isEntity2Bot = !payload.opponentType2;
-
 
         // If action is "wait", add entity1 to waiting list
         if (payload.action.equalsIgnoreCase("wait")) {
@@ -139,7 +138,8 @@ public class PageManager {
         }
 
         // TODO: When PairUp integration is ready, pass to PairUp
-        // PairResponsePayload response = pairUp.pairPlayer(payload.entity1, isEntity2Bot, payload.action, payload.lobbyId);
+        // PairResponsePayload response = pairUp.pairPlayer(payload.entity1,
+        // isEntity2Bot, payload.action, payload.lobbyId);
 
         // Placeholder response
         reply.status.message = "JoinGame request acknowledged. PairUp not yet called.";

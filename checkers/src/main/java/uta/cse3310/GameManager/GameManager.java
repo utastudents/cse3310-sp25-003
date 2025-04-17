@@ -10,7 +10,7 @@ public class GameManager {
     private BotI b1;
     private BotII b2;
 
-    //Only ONE active game session
+    // Only ONE active game session
     private GameSession session;
 
     public GameManager() {
@@ -19,13 +19,13 @@ public class GameManager {
         b2 = new BotII();
     }
 
-    //Create a single game session
+    // Create a single game session
     public void createGame() {
         System.out.println("Game created.");
         session = new GameSession("Game001"); // Hardcoded ID or just use null
     }
 
-    //Handle a move from the user and notify BotI
+    // Handle a move from the user and notify BotI
     public void receiveMove(Move userMove) {
         if (session != null) {
             GameState state = session.getGameState();
@@ -37,7 +37,7 @@ public class GameManager {
             state.applyMove(from.getX(), from.getY(), to.getX(), to.getY());
 
             System.out.println("Player move applied: " + from.getX() + "," + from.getY() +
-                               " -> " + to.getX() + "," + to.getY());
+                    " -> " + to.getX() + "," + to.getY());
 
             // Switch to bot
             state.switchTurn("BotI");

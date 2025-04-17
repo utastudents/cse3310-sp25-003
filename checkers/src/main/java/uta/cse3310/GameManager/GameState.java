@@ -58,13 +58,14 @@ public class GameState {
     public Piece getPieceAt(int row, int col) {
         return board[row][col];
     }
-    public void applyMove(Position from, Position to) {
-    applyMove(from.getX(), from.getY(), to.getX(), to.getY());
-}
 
-public Piece getPieceAt(Position pos) {
-    return getPieceAt(pos.getX(), pos.getY());
-}
+    public void applyMove(Position from, Position to) {
+        applyMove(from.getX(), from.getY(), to.getX(), to.getY());
+    }
+
+    public Piece getPieceAt(Position pos) {
+        return getPieceAt(pos.getX(), pos.getY());
+    }
 
     // ✅ Converts internal board to char[][] for BotI
     public char[][] getBoardAsArray() {
@@ -77,9 +78,9 @@ public Piece getPieceAt(Position pos) {
                 if (piece == null) {
                     array[row][col] = ' ';
                 } else if (piece.getPlayerId().equals("Player1")) {
-                    array[row][col] = piece.isKing() ? 'X' : 'x';  // Player1 (user)
+                    array[row][col] = piece.isKing() ? 'X' : 'x'; // Player1 (user)
                 } else if (piece.getPlayerId().equals("BotI")) {
-                    array[row][col] = piece.isKing() ? 'O' : 'o';  // BotI
+                    array[row][col] = piece.isKing() ? 'O' : 'o'; // BotI
                 } else {
                     array[row][col] = '?'; // Optional: handle unexpected player
                 }

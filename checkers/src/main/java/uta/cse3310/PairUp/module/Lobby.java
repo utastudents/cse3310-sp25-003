@@ -10,7 +10,7 @@ public class Lobby {
 
     public Lobby(String lobbyId) {
         this.lobbyId = lobbyId;
-        this.closed = false; 
+        this.closed = false;
         this.creationTime = System.currentTimeMillis();
     }
 

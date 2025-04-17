@@ -11,7 +11,8 @@ import uta.cse3310.GameManager.Position;
 
 public class BotI {
 
-    public BotI() {}
+    public BotI() {
+    }
 
     // Helper function that verifies x, y positions are on the board
     // TODO: We can possibly leverage the same function found in GamePlay
@@ -192,7 +193,8 @@ public class BotI {
         return null;
     }
 
-    // This method gets called by the connected GameManager whenever a user has made their move.
+    // This method gets called by the connected GameManager whenever a user has made
+    // their move.
     public Move onUserMove(char[][] currentBoard) {
         return generateMove(currentBoard);
     }

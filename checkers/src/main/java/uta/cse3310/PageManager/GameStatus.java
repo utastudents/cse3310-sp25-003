@@ -8,7 +8,6 @@ public class GameStatus {
     public String message;
     public String gameID;
     public String opponent;
-    public boolean success = false; 
-    public ArrayList<String> playersList; 
+    public boolean success = false;
+    public ArrayList<String> playersList;
 }
-
