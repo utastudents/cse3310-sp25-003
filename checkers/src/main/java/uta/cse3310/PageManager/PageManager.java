@@ -42,6 +42,46 @@ public class PageManager {
     }
 
     /**
+     * Handles the "Login" event.
+     * 
+     * @param payload LoginPayload containing login details
+     * @return UserEventReply with the response
+     */
+    private UserEventReply handleLogin(LoginPayload payload) {
+        UserEventReply reply = new UserEventReply();
+        reply.status = new GameStatus();
+        reply.recipients = new ArrayList<>();
+
+        // Dummy logic for login validation
+        if (payload.username.equals("testUser") && payload.password.equals("password123")) {
+            reply.status.message = "Login successful";
+        } else {
+            reply.status.message = "Invalid username or password";
+        }
+
+        return reply;
+    }
+
+    /**
+     * Handles the "Game Status" event.
+     * 
+     * @param gameID The ID of the game to fetch status for
+     * @return UserEventReply with the game status
+     */
+    private UserEventReply handleGameStatus(String gameID) {
+        UserEventReply reply = new UserEventReply();
+        reply.status = new GameStatus();
+        reply.recipients = new ArrayList<>();
+
+        // Dummy logic for game status
+        reply.status.gameID = gameID;
+        reply.status.message = "Game is in progress";
+        reply.status.turn = turn;
+
+        return reply;
+    }
+
+    /**
      * Processes input from the user.
      * 
      * @param U UserEvent containing input details
