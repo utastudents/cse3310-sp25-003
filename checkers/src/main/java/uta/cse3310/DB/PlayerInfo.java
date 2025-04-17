@@ -61,26 +61,28 @@ public class PlayerInfo {
         DB.setSpecificDataString(stmt, playerID, "EMAIL", email, "USER");
     }
 
-    public int getWins(int wins){
-
-        return wins;
-    }
-
-    public void setWins(int wins){
+    public int getWins(int playerID) throws SQLException, ClassNotFoundException{
+        ResultSet rs = DB.getSpecificData(playerID, "USER");
+        int result = rs.getInt("WINS");
         
-        this.wins = wins;
+        return result;
     }
 
-    public int getLosses(int losses){
-
-        return losses;
+    public void setWins(Statement stmt, int wins, int playerID) throws SQLException, ClassNotFoundException{
+        DB.setSpecificDataInt(stmt, playerID, "WINS", wins, "USER");
     }
 
-    public void setLosses(int losses){
-        this.losses = losses;
+    public int getLosses(int playerID) throws SQLException, ClassNotFoundException{
+        ResultSet rs = DB.getSpecificData(playerID,"USER");
+        int result = rs.getInt("LOSSES");
 
+        return result;
     }
 
+    public void setLosses(Statement stmt, int losses, int playerID) throws SQLException, ClassNotFoundException{
+        DB.setSpecificDataInt(stmt, playerID, "LOSSES", losses, "USER");
+    }
+    
     public double getElo() {
 
         return elo;
