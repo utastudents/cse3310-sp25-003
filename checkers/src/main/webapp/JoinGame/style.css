@@ -457,3 +457,21 @@ button:active {
     justify-content: flex-start;
     align-items: center;
 }
+#refresh-button {
+    background-color: rgba(30, 137, 13, 0.655);
+    color:burlywood;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#refresh-button:hover {
+    background-color: rgb(191, 255, 0); /* sky blue */
+    color: rgb(7, 33, 160);
+    box-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
+}
