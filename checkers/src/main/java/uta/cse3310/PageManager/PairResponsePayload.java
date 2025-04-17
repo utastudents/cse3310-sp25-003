@@ -4,4 +4,3 @@ public class PairResponsePayload {
     public String gameID;
     public String opponentHandle;
 }
-

@@ -1,19 +1,42 @@
 body {
-  justify-items: center;
-  justify-content: center;
   background-image: url("backgroundnavy4.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
-  color: white;
+  color: black
+}
+
+#leaderboard{
+  display: grid;
+  grid-template-areas:
+  "title title title"
+  "board board board"
+  "Button Button Button";
+}
+
+#leaderboard > #title{
+  grid-area: title;
+  justify-self: center;;
   justify-items: center;
+  justify-content: center;
+}
+
+#leaderboard > #board {
+  grid-area: board;
+  justify-items: center;
+  justify-self: center;
+}
+
+#leaderboard > Button{
+  grid-area: Button;
+  justify-self: center;
 }
 
 .container {
   width: 600px;
   height: auto;
-  background-color: blue;
+  background-color: whitesmoke;
 }
 
 .items {
@@ -23,7 +46,7 @@ body {
 .row {
   position: relative;
   display: block;
-  width: 100%;
+  width: 94%;
   height: 40px;
   border: solid black;
   margin: 3%;
@@ -45,52 +68,52 @@ body {
 
 #numberOne {
 animation-delay: 0ms;
-background-color: tomato;
+background-color: white;
 }
 
 #numberTwo {
 animation-delay: 250ms;
-background-color: yellow;
+background-color: white;
 }
 
 #numberThree {
 animation-delay: 500ms;
-background-color: violet;
+background-color:white;
 }
 
 #numberFour {
 animation-delay: 750ms;
-background-color: orange;
+background-color:white;
 }
 
 #numberFive {
 animation-delay: 1s;
-background-color: DodgerBlue;
+background-color:white;
 }
 
 #numberSix {
 animation-delay: 1.25s;
-background-color: grey;
+background-color:white;
 }
 
 #numberSeven {
 animation-delay: 1.5s;
-background-color: slateblue;
+background-color: white;
 }
 
 #numberEight {
 animation-delay: 1.75s;
-background-color: lightgray;
+background-color: white;
 }
 
 #numberNine {
 animation-delay: 2s;
-background-color: gold;
+background-color: white;
 }
 
 #numberTen {
 animation-delay: 2.25s;
-background-color: mediumseagreen;
+background-color: white;
 }
 
 .rank {

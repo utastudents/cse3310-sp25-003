@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    import {inputValidator} from './validation.js';
+    <title>Create New User / Login</title>
+    
+        <script>
+            function validateSignup() 
+            //Parse Each Element
+            {
+                inputValidator.clearErrors();
+                const username = document.getElementById("signupUsername").value;
+                const email = document.getElementById("signupEmail").value;
+                const password = document.getElementById("signupPassword").value;
+                const confirmPassword = document.getElementById("signupConfirmPassword").value;
+            }
+
+            let valid = true;
+
+            //Sending info to page manager/database
+            if (valid) {
+        fetch('/login', {
+                method: 'POST',
+                headers: 
+                    {
+                'Content-Type': 'application/json'
+                },
+                    body: JSON.stringify
+                    ({
+                        username: username,
+                        email: email,
+                        password: password
+                    })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) 
+                    {
+                        alert("Signup successful!");
+                        // Optionally redirect or reset form: insert new page here
+                    } else 
+                    {
+                        inputValidator.displayError("signupUsernameError", data.message || "Signup failed.");
+                    }
+                })
+                .catch(err => {
+                        console.error(err);
+                        inputValidator.displayError("signupUsernameError", "Something went wrong.");
+                    });
+                        }
+          function validateLogin()
+            {
+                inputValidator.clearErrors();
+                const username = document.getElementById("loginUsername").value;
+                const password = document.getElementById("loginPassword").value;
+
+                let valid = true;
+
+                const usernameError = inputValidator.validateUsername(username);
+
+                if (usernameError)
+                {
+                inputValidator.displayError("loginUsernameError", usernameError);
+                valid = false;
+                }
+
+                if (!password)
+                {
+                inputValidator.displayError("loginPasswordError", "Password cannot be empty.");
+                valid = false;
+                }
+
+                if (valid)
+                {
+                fetch('/login', {
+                method: 'POST',
+                headers: 
+                {
+                'Content-Type': 'application/json'
+                },
+                    body: JSON.stringify
+                    ({
+                        username: username,
+                        password: password
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) 
+                    {
+                        alert("Login successful!");
+                    } else 
+                    {
+                        inputValidator.displayError("LoginUsernameError", data.message || "Login failed.");
+                    }
+                })
+                .catch(err => {
+                        console.error(err);
+                        inputValidator.displayError("LoginUsernameError", "Something went wrong.");
+                });
+                }
+            }
+        </script>
+  </head>
+
+  <body>
+    <h1>Login</h1>
+
+    <div class="form-section">
+        <label>Username:</label>
+        <input required type="text" name="loginUsername" id="username-input" placeholder="Username">
+        <div class="error" id="LoginUsernameError"></div>
+
+        <label>Password:</label>
+        <input required type="text" name="loginPassword" id="password-input" placeholder="Password">
+        <div class="error" id="LoginPasswordError"></div>
+
+        <button onclick="validateUsername()"> LOGIN</button>
+    </div>
+  </body>
+  
+  <body>
+    <h1>Sign Up</h1>
+
+    <div class="form-section">
+      <label>Username:</label>
+      <input type="text" id="signupUsername" placeholder="Username" />
+        <div class="error" id="signupUsernameError"></div>
+
+      <label>Email:</label>
+            <input type="email" id="signupEmail" placeholder="Email" />
+            <div class="error" id="signupEmailError"></div>
+
+      <label>Password:</label>
+      <input type="password" id="signupPassword" placeholder="Password" />
+        <div class="error" id="signupPasswordError"></div>
+
+      <label>Confirm Password:</label>
+      <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" />
+        <div class="error" id="signupConfirmPasswordError"></div>
+
+      <button onclick="validateSignup()">Create Account</button>
+    </div>
+
+  </body>
+
+  
+</html>

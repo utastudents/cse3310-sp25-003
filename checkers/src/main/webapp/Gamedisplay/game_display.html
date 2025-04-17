@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Checkers (Large View)</title>
+  <style>
+    body 
+    {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      margin: 0;
+    }
+
+    .board 
+    {
+      display: grid;
+      grid-template-columns: repeat(8, 80px);
+      grid-template-rows: repeat(8, 80px);
+      border: 5px solid #333;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center - 20;
+    }
+
+    .playerdata {
+      margin-bottom: 20px;
+      font-family: Arial, sans-serif;
+      font-size: 2em;
+      color: #333;
+    }
+    .cell 
+    {
+      width: 80px;
+      height: 80px;
+      position: relative;
+    }
+
+    .light 
+    {
+      background-color: #dd5f45;
+    }
+
+    .dark 
+    {
+      background-color: #615956;
+    }
+
+    .piece 
+    {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .red 
+    {
+      background-color: rgb(229, 25, 25);
+    }
+
+    .faded
+    {
+      background-color: rgb(180, 168, 168);
+    }
+
+    .blue 
+    {
+      background-color: rgb(1, 1, 19);
+    }
+
+    .selected 
+    {
+      outline: 4px solid yellow;
+      transform: scale(1.1);
+    }
+
+    /* King styling - crown symbol */
+    .king::after {
+      content: "♛";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 30px;
+      color: gold;
+      text-shadow: 0 0 3px black;
+    }
+    .resign-button {
+      background-color: #e63946; /* Red */
+      color: white;
+      font-size: 1.2em;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .resign-button:hover {
+      background-color: #c62828;
+    }
+    .draw-button {
+      background-color: #28a745;
+      color: white;
+      font-size: 1.2em;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.2s ease;
+    }
+
+    .draw-button:hover {
+      background-color: #218838;
+    }
+    .sound-control {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+      padding: 10px;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+
+    .sound-control:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .sound-control:focus {
+      outline: none;
+    }
+
+    button:focus {
+      outline: 3px solid #0077cc;
+      outline-offset: 2px;
+    }
+
+    .piece:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .draw-button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      color: #666;
+    }
+
+    .last-move {
+      box-shadow: 0 0 10px 4px gold;
+    }
+
+    .dark-theme {
+      background-color: #121212;
+      color: white;
+    }
+
+    .dark-theme .playerdata {
+      color: #f0f0f0;
+    }
+
+    .playerdata {
+      color: #2c3e50; /* keeping it for light mode */
+    }
+
+    .dark-theme .board {
+      border-color: #ccc;
+      box-shadow: none;
+    }
+
+    .theme-toggle-button {
+      background-color: #a78bfa;
+      color: white;
+      font-size: 1.1em;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .theme-toggle-button:hover {
+      background-color: #8b5cf6;
+    }
+
+    .game-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 50px;
+      padding: 30px;
+    }
+
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      }
+
+    .right-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      padding-top: 30px;
+    }
+
+  </style>
+</head>
+
+<body>
+<div class="game-wrapper">
+  <div class="left-column">
+    <h1 class="playerdata"><span id = "player1username">Player1 </span><span id="player1elo">0</span></h1>
+    <div class="board" id="board"></div>
+    <h1 class="playerdata"><span id ="player2username">Player2 </span><span id="player2elo">0</span></h1>
+  </div>
+
+  <div class="right-column">
+    <button id="soundToggle" class="sound-control" title="Toggle Sound">🔊</button>
+
+    <button id="resignBtn" class="resign-button">Resign</button>
+    <button id="drawBtn" class="draw-button">Propose Draw</button>
+    <button id="toggleTheme" class="theme-toggle-button">Toggle Mode</button>
+    <div id="drawNotification" style="display:none; margin-top: 10px; font-weight: bold; color: #0077cc;"></div>
+    <div id="drawTimer" style="display:none; font-size: 1.2em; margin-top: 5px;"></div>
+    <button id="acceptDrawBtn" class="draw-button" style="display: none;">Accept Draw</button>
+  </div>
+
+  <script>
+    // Sound Manager Implementation
+    const soundManager = {
+      enabled: true,
+      sounds: {
+        move: new Audio('../assets/sounds/piece_placed.mp3'),
+        king: new Audio('../assets/sounds/player1_move.mp3'),
+        capture: new Audio('../assets/sounds/piece_jumped.mp3'),
+        gameStart: new Audio('../assets/sounds/player2_move.mp3'),
+        gameWin: new Audio('../assets/sounds/game_won_v2.mp3'),
+        gameLoss: new Audio('../assets/sounds/game_lost_v2.mp3'),
+        gameDraw: new Audio('../assets/sounds/declare_draw_v2.mp3'),
+        resign: new Audio('../assets/sounds/player_resigns.mp3')
+      },
+      
+      init: function() {
+        // Preload sounds
+        Object.values(this.sounds).forEach(sound => {
+          sound.load();
+          sound.volume = 0.5; // Set volume to 50%
+        });
+        
+        // Play game start sound when page loads
+        window.addEventListener('load', () => {
+          this.playSound('gameStart');
+        });
+        
+        // Set up sound toggle button
+        const soundToggle = document.getElementById('soundToggle');
+        soundToggle.addEventListener('click', () => {
+          this.enabled = !this.enabled;
+          soundToggle.textContent = this.enabled ? '🔊' : '🔈';
+        });
+      },
+      
+      playSound: function(soundName) {
+        if (this.enabled && this.sounds[soundName]) {
+          this.sounds[soundName].currentTime = 0;
+          this.sounds[soundName].play().catch(err => console.warn('Error playing sound:', err));
+        }
+      }
+    };
+    
+    // Initialize sound manager
+    soundManager.init();
+
+    const board = document.getElementById("board");
+
+    function getPlayerdata(player1name, player2name, player1value, player2value, isplayer1bot, isplayer2bot){
+      document.getElementById("player1username").textContent = player1name;
+      document.getElementById("player2username").textContent = player2name;
+      document.getElementById("player1elo").textContent = isplayer1bot ? "BOT" : player1value;
+      document.getElementById("player2elo").textContent = isplayer2bot ? "BOT" : player2value;
+    }
+
+    let selectedPiece = null;
+
+    function createBoard() 
+    {
+      for (let row = 0; row < 8; row++) 
+      {
+        for (let col = 0; col < 8; col++)
+        {
+          const cell = document.createElement("div");
+          cell.classList.add("cell");
+          cell.dataset.row = row;
+          cell.dataset.col = col;
+
+          const isDark = (row + col) % 2 !== 0;
+          cell.classList.add(isDark ? "dark" : "light");
+
+          // Add pieces on dark squares
+          if (isDark) 
+          {
+            if (row < 3) {
+              const piece = createPiece("red");
+              cell.appendChild(piece);
+            } else if (row > 4) {
+              const piece = createPiece("blue");
+              cell.appendChild(piece);
+            }
+          }
+
+          cell.addEventListener("click", () => {
+            if (selectedPiece && cell.childNodes.length === 0 && cell.classList.contains("dark")) {
+              const oldRow = parseInt(selectedPiece.parentNode.dataset.row);
+              const oldCol = parseInt(selectedPiece.parentNode.dataset.col);
+              const newRow = parseInt(cell.dataset.row);
+              const newCol = parseInt(cell.dataset.col);
+              
+              // Check if this is a capture move
+              const isCapture = Math.abs(newRow - oldRow) === 2 && Math.abs(newCol - oldCol) === 2;
+              
+              if (isCapture) {
+                const capturedRow = (oldRow + newRow) / 2;
+                const capturedCol = (oldCol + newCol) / 2;
+                const capturedCell = document.querySelector(`[data-row="${capturedRow}"][data-col="${capturedCol}"]`);
+                
+                if (capturedCell && capturedCell.firstChild) {
+                  capturedCell.removeChild(capturedCell.firstChild);
+                  // Play capture sound
+                  soundManager.playSound('capture');
+                }
+              }
+
+              // Move the piece
+              cell.appendChild(selectedPiece);
+              // Highlight the piece temporarily
+              selectedPiece.classList.add("last-move");
+              setTimeout(() => {
+                selectedPiece.classList.remove("last-move");
+              }, 2000);
+
+              selectedPiece.classList.remove("selected");
+              
+              // Play move sound if not a capture
+              if (!isCapture) {
+                soundManager.playSound('move');
+              }
+              
+              // Check if the piece reached the opposite end to become a king
+              const pieceColor = selectedPiece.classList.contains("red") ? "red" : "blue";
+              
+              // Red pieces become kings at row 7 (bottom), blue at row 0 (top)
+              if ((pieceColor === "red" && newRow === 7) || (pieceColor === "blue" && newRow === 0)) {
+                selectedPiece.classList.add("king");
+                // Play king sound
+                soundManager.playSound('king');
+              }
+              
+              selectedPiece = null;
+            }
+          });
+
+          board.appendChild(cell);
+        }
+      }
+    }
+
+    function createPiece(color) 
+    {
+      const piece = document.createElement("div");
+      piece.classList.add("piece", color);
+
+      piece.addEventListener("click", (e) => {
+        e.stopPropagation(); // prevent cell click
+        if (selectedPiece) {
+          selectedPiece.classList.remove("selected");
+        }
+
+        if (selectedPiece === piece) {
+          selectedPiece = null;
+        } else {
+          selectedPiece = piece;
+          piece.classList.add("selected");
+        }
+      });
+
+      return piece;
+    }
+
+    createBoard();
+
+    // Resign button with sound
+    document.getElementById("resignBtn").addEventListener("click", () => {
+      const confirmResign = confirm("Are you sure you want to resign?");
+      if (confirmResign) {
+        soundManager.playSound('resign');
+        alert("You have resigned from the game.");
+        location.reload(); // Restart the game
+      }
+    });
+    
+    // Draw button with sound
+    document.getElementById("drawBtn").addEventListener("click", () => {
+      const confirmProposal = confirm("Are you sure you want to propose a draw?");
+      if (confirmProposal) { 
+        document.getElementById("drawNotification").style.display = "block";
+        document.getElementById("drawNotification").textContent = "Draw proposed! Waiting for opponent to accept...";
+
+        const acceptBtn = document.getElementById("acceptDrawBtn");
+        const timerDisplay = document.getElementById("drawTimer");
+
+        acceptBtn.style.display = "inline-block";
+        acceptBtn.disabled = false;
+        timerDisplay.style.display = "block";
+
+        let timeLeft = 10;
+        timerDisplay.textContent = `Time left to accept: ${timeLeft}s`;
+
+        const countdown = setInterval(() => {
+          timeLeft--;
+          timerDisplay.textContent = `Time left to accept: ${timeLeft}s`;
+
+          if (timeLeft <= 0) {
+            clearInterval(countdown);
+            timerDisplay.textContent = "Draw offer expired.";
+            acceptBtn.disabled = true;
+          }
+        }, 1000);
+      }
+    });
+    
+    // Accept draw button
+    document.getElementById("acceptDrawBtn").addEventListener("click", () => {
+      const confirmAccept = confirm("Are you sure you want to accept the draw?");
+      if (confirmAccept) {
+      soundManager.playSound('gameDraw');
+      alert("Draw accepted! The game is a draw.");
+      location.reload();
+      }
+    });
+
+    document.getElementById("toggleTheme").addEventListener("click", () => {
+      document.body.classList.toggle("dark-theme");
+    });
+
+  </script>
+</body>
+</html>
