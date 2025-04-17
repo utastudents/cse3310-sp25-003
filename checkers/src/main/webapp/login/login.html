@@ -52,6 +52,22 @@
   </head>
 
   <body>
+    <h1>Login</h1>
+
+    <div class="form-section">
+        <label>Username:</label>
+        <input required type="text" name="loginUsername" id="username-input" placeholder="Username">
+        <div class="error" id="LoginUsernameError"></div>
+
+        <label>Password:</label>
+        <input required type="text" name="loginPassword" id="password-input" placeholder="Password">
+        <div class="error" id="LoginPasswordError"></div>
+
+        <button onclick="validateUsername()"> LOGIN</button>
+    </div>
+  </body>
+  
+  <body>
     <h1>Sign Up</h1>
 
     <div class="form-section">
