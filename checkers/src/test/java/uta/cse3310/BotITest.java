@@ -219,11 +219,37 @@ public class BotITest {
                         { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
                         { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
                 };
-
+                char[][] new_board_2 = new char[][] {
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', 'X', ' ', 'X', ' ', 'X', ' ', 'X' },
+                        { 'O', ' ', 'O', ' ', 'O', ' ', 'O', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+                };
                 //First scenario: Test the ocupied the position:
                 Position pos1 = new Position(2, 2);
                 boolean r1 = botI.validateStandardMove(occ_board, pos1);
-                assertTrue(r1 == false);
+                assertTrue(r1 == false); //Expect to be false since the position is occupied
+                //Second scenario: Test out the valid empty board
+                Position pos2 = new Position(3, 3);
+                boolean r2 = botI.validateStandardMove(new_board, pos1);
+                assertTrue(r2 == true); //Expect to be false since the position is out of the board
+                //Third scenario: Test the out of bound limit of the board
+                Position pos3 = new Position(8, 8);
+                boolean r3 = botI.validateStandardMove(new_board, pos1);
+                assertTrue(r3 == true);
+                //Fourth scenario: Test the board captures with mutiple options
+                Position pos4 = new Position(2, 1);
+                boolean r4 = botI.validateStandardMove(new_board_2, pos1);
+                assertTrue(r4 == true); //Expect to be false since the position is out of the board
+                try {
+                        botI.validateStandardMove(null, null);
+                } catch (Exception e) {
+                        System.out.println("Caught exception: " + e.getMessage());
+                }
         }
         
         // TC-005: Test getAvailableCaptureMove()
