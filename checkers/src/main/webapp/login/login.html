@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    import {inputValidator} from './validation.js';
+    
     <title>Create New User / Login</title>
     
-        <script>
+        <script type="module">
+          import {inputValidator} from './validation.js';
             function validateSignup() 
             //Parse Each Element
             {
@@ -19,35 +20,36 @@
 
             //Sending info to page manager/database
             if (valid) {
-        fetch('/login', {
+              fetch('/login', {
                 method: 'POST',
-                headers: 
-                    {
-                'Content-Type': 'application/json'
+                headers: {
+                  'Content-Type': 'application/json'
                 },
-                    body: JSON.stringify
-                    ({
-                        username: username,
-                        email: email,
-                        password: password
-                    })
-            })
+                body: JSON.stringify
+                ({
+                  username: username,
+                  email: email,
+                  password: password
+                })
+              })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) 
                     {
-                        alert("Signup successful!");
-                        // Optionally redirect or reset form: insert new page here
+                      alert("Signup successful!");
+                      // Optionally redirect or reset form: insert new page here
                     } else 
                     {
-                        inputValidator.displayError("signupUsernameError", data.message || "Signup failed.");
+                      inputValidator.displayError("signupUsernameError", data.message || "Signup failed.");
                     }
                 })
                 .catch(err => {
-                        console.error(err);
-                        inputValidator.displayError("signupUsernameError", "Something went wrong.");
+                    console.error(err);
+                    inputValidator.displayError("signupUsernameError", "Something went wrong.");
                     });
                         }
+
+
           function validateLogin()
             {
                 inputValidator.clearErrors();
@@ -72,11 +74,11 @@
 
                 if (valid)
                 {
-                fetch('/login', {
-                method: 'POST',
-                headers: 
+                  fetch('/login', {
+                    method: 'POST',
+                    headers: 
                 {
-                'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
                     body: JSON.stringify
                     ({
@@ -88,15 +90,15 @@
                 .then(data => {
                     if (data.success) 
                     {
-                        alert("Login successful!");
+                      alert("Login successful!");
                     } else 
                     {
                         inputValidator.displayError("LoginUsernameError", data.message || "Login failed.");
                     }
                 })
                 .catch(err => {
-                        console.error(err);
-                        inputValidator.displayError("LoginUsernameError", "Something went wrong.");
+                  console.error(err);
+                  inputValidator.displayError("LoginUsernameError", "Something went wrong.");
                 });
                 }
             }
@@ -115,11 +117,10 @@
         <input required type="text" name="loginPassword" id="password-input" placeholder="Password">
         <div class="error" id="LoginPasswordError"></div>
 
-        <button onclick="validateUsername()"> LOGIN</button>
+        <button onclick="validateLogin()"> LOGIN</button>
     </div>
-  </body>
   
-  <body>
+
     <h1>Sign Up</h1>
 
     <div class="form-section">
