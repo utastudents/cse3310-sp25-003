@@ -217,6 +217,11 @@ public class PairUpModule {
      * 
      */
 
+    // Helper method for testing
+    void addLobby(Lobby lobby) {
+        activeLobbies.add(lobby);
+    }
+
     private Lobby findLobby(String lobbyId) {
         return activeLobbies.stream()
                 .filter(l -> l.getLobbyId().equals(lobbyId))

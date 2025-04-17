@@ -33,4 +33,10 @@ public class Lobby {
     public long getCreationTime() {
         return creationTime;
     }
+
+    // Used for testing
+    public void setCreationTime(long creationTime) {
+        this.creationTime = creationTime;
+    }
+
 }

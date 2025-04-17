@@ -80,4 +80,28 @@ public class PairUpModuleTest {
         // Already closed; quitting should not throw
         pum.handleUserQuit(id, "p1");
     }
+
+    @Test
+    public void testRemoveIdleLobbies() throws LobbyException {
+        PairUpModule pum = new PairUpModule();
+
+        // Create an active (non-idle) lobby
+        String activeId = pum.createLobby("active-player");
+        Lobby activeLobby = pum.refreshLobbies().get(0);
+        activeLobby.setCreationTime(System.currentTimeMillis()); // Now
+
+        // Create an idle lobby manually
+        Lobby idleLobby = new Lobby("idle-lobby-id");
+        idleLobby.setCreationTime(System.currentTimeMillis() - 310_000); // More than 5 min
+        pum.addLobby(idleLobby);
+
+        // Call the method that should remove the idle lobby
+        pum.removeIdleLobbies();
+
+        // Only the active lobby should remain
+        List<Lobby> remaining = pum.refreshLobbies();
+        assertEquals(1, remaining.size());
+        assertEquals(activeId, remaining.get(0).getLobbyId());
+    }
+
 }
