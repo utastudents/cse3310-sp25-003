@@ -89,7 +89,7 @@ body {
     font-size: 72px;
     font-weight: 400px;
     text-align: center;
-    margin: auto;
+    margin-right: 240px;
     flex-grow: 1;
 }
 
@@ -216,6 +216,9 @@ body {
     height: 100%;
     width: 15%;
     margin: 0px 30px 250px 0px;
+    border-radius: 15px;
+    padding: 5px;
+    background: linear-gradient(to bottom, rgb(73, 255, 73), rgb(92, 32, 245), white);
 }
 
 #main-right {
@@ -390,7 +393,6 @@ body {
     font-weight: bold;
     font-size: 13px;
     text-align: center;
-    padding-top: 10px;
     width: 10em;
     height: 3em;
     border: none; 
