@@ -40,9 +40,10 @@ public class GamePlay {
 
 	private boolean isSameTeam(GameState boardState, Move move) { // Note this function may not work properly, waiting
 																	// on Game manager
-		Piece fromPiece = boardState.getPieceAt(move.getFrom()); // to make their own piece/character class
-		Piece toPiece = boardState.getPieceAt(move.getTo());
-
+		//Piece fromPiece = boardState.getPieceAt(move.getFrom()); // to make their own piece/character class
+		//Piece toPiece = boardState.getPieceAt(move.getTo());
+        Piece fromPiece = null;
+        Piece toPiece = null;
 		if (fromPiece == null || toPiece == null) {
 			return false;
 		}
@@ -58,7 +59,8 @@ public class GamePlay {
 		String currentPlayer = "Player1"; //Placeholder till we get the current player
 		boolean isKing = false; // Placeholder until I know when to use a king piece
 
-	        Piece piece = boardState.getPieceAt(move.getTo());
+	        //Piece piece = boardState.getPieceAt(move.getTo());
+            Piece piece=null;
 	        if (piece == null) {
 	            return;
 	        }
