@@ -304,6 +304,22 @@
       document.getElementById("player2elo").textContent = isplayer2bot ? "BOT" : player2value;
     }
 
+    
+    function displayPlayerTurn(color, turnCheck) 
+    {
+        while (Boolean(1)) 
+        {
+        if (Boolean (turnCheck)) {
+          document.getElementById("player1username").style.color = color;
+          document.getElementbyId("player1elo").style.color = color;
+        }
+        else {
+          document.getElementById("player2username").style.color = color;
+          document.getElementById("player2elo").style.color = color;
+        }
+      }
+    }
+
     let selectedPiece = null;
 
     function createBoard() 
