@@ -1,11 +1,12 @@
 package uta.cse3310;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
-import uta.cse3310.GamePlay.*;
-import uta.cse3310.GameManager.*;
+import uta.cse3310.GameManager.Move;
+import uta.cse3310.GameManager.Position;
+import uta.cse3310.GamePlay.GamePlay;
 
 public class GamePlayTest {
     @Test // TC-001

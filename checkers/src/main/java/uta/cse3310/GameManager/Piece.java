@@ -20,4 +20,8 @@ public class Piece {
     public void promoteToKing() {
         this.isKing = true;
     }
+
+    public PieceColor getColor() {
+        return playerId.equals("BotI") ? PieceColor.RED : PieceColor.BLACK;
+    }
 }
