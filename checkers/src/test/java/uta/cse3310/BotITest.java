@@ -197,6 +197,33 @@ public class BotITest {
         // TODO: Write test
         @Test
         public void testValidateStandardMove() {
+                BotI botI = new BotI();
+                // A list of neccessary board for the test:
+                char[][] new_board = new char[][] {
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+                };
+                char[][] occ_board = new char[][] {
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', 'O', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', 'X', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+                };
+
+                //First scenario: Test the ocupied the position:
+                Position pos1 = new Position(2, 2);
+                boolean r1 = botI.validateStandardMove(occ_board, pos1);
+                assertTrue(r1 == false);
         }
         
         // TC-005: Test getAvailableCaptureMove()
