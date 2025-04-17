@@ -3,12 +3,12 @@
   <head>
     
     <title>Create New User / Login</title>
-    
+    <!--import module from validation.js-->
         <script type="module">
           import {inputValidator} from './validation.js';
 
           //Signup
-          function validateSignup() 
+          window.validateSignup= function() 
             //Parse Each Element
             {
               inputValidator.clearErrors();
@@ -45,7 +45,7 @@
               
               //Sending info to page manager/database
               if (valid) {
-                fetch('/login', {
+                fetch('/signup', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json'
@@ -75,8 +75,8 @@
                   }
             };
 
-
-          function validateLogin()
+          //Login
+          window.validateLogin=funciton()
             {
                 inputValidator.clearErrors();
                 const username = document.getElementById("loginUsername").value;
@@ -119,35 +119,37 @@
                       alert("Login successful!");
                     } else 
                     {
-                        inputValidator.displayError("LoginUsernameError", data.message || "Login failed.");
+                        inputValidator.displayError("loginUsernameError", data.message || "Login failed.");
                     }
                 })
                 .catch(err => {
                   console.error(err);
-                  inputValidator.displayError("LoginUsernameError", "Something went wrong.");
+                  inputValidator.displayError("loginUsernameError", "Something went wrong.");
                 });
                 }
             }
         </script>
   </head>
 
+  <!--form section-->
   <body>
-    <h1>Login</h1>
+    <h1 style="text-align: center;">CHECKERS</h1>
+    <h2>Login</h2>
 
     <div class="form-section">
         <label>Username:</label>
-        <input required type="text" name="loginUsername" id="username-input" placeholder="Username">
-        <div class="error" id="LoginUsernameError"></div>
+        <input required type="text" name="loginUsername" id="loginUsername" placeholder="Username">
+        <div class="error" id="loginUsernameError"></div>
 
         <label>Password:</label>
-        <input required type="text" name="loginPassword" id="password-input" placeholder="Password">
-        <div class="error" id="LoginPasswordError"></div>
+        <input required type="password" name="loginPassword" id="loginPassword" placeholder="Password">
+        <div class="error" id="loginPasswordError"></div>
 
         <button onclick="validateLogin()"> LOGIN</button>
     </div>
   
 
-    <h1>Sign Up</h1>
+    <h2>Sign Up</h2>
 
     <div class="form-section">
       <label>Username:</label>
