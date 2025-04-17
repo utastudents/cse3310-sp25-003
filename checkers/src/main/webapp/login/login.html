@@ -6,48 +6,74 @@
     
         <script type="module">
           import {inputValidator} from './validation.js';
-            function validateSignup() 
+
+          //Signup
+          function validateSignup() 
             //Parse Each Element
             {
-                inputValidator.clearErrors();
-                const username = document.getElementById("signupUsername").value;
-                const email = document.getElementById("signupEmail").value;
-                const password = document.getElementById("signupPassword").value;
-                const confirmPassword = document.getElementById("signupConfirmPassword").value;
-            }
+              inputValidator.clearErrors();
+              const username = document.getElementById("signupUsername").value;
+              const email = document.getElementById("signupEmail").value;
+              const password = document.getElementById("signupPassword").value;
+              const confirmPassword = document.getElementById("signupConfirmPassword").value;
+            
+              let valid = true;
 
-            let valid = true;
+              const usernameError= inputValidator.validateUsername(username);
+              const passwordError= inputValidator.validatePassword(password);
+              const emailError= inputValidator.validateEmail(email);
 
-            //Sending info to page manager/database
-            if (valid) {
-              fetch('/login', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify
-                ({
-                  username: username,
-                  email: email,
-                  password: password
+              if (usernameError){
+                inputValidator.displayError("signupUsernameError", usernameError);
+                valid=false;
+              }
+
+              if(passwordError){
+                inputValidator.displayError("signupPasswordError", passwordError);
+                valid=false;
+              }
+
+              if(emailError){
+                inputValidator.displayError("signupEmailError", emailError);
+                valid=false;
+              }
+
+              if (password!= confirmPassword){
+                inputValidator.displayError("signupConfirmPasswordError", "Passwords do not match.");
+                valid=false;
+              }
+              
+              //Sending info to page manager/database
+              if (valid) {
+                fetch('/login', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify
+                  ({
+                    username: username,
+                    email: email,
+                    password: password
+                  })
                 })
-              })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) 
-                    {
-                      alert("Signup successful!");
-                      // Optionally redirect or reset form: insert new page here
-                    } else 
-                    {
-                      inputValidator.displayError("signupUsernameError", data.message || "Signup failed.");
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    inputValidator.displayError("signupUsernameError", "Something went wrong.");
-                    });
-                        }
+                  .then(response => response.json())
+                  .then(data => {
+                      if (data.success) 
+                      {
+                        alert("Signup successful!");
+                        // Optionally redirect or reset form: insert new page here
+                      } else 
+                      {
+                        inputValidator.displayError("signupUsernameError", data.message || "Signup failed.");
+                      }
+                  })
+                  .catch(err => {
+                      console.error(err);
+                      inputValidator.displayError("signupUsernameError", "Something went wrong.");
+                      });
+                  }
+            };
 
 
           function validateLogin()
@@ -62,14 +88,14 @@
 
                 if (usernameError)
                 {
-                inputValidator.displayError("loginUsernameError", usernameError);
-                valid = false;
+                  inputValidator.displayError("loginUsernameError", usernameError);
+                  valid = false;
                 }
 
                 if (!password)
                 {
-                inputValidator.displayError("loginPasswordError", "Password cannot be empty.");
-                valid = false;
+                  inputValidator.displayError("loginPasswordError", "Password cannot be empty.");
+                  valid = false;
                 }
 
                 if (valid)
