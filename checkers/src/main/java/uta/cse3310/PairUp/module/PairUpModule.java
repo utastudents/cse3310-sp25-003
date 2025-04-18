@@ -181,6 +181,16 @@ public class PairUpModule {
         return null;
     }
 
+    //Helper for getting userID
+    private String findOpponentHandle(Lobby lobby, String currentPlayerId) {
+    for (Participant p : lobby.getSlots()) {
+        if (p != null && !p.isBot() && !p.getPlayerId().equals(currentPlayerId)) {
+            return p.getPlayerId();
+        }
+    }
+    return null;
+}
+
     public boolean checkLobbyFull(String lobbyId) throws LobbyException {
         Lobby lobby = findLobby(lobbyId);
         if (lobby == null) {
