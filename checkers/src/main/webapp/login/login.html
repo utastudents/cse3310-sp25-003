@@ -5,6 +5,9 @@
     <title>Create New User / Login</title>
     <!--import module from validation.js-->
         <script type="module">
+          //connection to backend server on port 9180
+          const socket= new Websocket("ws://"+window.location.hostname+".9180");
+          
           import {inputValidator} from './validation.js';
 
           //Signup
@@ -45,33 +48,13 @@
               
               //Sending info to page manager/database
               if (valid) {
-                fetch('/signup', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify
-                  ({
-                    username: username,
-                    email: email,
-                    password: password
-                  })
-                })
-                  .then(response => response.json())
-                  .then(data => {
-                      if (data.success) 
-                      {
-                        alert("Signup successful!");
-                        // Optionally redirect or reset form: insert new page here
-                      } else 
-                      {
-                        inputValidator.displayError("signupUsernameError", data.message || "Signup failed.");
-                      }
-                  })
-                  .catch(err => {
-                      console.error(err);
-                      inputValidator.displayError("signupUsernameError", "Something went wrong.");
-                      });
+                const signupMessage= {
+                  eventType: "login",
+                  username,
+                  password,
+                  email,
+                };
+                socket.send(JSON.stringify(signupMessage));
                   }
             };
 
@@ -98,35 +81,15 @@
                   valid = false;
                 }
 
-                if (valid)
-                {
-                  fetch('/login', {
-                    method: 'POST',
-                    headers: 
-                {
-                    'Content-Type': 'application/json'
-                },
-                    body: JSON.stringify
-                    ({
-                        username: username,
-                        password: password
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) 
-                    {
-                      alert("Login successful!");
-                    } else 
-                    {
-                        inputValidator.displayError("loginUsernameError", data.message || "Login failed.");
-                    }
-                })
-                .catch(err => {
-                  console.error(err);
-                  inputValidator.displayError("loginUsernameError", "Something went wrong.");
-                });
-                }
+                if (valid) {
+                const signupMessage= {
+                  eventType: "login",
+                  username,
+                  password,
+                };
+                socket.send(JSON.stringify(signupMessage));
+                  }
+                
             }
         </script>
   </head>
