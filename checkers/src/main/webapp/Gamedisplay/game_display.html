@@ -250,6 +250,38 @@
   </div>
 
   <script>
+    //websockets, i'm assuming the port is 9080
+    let socket;
+    
+    function connectToServer() {
+      socket = new WebSocket('ws://localhost:9080');
+      
+      socket.onopen = function(event) {
+        console.log('Connection established with server');
+      };
+      
+      socket.onmessage = function(event) {
+        const response = JSON.parse(event.data);
+        
+        if (response.valid) {
+          executeValidMove();
+        } else {
+          cancelMove();
+        }
+      };
+      
+      socket.onerror = function(error) {
+        console.error('WebSocket error:', error);
+      };
+      
+      socket.onclose = function(event) {
+        console.log('Connection closed with server');
+      };
+    }
+    
+    //when the page loads, a connection will be attempted
+    window.addEventListener('load', connectToServer);
+    
     // Sound Manager Implementation
     const soundManager = {
       enabled: true,
@@ -296,6 +328,8 @@
     soundManager.init();
 
     const board = document.getElementById("board");
+    let currentBoardState;
+    let pendingMoveData = null;
 
     function getPlayerdata(player1name, player2name, player1value, player2value, isplayer1bot, isplayer2bot){
       document.getElementById("player1username").textContent = player1name;
@@ -321,6 +355,31 @@
     }
 
     let selectedPiece = null;
+
+    //2d board array to pass through page manager
+    function getBoardStateAsCharArray() {
+      const boardState = Array(8).fill().map(() => Array(8).fill(' '));
+      
+      for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+          const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+          if (cell && cell.firstChild) {
+            const piece = cell.firstChild;
+            const isRed = piece.classList.contains('red');
+            const isKing = piece.classList.contains('king');
+            
+            // 'o' for player 1 (red), 'x' for player 2 (blue)
+            if (isRed) {
+              boardState[row][col] = isKing ? 'O' : 'o';
+            } else {
+              boardState[row][col] = isKing ? 'X' : 'x';
+            }
+          }
+        }
+      }
+      
+      return boardState;
+    }
 
     function createBoard() 
     {
@@ -355,53 +414,101 @@
               const newRow = parseInt(cell.dataset.row);
               const newCol = parseInt(cell.dataset.col);
               
-              // Check if this is a capture move
-              const isCapture = Math.abs(newRow - oldRow) === 2 && Math.abs(newCol - oldCol) === 2;
+              //current board state
+              const boardState = getBoardStateAsCharArray();
               
-              if (isCapture) {
-                const capturedRow = (oldRow + newRow) / 2;
-                const capturedCol = (oldCol + newCol) / 2;
-                const capturedCell = document.querySelector(`[data-row="${capturedRow}"][data-col="${capturedCol}"]`);
-                
-                if (capturedCell && capturedCell.firstChild) {
-                  capturedCell.removeChild(capturedCell.firstChild);
-                  // Play capture sound
-                  soundManager.playSound('capture');
-                }
+              //this is the move data that gets passed into page manager
+              pendingMoveData = {
+                boardState: boardState,
+                oldRow: oldRow,
+                oldCol: oldCol,
+                newRow: newRow,
+                newCol: newCol,
+                targetCell: cell
+              };
+              
+              //send move data to page manager
+              if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send(JSON.stringify({
+                  type: 'validateMove',
+                  board: boardState,
+                  from: { row: oldRow, col: oldCol },
+                  to: { row: newRow, col: newCol }
+                }));
+              } else {
+                console.error('WebSocket is not connected');
+                cancelMove();
               }
-
-              // Move the piece
-              cell.appendChild(selectedPiece);
-              // Highlight the piece temporarily
-              selectedPiece.classList.add("last-move");
-              setTimeout(() => {
-                selectedPiece.classList.remove("last-move");
-              }, 2000);
-
-              selectedPiece.classList.remove("selected");
-              
-              // Play move sound if not a capture
-              if (!isCapture) {
-                soundManager.playSound('move');
-              }
-              
-              // Check if the piece reached the opposite end to become a king
-              const pieceColor = selectedPiece.classList.contains("red") ? "red" : "blue";
-              
-              // Red pieces become kings at row 7 (bottom), blue at row 0 (top)
-              if ((pieceColor === "red" && newRow === 7) || (pieceColor === "blue" && newRow === 0)) {
-                selectedPiece.classList.add("king");
-                // Play king sound
-                soundManager.playSound('king');
-              }
-              
-              selectedPiece = null;
             }
           });
 
           board.appendChild(cell);
         }
       }
+      
+      //store the initial board state, incase if the sent data is not valid
+      currentBoardState = getBoardStateAsCharArray();
+    }
+
+    function executeValidMove() {
+      if (!pendingMoveData) return;
+      
+      const { oldRow, oldCol, newRow, newCol, targetCell } = pendingMoveData;
+      
+      // Check if this is a capture move
+      const isCapture = Math.abs(newRow - oldRow) === 2 && Math.abs(newCol - oldCol) === 2;
+      
+      if (isCapture) {
+        const capturedRow = (oldRow + newRow) / 2;
+        const capturedCol = (oldCol + newCol) / 2;
+        const capturedCell = document.querySelector(`[data-row="${capturedRow}"][data-col="${capturedCol}"]`);
+        
+        if (capturedCell && capturedCell.firstChild) {
+          capturedCell.removeChild(capturedCell.firstChild);
+          // Play capture sound
+          soundManager.playSound('capture');
+        }
+      }
+
+      // Move the piece
+      targetCell.appendChild(selectedPiece);
+      // Highlight the piece temporarily
+      selectedPiece.classList.add("last-move");
+      setTimeout(() => {
+        selectedPiece.classList.remove("last-move");
+      }, 2000);
+
+      selectedPiece.classList.remove("selected");
+      
+      // Play move sound if not a capture
+      if (!isCapture) {
+        soundManager.playSound('move');
+      }
+      
+      // Check if the piece reached the opposite end to become a king
+      const pieceColor = selectedPiece.classList.contains("red") ? "red" : "blue";
+      
+      // Red pieces become kings at row 7 (bottom), blue at row 0 (top)
+      if ((pieceColor === "red" && newRow === 7) || (pieceColor === "blue" && newRow === 0)) {
+        selectedPiece.classList.add("king");
+        // Play king sound
+        soundManager.playSound('king');
+      }
+      
+      currentBoardState = getBoardStateAsCharArray();
+      
+      // reset selectedPiece and pendingMoveData
+      selectedPiece = null;
+      pendingMoveData = null;
+    }
+
+    //if a move is invalid, cancel it
+    function cancelMove() {
+      if (selectedPiece) {
+        selectedPiece.classList.remove("selected");
+        selectedPiece = null;
+      }
+      pendingMoveData = null;
     }
 
     function createPiece(color) 
