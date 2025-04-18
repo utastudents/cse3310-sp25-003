@@ -14,6 +14,20 @@ function msg(msg) {
     console.log(JSON.stringify(U));
 }
 
+socket.addEventListener('message', (event) => {
+    const jsonData = JSON.parse(event.data);
+    switch (event.status.message){
+        case "Players list retrieved successfully":
+            handleUsernames(event);
+            break;
+        
+
+        default:
+            console.log("Done");
+    }
+});
+
+
 // while(!(connection.readyState === WebSocket.OPEN))    
 // {};
 
@@ -165,24 +179,18 @@ function joinLobby(lobbyId) {
     let opponentType1 = selectionsNum[0];
     let opponentType2 = selectionsNum[1];
 
-    // const joinGamePayload = {
-    //     entity1: 'Player1',
-    //     entity2: 'Player2',
-    //     opponentType1: true, // "bot" (false) or "human" (true)
-    //     opponentType2: false, // "bot" (false) or "human" (true)
-    //     lobbyId: 'Lobby123',
-    //     action: 'join' // or "wait"
-    // };
+    let request = {
+        eventType: "handleJoinGame",
+        entity1: entity1,
+        entity2: entity2,
+        opponentType1: opponentType1, // "bot" (false) or "human" (true)
+        opponentType2: opponentType2, // "bot" (false) or "human" (true)
+        lobbyId: lobbyId,
+        action: action // or "wait"
+    };
 
-    // msg(joinGamePayload);
 
-
-    console.log("Entity1: ", entity1);
-    console.log("Entity2: ", entity2);
-    console.log("LobbyID: ", lobbyId);
-    console.log("OpponentType1: ", opponentType1);
-    console.log("OpponentType2: ", opponentType2);
-    console.log("Action: ", action);
+    msg(request);
 
 }
 
@@ -193,26 +201,18 @@ function waitLobby(lobbyId) {
     let opponentType1 = selectionsNum[0];
     let opponentType2 = selectionsNum[1];
 
-
-    // const waitGamePayLoad = {
-    //     entity1: 'Player1',
-    //     entity2: 'Player2',
-    //     opponentType1: true, // "bot" (false) or "human" (true)
-    //     opponentType2: false, // "bot" (false) or "human" (true)
-    //     lobbyId: 'Lobby123',
-    //     action: 'join' // or "wait"
-    // };
-
-    // msg(joinGamePayload);
+    let request = {
+        eventType: "handleWait",
+        entity1: entity1,
+        entity2: entity2,
+        opponentType1: opponentType1, // "bot" (false) or "human" (true)
+        opponentType2: opponentType2, // "bot" (false) or "human" (true)
+        lobbyId: lobbyId,
+        action: action // or "wait"
+    };
 
 
-    console.log("Entity1: ", entity1);
-    console.log("Entity2: ", entity2);
-    console.log("LobbyID: ", lobbyId);
-    console.log("OpponentType1: ", opponentType1);
-    console.log("OpponentType2: ", opponentType2);
-    console.log("Action: ", action);
-
+    msg(request);
 }
 
 function displayLobbies() {
