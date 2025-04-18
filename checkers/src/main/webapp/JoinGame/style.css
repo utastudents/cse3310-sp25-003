@@ -10,7 +10,7 @@
 
 body {
     background-color: black; /* fallback if png doesn't load */
-    background-image: url('../images/bacground.png');
+    background-image: url('../images/background.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -142,6 +142,26 @@ body {
     width: 160px;
     height: 70px;
     text-align: center;
+}
+
+.selection-button
+{
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    font-family: poppins;
+    font-weight: 700px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #CC00FF;
+    border-radius: 25px;
+    background-color: black;
+}
+
+
+.selected{
+    background-color: #fbfbfb;
+    color: black;
+    border-color: #00c4eb;
 }
 
 #player1:hover, #player2:hover, #bot1:hover, #bot2:hover{
@@ -364,8 +384,6 @@ body {
 }
 
 
-
-
 #back-button{
     display: inline-block;
     padding: 5px; 
@@ -466,25 +484,4 @@ button:active {
     background-color: rgb(191, 255, 0); /* sky blue */
     color: rgb(7, 33, 160);
     box-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
-}
-
-
-.selection-button
-{
-    font-size: 24px;
-    color: rgb(255, 255, 255);
-    font-family: poppins;
-    font-weight: 700px;
-    border-style: solid;
-    border-width: 3px;
-    border-color: #CC00FF;
-    border-radius: 25px;
-    background-color: black;
-}
-
-
-.selected {
-    background-color: #4CAF50;
-    color: white;
-    border-color: #2E7D32;
 }

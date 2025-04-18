@@ -1,6 +1,3 @@
-window.addEventListener("load", requestPlayersUserName);
-
-
 // var connection = null;
 let entity1;
 let entity2;
@@ -17,54 +14,66 @@ function msg(msg) {
     console.log(JSON.stringify(U));
 }
 
-socket.addEventListener('message', (event) => {
-    const jsonData = JSON.parse(event.data);
-    switch (event.status.message){
-        case "Players list retrieved successfully":
-            handleUsernames(event);
-            break;
+// UNCOMMENT THIS WHEN ADDED SOCKET SUCCESSFULLY
 
-        default:
-            console.log("Done");
-    }
-});
+// socket.addEventListener('message', (event) => {
+//     const jsonData = JSON.parse(event.data);
+//     switch (event.status.message){
+//         case "Players list retrieved successfully":
+//             handleUsernames(event);
+//             break;
+
+//         default:
+//             console.log("Done");
+//     }
+// });
 
 
 // while(!(connection.readyState === WebSocket.OPEN))    
 // {};
 
-// Handling entities selection
-
 let selections = [];
 let selectionsNum = [];
 
-const buttons = document.querySelectorAll('.selection-button');
-const joinButton = document.querySelector('.join-game');
+// Handling entities selection
+document.addEventListener('DOMContentLoaded', function() {
 
-buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        const value = button.innerHTML;
-        
-        if (button.classList.contains('selected')) {
-            // Deselect the button
-            button.classList.remove('selected');
-            const index = selections.indexOf(value);
-            if (index > -1) {
-                selections.splice(index, 1);
+    const buttons = document.querySelectorAll('.selection-button');
+    // const joinButton = document.querySelector('#join-game'); 
+
+    // Verify buttons are found
+    console.log("Found selection buttons:", buttons.length);
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            console.log("Button clicked:", this.innerHTML);
+            
+            const value = this.innerHTML;
+            const dataValue = this.getAttribute('data-value');
+            
+            if (this.classList.contains('selected')) {
+                // Deselect the button
+                this.classList.remove('selected');
+                const index = selections.indexOf(value);
+                if (index > -1) {
+                    selections.splice(index, 1);
+                    selectionsNum.splice(index, 1);
+                }
+            } else {
+                // Only allow selection if fewer than 2 are already selected
+                if (selections.length < 2) {
+                    this.classList.add('selected');
+                    selections.push(value);
+                    selectionsNum.push(dataValue);
+                }
             }
-        } else {
-            // Only allow selection if fewer than 2 are already selected
-            if (selections.length < 2) {
-                button.classList.add('selected');
-                selections.push(value);
-                selectionsNum.push(button.getAttribute('data-value'))
-            }
-        }
-        
-        // Update the display
-        updateSelection();
+            
+            // Update the display
+            updateSelection();
+        });
     });
 });
+
 
 // Update the selection display
 function updateSelection() {
@@ -73,13 +82,12 @@ function updateSelection() {
     entity2 = selections[1] || 'None';
     opponent1 = selectionsNum [0] || null;
     opponent2 = selectionsNum [1] || null;
-    const selectionCountElement = document.getElementById("selectionCount");
 
     // Enable/disable join button
-    if (joinButton) joinButton.disabled = selections.length !== 2;
+    // if (joinButton) joinButton.disabled = selections.length !== 2;
 }
 
-
+// window.addEventListener("load", requestPlayersUserName);
 
 function requestPlayersUserName() {
     // This method requests the name of a specific player    
@@ -195,6 +203,14 @@ function joinLobby(lobbyId) {
         msg: JSON.stringify(details)
     };
 
+        //Test if works
+    console.log("Entity1: ", entity1);
+    console.log("Entity2: ", entity2);
+    console.log("opponentType1: ", opponentType1);
+    console.log("opponentType2: ", opponentType2);
+    console.log("ACTION: ", action);
+    console.log("ID: ", lobbyId);
+
     msg(request);
 
 }
@@ -220,6 +236,13 @@ function waitLobby(lobbyId) {
         msg: JSON.stringify(details)
     };
 
+        //Test if works
+    console.log("Entity1: ", entity1);
+    console.log("Entity2: ", entity2);
+    console.log("opponentType1: ", opponentType1);
+    console.log("opponentType2: ", opponentType2);
+    console.log("ACTION: ", action);
+    console.log("ID: ", lobbyId);
 
     msg(request);
 }
