@@ -8,15 +8,16 @@
     box-sizing: border-box;
 }
 
-body{
-    background: url('../images/bacground.png');
+body {
+    background-color: black; /* fallback if image doesn't load */
+    background-image: url('../images/bacground.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     width: 100%;
-    
 }
+
 
 #lobby-list {
     list-style-type: none; /* Removes default list style */
