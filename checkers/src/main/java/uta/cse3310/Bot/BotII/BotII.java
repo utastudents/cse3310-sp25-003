@@ -204,4 +204,34 @@ public class BotII {
                         captureMoves.add(new Move(currentPos, diagDownLeftJump, PLAYER_ID));
                     if (findCaptureOpportunity(board, diagDownRight, diagDownRightJump))
                         captureMoves.add(new Move(currentPos, diagDownRightJump, PLAYER_ID));
+private boolean isWithinBoard(Position pos) 
+    {
+        return pos.getX() >= 0 && pos.getX() < 8 && pos.getY() >= 0 && pos.getY() < 8;
+    }
+
+    // Check if move advances toward opponent side
+    private boolean isForwardMove(Move move) 
+    {
+        // Compare row to detect downward movement
+        int fromX = move.getFrom().getX();
+        int toX = move.getTo().getX();
+        return toX > fromX; // Downward for top player (RED)
+    }
+
+    // Check if move is safe for defense
+    private boolean findSafeMove(Move move, boolean isKing) 
+    {
+        // Check for king retreat or safe standard move
+        int fromX = move.getFrom().getX();
+        int toX = move.getTo().getX();
+        if (isKing) 
+        {
+            return toX < fromX; // Upward for kings (toward rows 0-2)
+        } 
+        else
+        {
+            return toX <= 2; // Stay in rows 0-2 for standard pieces
+        }
+    }
+}
 
