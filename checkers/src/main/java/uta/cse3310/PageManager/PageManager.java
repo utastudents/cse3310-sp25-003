@@ -170,27 +170,56 @@ public class PageManager {
     }
 
     public UserEventReply handleJoinGame(UserEvent userEvent) {
-        return null; // unchanged
+        UserEventReply reply = new UserEventReply();
+        reply.status = new GameStatus();
+        reply.recipients = new ArrayList<>();
+        reply.recipients.add(userEvent.id);
+        reply.type = "joinGameResult";
+
+        try {
+            JsonObject jsonData = JsonConverter.parseJsonObject(userEvent.msg);
+            if (jsonData == null) {
+                return JsonConverter.createErrorReply("Invalid JSON format", userEvent.id);
+            }
+
+            String entity1 = JsonConverter.extractField(userEvent.msg, "entity1");
+            String entity2 = JsonConverter.extractField(userEvent.msg, "entity2");
+            String opponentType1 = JsonConverter.extractField(userEvent.msg, "opponentType1");
+            String opponentType2 = JsonConverter.extractField(userEvent.msg, "opponentType2");
+            String action = JsonConverter.extractField(userEvent.msg, "action");
+            String lobbyId = JsonConverter.extractField(userEvent.msg, "lobbyId");
+
+            reply.status.success = true;
+            reply.status.message = entity1 + " and " + (entity2 != null ? entity2 : "[none]") +
+                    " sent join game request for lobby " + lobbyId + " (action=" + action + ")";
+            reply.status.opponent = entity2;
+            reply.status.gameID = lobbyId;
+
+            return reply;
+
+        } catch (Exception e) {
+            return JsonConverter.createErrorReply("Error processing join game: " + e.getMessage(), userEvent.id);
+        }
     }
 
     public UserEventReply handleGameMove(UserEvent userEvent) {
-        return null; // unchanged
+        return null;
     }
 
     public UserEventReply handleSummaryRequest(UserEvent userEvent) {
-        return null; // unchanged
+        return null;
     }
 
     public UserEventReply sendGameUpdate(Integer gameId, GameStatus gameStatus) {
-        return null; // unchanged
+        return null;
     }
 
     public boolean sendNotification(Integer userId, String message) {
-        return false; // unchanged
+        return false;
     }
 
     public int broadcastMessage(String message) {
-        return 0; // unchanged
+        return 0;
     }
 
     public void updateWaitingPlayers(ArrayList<String> newWaitingPlayers) {
