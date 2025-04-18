@@ -1,3 +1,6 @@
+window.addEventListener("load", requestPlayersUserName);
+
+
 // var connection = null;
 let entity1;
 let entity2;
@@ -20,7 +23,6 @@ socket.addEventListener('message', (event) => {
         case "Players list retrieved successfully":
             handleUsernames(event);
             break;
-        
 
         default:
             console.log("Done");
@@ -77,7 +79,7 @@ function updateSelection() {
     if (joinButton) joinButton.disabled = selections.length !== 2;
 }
 
-// window.addEventListener("load", requestPlayersUserName);
+
 
 function requestPlayersUserName() {
     // This method requests the name of a specific player    
@@ -179,16 +181,19 @@ function joinLobby(lobbyId) {
     let opponentType1 = selectionsNum[0];
     let opponentType2 = selectionsNum[1];
 
-    let request = {
-        eventType: "handleJoinGame",
+    let details = {
         entity1: entity1,
         entity2: entity2,
-        opponentType1: opponentType1, // "bot" (false) or "human" (true)
-        opponentType2: opponentType2, // "bot" (false) or "human" (true)
+        opponentType1: opponentType1, // "bot" (0) or "human" (1)
+        opponentType2: opponentType2, // "bot" (0) or "human" (1)
         lobbyId: lobbyId,
-        action: action // or "wait"
+        action: action
     };
 
+    let request = {
+        eventType: "handleJoinGame",
+        msg: JSON.stringify(details)
+    };
 
     msg(request);
 
@@ -201,14 +206,18 @@ function waitLobby(lobbyId) {
     let opponentType1 = selectionsNum[0];
     let opponentType2 = selectionsNum[1];
 
-    let request = {
-        eventType: "handleWait",
+    let details = {
         entity1: entity1,
         entity2: entity2,
-        opponentType1: opponentType1, // "bot" (false) or "human" (true)
-        opponentType2: opponentType2, // "bot" (false) or "human" (true)
+        opponentType1: opponentType1,
+        opponentType2: opponentType2,
         lobbyId: lobbyId,
-        action: action // or "wait"
+        action: action
+    };
+
+    let request = {
+        eventType: "handleJoinGame",
+        msg: JSON.stringify(details)
     };
 
 
