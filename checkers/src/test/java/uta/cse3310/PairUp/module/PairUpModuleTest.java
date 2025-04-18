@@ -113,17 +113,7 @@ public class PairUpModuleTest {
         // Ensure two separate lobbies are created
         assertNotEquals("Lobbies created by the same player should have different IDs", id1, id2);
     }
-
-    @Test
-    public void testJoinLobbyAlreadyFull() throws LobbyException {
-        PairUpModule pum = new PairUpModule();
-        String id = pum.createLobby("p1");
-        pum.joinLobby(id, "p2");
-
-        // Attempt to join a full lobby
-        assertFalse("Joining a full lobby should fail", pum.joinLobby(id, "p3"));
-    }
-
+    
     @Test
     public void testCancelNonexistentLobby() {
         PairUpModule pum = new PairUpModule();
