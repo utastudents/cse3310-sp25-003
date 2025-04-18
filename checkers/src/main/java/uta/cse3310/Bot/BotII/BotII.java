@@ -60,4 +60,39 @@ public class BotII {
         
         return null;
     }
+// Evaluate board based on pieces and kings
+    private int evaluateBoard(char[][] board) 
+    {
+        
+        // Count bot and opponent pieces and kings
+        int botPieces = 0, oppPieces = 0, botKings = 0, oppKings = 0;
+        for (int row = 0; row < 8; row++)
+        {
+            for (int col = 0; col < 8; col++) 
+            {
+                char c = board[row][col];
+                if (c == 'o') {
+                    botPieces++;
+                } else if (c == 'O') {
+                    botPieces++;
+                    botKings++;
+                } else if (c == 'x') {
+                    oppPieces++;
+                } else if (c == 'X') {
+                    oppPieces++;
+                    oppKings++;
+                }
+            }
+        }
+        
+        // Calculate score with higher weight for kings
+        return botPieces + 2 * botKings - (oppPieces + 2 * oppKings);
+    }
+      // Check if position is valid for a standard move
+    private boolean makeValidMove(char[][] board, Position pos) 
+    {
+        // Verify position is on board and empty
+        if (!isWithinBoard(pos)) return false;
+        return board[pos.getX()][pos.getY()] == ' ';
+    }
 
