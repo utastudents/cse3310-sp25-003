@@ -173,4 +173,38 @@ public class PairUpModuleTest {
         // Now, the lobby should be full
         assertTrue("Lobby should be full after two players join", pum.checkLobbyFull(id));
     }
+    @Test
+    public void testCheckIdlePlayersFromDifferentLobbies() throws LobbyException {
+        PairUpModule pum = new PairUpModule();
+    
+        // Create two lobbies with one human player each
+        String id1 = pum.createLobby("player1");
+        String id2 = pum.createLobby("player2");
+    
+        // Verify we have two open lobbies initially
+        List<Lobby> openLobbies = pum.refreshLobbies();
+        assertEquals("Should have two open lobbies before merging", 2, openLobbies.size());
+    
+        // Execute the method that should merge lonely players
+        pum.checkIdlePlayersFromDifferentLobbies();
+    
+        // After merging, the original lobbies should be gone
+        openLobbies = pum.refreshLobbies();
+        assertEquals("Open lobbies should be empty after merging", 0, openLobbies.size());
+    
+    // The original lobbies shouldn't exist anymore
+        try {
+            pum.checkLobbyFull(id1);
+            fail("Original lobby1 should no longer exist");
+        } catch (LobbyException e) {
+            assertEquals("Lobby not found", e.getMessage());
+        }
+    
+        try {
+            pum.checkLobbyFull(id2);
+            fail("Original lobby2 should no longer exist");
+        } catch (LobbyException e) {
+            assertEquals("Lobby not found", e.getMessage());
+        }
+    }
 }
