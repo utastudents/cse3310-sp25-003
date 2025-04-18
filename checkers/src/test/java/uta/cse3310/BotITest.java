@@ -1,11 +1,11 @@
 package uta.cse3310;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
+
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
-import uta.cse3310.Bot.BotI.*;
+import uta.cse3310.Bot.BotI.BotI;
 import uta.cse3310.GameManager.Move;
 import uta.cse3310.GameManager.Position;
 
@@ -256,5 +256,71 @@ public class BotITest {
         // TODO: Write test
         @Test
         public void testValidateCaptureMove() {
-        }
+                    // Create BotI object so we can call its methods
+                    BotI botI = new BotI();
+                
+                    // === Scenario 1 ===
+                    // Test when there IS an opponent ('x') and an empty jump spot
+                    // Expectation: Bot should be able to capture (return true)
+                
+                    char[][] board1 = {
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ' },  // opponent at (1,2)
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', 'o', ' ', ' ', ' ', ' ', ' ', ' ' },  // bot at (3,1)
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+                    };
+                    Position opponent = new Position(1, 2); // where the enemy is
+                    Position jump = new Position(0, 3);      // where bot should land
+                
+                    boolean canCapture = botI.validateCaptureMove(board1, opponent, jump);
+                    assertTrue(canCapture); // Should be TRUE — bot can capture
+                
+                
+                    // === Scenario 2 ===
+                    // Test when there is NO opponent (blank space)
+                    // Expectation: Bot should NOT be able to capture (return false)
+                
+                    char[][] board2 = {
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },  // no opponent
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', 'o', ' ', ' ', ' ', ' ', ' ', ' ' },  // bot at (3,1)
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+                    };
+                    Position noOpponent = new Position(1, 2);
+                    Position jump2 = new Position(0, 3);
+                
+                    boolean cannotCapture = botI.validateCaptureMove(board2, noOpponent, jump2);
+                    assertTrue(!cannotCapture); // Should be FALSE — no capture possible
+                
+                
+                    // === Scenario 3 ===
+                    // Test when the opponent position is OUT OF BOUNDS (off the board)
+                    // Expectation: Should return false
+                
+                    char[][] board3 = {
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', 'x', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', 'o', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+                        { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+                    };
+                    Position outOfBoundsOpponent = new Position(-1, 10); // invalid coordinate
+                    Position jump3 = new Position(0, 11);                // invalid coordinate
+                
+                    boolean outOfBoundsCapture = botI.validateCaptureMove(board3, outOfBoundsOpponent, jump3);
+                    assertTrue(!outOfBoundsCapture); // Should be FALSE — position not even on board
+                }
+                
+
 }
