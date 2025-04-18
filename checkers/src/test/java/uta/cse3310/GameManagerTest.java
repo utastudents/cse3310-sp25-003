@@ -1,11 +1,14 @@
 package uta.cse3310;
 
 import org.junit.Test;
+import org.junit.Before;
 import static org.junit.Assert.*;
 import uta.cse3310.GameManager.Position;
+import uta.cse3310.GameManager.GameState;
 
 public class GameManagerTest {
     
+    private GameState game;
     @Test
     public void testPosition() {
         // Test constructor and getters
@@ -60,4 +63,21 @@ public class GameManagerTest {
         String expected = "Position{x=2, y=3}";
         assertEquals(expected, arrayPos.toString());
     }
+
+    @Before
+    public void setUp() {
+        game = new GameState("game123", "Player1");
+    }
+
+    @Test
+    public void testInitialPlayerId() {
+        assertEquals("Player1", game.getCurrentPlayerId());
+    }
+
+    @Test
+    public void testSwitchTurn() {
+        game.switchTurn("BotI");
+        assertEquals("BotI", game.getCurrentPlayerId());
+    }
+
 }
