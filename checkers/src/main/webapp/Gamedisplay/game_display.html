@@ -255,9 +255,11 @@
     <h1 class="playerdata"><span id = "player1username">Player1 </span><span id="player1elo">0</span></h1>
     <div class="board" id="board"></div>
     <h1 class="playerdata"><span id ="player2username">Player2 </span><span id="player2elo">0</span></h1>
+    <!-- commented out temporarily, box currently displays over the board.
     <div class="displaybox">
       <h1 class="displaytext"><span id="endgamestate">Win/Loss/Draw</span></h1>
     </div>
+    -->
   </div>
 
   <div class="right-column">
@@ -376,8 +378,6 @@
       }
     }
 
-    //Temporarily commented out, displayEndState() currently just displays a Win/Draw/Loss block, this function has nothing wrong with it but we have to set up communication with page manager for a win / loss / draw flag before it can be implemented.
-    /*
     function displayEndState(endOfGameState) {
       if (endOfGameState == 0) {
         document.getElementById("endgamestate").textContent = "Draw";
@@ -390,7 +390,7 @@
         document.getElementById("endgamestate").textContent = "Win";
       }
     }
-    */
+
 
     let selectedPiece = null;
 
