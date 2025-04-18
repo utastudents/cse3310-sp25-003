@@ -376,6 +376,8 @@
       }
     }
 
+    //Temporarily commented out, displayEndState() currently just displays a Win/Draw/Loss block, this function has nothing wrong with it but we have to set up communication with page manager for a win / loss / draw flag before it can be implemented.
+    /*
     function displayEndState(endOfGameState) {
       if (endOfGameState == 0) {
         document.getElementById("endgamestate").textContent = "Draw";
@@ -388,6 +390,7 @@
         document.getElementById("endgamestate").textContent = "Win";
       }
     }
+    */
 
     let selectedPiece = null;
 
