@@ -1,26 +1,37 @@
 package uta.cse3310.GameManager;
 
-// [TODO] : Replace this with the actual GameSession class
-class GameSession {
-    private String gameId;
-    private String currentPlayer;
-    private String boardState;
+public class GameSession {
+
+    private GameState state;
 
     public GameSession(String gameId) {
-        this.gameId = gameId;
-        this.currentPlayer = "Player1"; // Placeholder for current player
-        this.boardState = ""; // Placeholder for board state
+        // Start with Player1 as the first player
+        this.state = new GameState(gameId, "Player1");
     }
 
-    public String getGameId() {
-        return gameId;
+    public GameState getGameState() {
+        return state;
     }
 
-    public String getCurrentPlayer() {
-        return currentPlayer;
+    public void applyMove(Move move) {
+        Position from = move.getFrom();
+        Position to = move.getTo();
+        state.applyMove(from.getX(), from.getY(), to.getX(), to.getY());
     }
 
-    public String getBoardState() {
-        return boardState;
+    public void removePiece(Position pos) {
+        state.removePiece(pos.getX(), pos.getY());
+    }
+
+    public char[][] getBoardAsCharArray() {
+        return state.getBoardAsArray(); // returns char[][] for BotI or display
+    }
+
+    public String getCurrentPlayerId() {
+        return state.getCurrentPlayerId();
+    }
+
+    public void switchPlayer(String nextPlayerId) {
+        state.switchTurn(nextPlayerId);
     }
 }

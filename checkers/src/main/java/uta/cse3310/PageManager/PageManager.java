@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 
 import uta.cse3310.DB.DB;
 import uta.cse3310.PairUp.PairUp;
@@ -17,22 +18,22 @@ import uta.cse3310.GameManager.GameManager;
 public class PageManager {
     // database interface
     private DB db;
-    
+
     // pairUp interface
     private PairUp pairUp;
-    
+
     // gameManager interface
     private GameManager gameManager;
-    
+
     // map to track active games by gameId
     private Map<Integer, GameStatus> activeGames;
-    
+
     // cache for waiting players
     private ArrayList<String> waitingPlayers;
-    
+
     // Turn tracker (global, not unique per client or game)
     private Integer turn = 0;
-    
+
     // Constructor
     public PageManager() {
         db = new DB();
@@ -41,7 +42,47 @@ public class PageManager {
         activeGames = new HashMap<>();
         waitingPlayers = new ArrayList<>();
     }
-    
+
+    /**
+     * Handles the "Login" event.
+     * 
+     * @param payload LoginPayload containing login details
+     * @return UserEventReply with the response
+     */
+    private UserEventReply handleLogin(LoginPayload payload) {
+        UserEventReply reply = new UserEventReply();
+        reply.status = new GameStatus();
+        reply.recipients = new ArrayList<>();
+
+        // Dummy logic for login validation
+        if (payload.username.equals("testUser") && payload.password.equals("password123")) {
+            reply.status.message = "Login successful";
+        } else {
+            reply.status.message = "Invalid username or password";
+        }
+
+        return reply;
+    }
+
+    /**
+     * Handles the "Game Status" event.
+     * 
+     * @param gameID The ID of the game to fetch status for
+     * @return UserEventReply with the game status
+     */
+    private UserEventReply handleGameStatus(String gameID) {
+        UserEventReply reply = new UserEventReply();
+        reply.status = new GameStatus();
+        reply.recipients = new ArrayList<>();
+
+        // Dummy logic for game status
+        reply.status.gameID = gameID;
+        reply.status.message = "Game is in progress";
+        reply.status.turn = turn;
+
+        return reply;
+    }
+
     /**
      * Processes input from the user.
      */
@@ -49,7 +90,7 @@ public class PageManager {
         if (userEvent.eventType == null || userEvent.eventType.isEmpty()) {
             return handleDefaultEvent(userEvent);
         }
-        
+
         switch (userEvent.eventType) {
             case "login":
                 return handleLogin(userEvent);
@@ -65,11 +106,12 @@ public class PageManager {
                 return handleDefaultEvent(userEvent);
         }
     }
-    
+
     private UserEventReply handleDefaultEvent(UserEvent userEvent) {
         UserEventReply ret = new UserEventReply();
         ret.status = new GameStatus();
-        
+
+        // Toggle turn for demonstration purposes
         if (turn == 0) {
             ret.status.turn = 1;
             turn = 1;
@@ -77,33 +119,34 @@ public class PageManager {
             ret.status.turn = 0;
             turn = 0;
         }
-        
+
+        // Send response back to the originating user
         ret.recipients = new ArrayList<>();
         ret.recipients.add(userEvent.id);
-        
+
         return ret;
     }
-    
+
     public UserEventReply handleGetPlayersUsername(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
         reply.status = new GameStatus();
         reply.recipients = new ArrayList<>();
         reply.recipients.add(userEvent.id);
         reply.type = "playersUsernameList";
-        
+
         ArrayList<String> players = new ArrayList<>();
-        
+
         if (waitingPlayers != null && !waitingPlayers.isEmpty()) {
             players.addAll(waitingPlayers);
         }
-        
+
         reply.status.playersList = players;
         reply.status.success = true;
         reply.status.message = "Players list retrieved successfully";
-        
+
         return reply;
     }
-    
+
     public UserEventReply handleLogin(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
         reply.status = new GameStatus();
@@ -115,7 +158,7 @@ public class PageManager {
         Statement stmt = null;
         
         try {
-            // parse JSON from msg field
+            // Parse JSON from msg field
             JsonObject jsonData = JsonConverter.parseJsonObject(userEvent.msg);
             
             if (jsonData == null) {
@@ -128,7 +171,7 @@ public class PageManager {
                 return JsonConverter.createErrorReply("Username is required", userEvent.id);
             }
             
-            // get optional fields
+            // Get optional fields
             String password = JsonConverter.extractField(userEvent.msg, "password");
             String email = JsonConverter.extractField(userEvent.msg, "email");
             
@@ -136,7 +179,7 @@ public class PageManager {
             stmt = c.createStatement();
             
             if (email != null && !email.isEmpty()) {
-                // new user registration
+                // New user registration
                 try {
                     DB.initUser(stmt, username, email, password);
                     reply.status.success = true;
@@ -146,7 +189,7 @@ public class PageManager {
                     reply.status.message = "Registration failed: " + e.getMessage();
                 }
             } else {
-                // existing user login - would need proper validation method
+                // Existing user login - would need proper validation method
                 reply.status.success = true;
                 reply.status.message = "Login successful";
             }
@@ -161,11 +204,11 @@ public class PageManager {
                 if (stmt != null) stmt.close();
                 if (c != null) c.close();
             } catch (SQLException e) {
-                
+                // Handle close error
             }
         }
     }
-    
+
     public UserEventReply handleJoinGame(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
         reply.status = new GameStatus();
@@ -174,7 +217,44 @@ public class PageManager {
         reply.type = "joinGameResult";
         
         try {
-            // parse JSON from msg field
+            // First try to parse as JoinGamePayload (for compatibility with new structure)
+            JoinGamePayload payload = null;
+            try {
+                payload = new Gson().fromJson(userEvent.msg, JoinGamePayload.class);
+            } catch (Exception e) {
+                // If parsing as JoinGamePayload fails, continue with our existing implementation
+            }
+            
+            // If we have a valid JoinGamePayload, use that structure
+            if (payload != null && payload.entity1 != null) {
+                // Convert opponentType1 and opponentType2 to booleans: 0 = bot, 1 = human
+                boolean isEntity1Bot = !payload.opponentType1; // false means human, true means bot
+                boolean isEntity2Bot = !payload.opponentType2;
+
+                // If action is "wait", add entity1 to waiting list
+                if (payload.action != null && payload.action.equalsIgnoreCase("wait")) {
+                    waitingPlayers.add(payload.entity1);
+                    reply.status.message = payload.entity1 + " is waiting for a match.";
+                    reply.status.success = true;
+                    reply.status.gameID = payload.lobbyId;
+                    reply.status.opponent = "None yet";
+                    return reply;
+                }
+                
+                // TODO: When PairUp integration is ready, pass to PairUp
+                // PairResponsePayload response = pairUp.pairPlayer(payload.entity1,
+                // isEntity2Bot, payload.action, payload.lobbyId);
+                
+                reply.status.message = "Join Game request received. Waiting for opponent...";
+                reply.status.gameID = payload.lobbyId;
+                reply.status.opponent = payload.entity2 != null ? payload.entity2 : "Waiting for opponent...";
+                reply.status.success = true;
+                
+                return reply;
+            }
+            
+            // Otherwise use our original implementation
+            // Parse JSON from msg field
             JsonObject jsonData = JsonConverter.parseJsonObject(userEvent.msg);
             
             if (jsonData == null) {
@@ -185,11 +265,11 @@ public class PageManager {
             String playerType = JsonConverter.extractField(userEvent.msg, "playerType");
             
             if (username == null || username.isEmpty()) {
-                // fall back to user ID if username not provided
+                // Fall back to user ID if username not provided
                 username = "user" + userEvent.id;
             }
             
-            // add player to waiting list if they're not already there
+            // Add player to waiting list if they're not already there
             if (!waitingPlayers.contains(username)) {
                 waitingPlayers.add(username);
             }
@@ -207,7 +287,7 @@ public class PageManager {
             return JsonConverter.createErrorReply("Error processing join game request: " + e.getMessage(), userEvent.id);
         }
     }
-    
+
     public UserEventReply handleGameMove(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
         reply.status = new GameStatus();
@@ -216,15 +296,15 @@ public class PageManager {
         reply.type = "gameMoveResult";
         
         try {
-            // parse the moveData from the msg field
-            // according to our  PageManager.js, moveData is nested JSON: { moveData: JSON.stringify({ gameId, ...moveData }) }
+            // Parse the moveData from the msg field
+            // According to PageManager.js, moveData is nested JSON: { moveData: JSON.stringify({ gameId, ...moveData }) }
             String moveDataStr = JsonConverter.extractField(userEvent.msg, "moveData");
             
             if (moveDataStr == null || moveDataStr.isEmpty()) {
                 return JsonConverter.createErrorReply("Move data is required", userEvent.id);
             }
             
-            // parse the inner JSON
+            // Parse the inner JSON
             JsonObject moveData = JsonConverter.parseJsonObject(moveDataStr);
             
             if (moveData == null) {
@@ -257,7 +337,7 @@ public class PageManager {
             return JsonConverter.createErrorReply("Error processing game move: " + e.getMessage(), userEvent.id);
         }
     }
-    
+
     public UserEventReply handleSummaryRequest(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
         reply.status = new GameStatus();
@@ -305,7 +385,7 @@ public class PageManager {
             return reply;
         }
     }
-    
+
     public UserEventReply sendGameUpdate(Integer gameId, GameStatus gameStatus) {
         UserEventReply reply = new UserEventReply();
         reply.status = gameStatus;
@@ -321,7 +401,7 @@ public class PageManager {
         
         return reply;
     }
-    
+
     public boolean sendNotification(Integer userId, String message) {
         if (userId == null || message == null) {
             return false;
@@ -338,7 +418,7 @@ public class PageManager {
         
         return true;
     }
-    
+
     public int broadcastMessage(String message) {
         if (message == null || message.isEmpty()) {
             return 0;
@@ -358,12 +438,12 @@ public class PageManager {
     }
     
     public void updateWaitingPlayers(ArrayList<String> newWaitingPlayers) {
-        waitingPlayers = newWaitingPlayers;
+        this.waitingPlayers = newWaitingPlayers;
         
         // Notify clients about updated waiting list
         broadcastMessage("Waiting players list updated");
     }
-    
+
     public GameStatus getGameStatus(Integer gameId) {
         if (gameId == null) {
             return null;

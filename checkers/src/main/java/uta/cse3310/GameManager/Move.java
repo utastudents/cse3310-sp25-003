@@ -1,52 +1,64 @@
 package uta.cse3310.GameManager;
 
 public class Move {
+    private final Position from;
+    private final Position to;
+    private final String playerId;
+    private boolean isCapture;
+    private boolean isKingMove;
 
-    // Attributes representing the starting position and ending position of the move
-    private Position from;
-    private Position to;
-    private String playerId;
-
-    // Constructor to initialize the Move object
     public Move(Position from, Position to, String playerId) {
         this.from = from;
         this.to = to;
         this.playerId = playerId;
+        this.isCapture = false;
+        this.isKingMove = false;
     }
 
-    // Getter for 'from' position
+    // Constructor with row/col coordinates
+    public Move(int fromRow, int fromCol, int toRow, int toCol, String playerId) {
+        this(new Position(fromRow, fromCol), new Position(toRow, toCol), playerId);
+    }
+
     public Position getFrom() {
         return from;
     }
 
-    // Setter for 'from' position
-    public void setFrom(Position from) {
-        this.from = from;
-    }
-
-    // Getter for 'to' position
     public Position getTo() {
         return to;
     }
 
-    // Setter for 'to' position
-    public void setTo(Position to) {
-        this.to = to;
-    }
-
-    // Getter for the player ID who made the move
     public String getPlayerId() {
         return playerId;
     }
 
-    // Setter for the player ID
-    public void setPlayerId(String playerId) {
-        this.playerId = playerId;
+    public boolean isCapture() {
+        return isCapture;
     }
 
-    // Optionally, you can override the toString() method to print a friendly representation
+    public void setCapture(boolean isCapture) {
+        this.isCapture = isCapture;
+    }
+
+    public boolean isKingMove() {
+        return isKingMove;
+    }
+
+    public void setKingMove(boolean isKingMove) {
+        this.isKingMove = isKingMove;
+    }
+
+    /**
+     * Checks if this move is a jump move (distance of 2 squares diagonally)
+     */
+    public boolean isJump() {
+        int dx = Math.abs(to.getX() - from.getX());
+        int dy = Math.abs(to.getY() - from.getY());
+        return dx == 2 && dy == 2;
+    }
+
     @Override
     public String toString() {
-        return "Move [from=" + from + ", to=" + to + ", playerId=" + playerId + "]";
+        return "Move[from=" + from + ", to=" + to + ", player=" + playerId + "]";
     }
 }

@@ -3,11 +3,8 @@ package uta.cse3310.GamePlay;
 import uta.cse3310.GameManager.Move;
 import uta.cse3310.GameManager.GameState;
 import uta.cse3310.GameManager.Position;
-import uta.cse3310.GameTermination.IGameTermination.Piece;
-/* Game termination has a piece class that Game Manager is using in their Gamestate.java file. 
-	I could implement it here, but I would have to talk to Game Manager first, so for compilation
-	purposes I imported Game termination's piece class. (Written by Devyn)
-*/
+import uta.cse3310.GameManager.Piece;
+import uta.cse3310.GameManager.Player;
 
 public class GamePlay {
 
@@ -29,7 +26,7 @@ public class GamePlay {
 		return false;
 	}
 
-	private void applyMove(GameState boardState, Move move) {
+	public void applyMove(GameState boardState, Move move) {
 		Position from = new Position(move.getFrom().getX(),
 				move.getFrom().getY());
 		Position to = new Position(move.getTo().getX(),
@@ -38,88 +35,95 @@ public class GamePlay {
 		boardState.applyMove(from, to);
 	}
 
-	private boolean isSameTeam(GameState boardState, Move move) { //Note this function may not work properly, waiting on Game manager
-		Piece fromPiece = boardState.getPieceAt(move.getFrom());  // to make their own piece/character class
-		Piece toPiece = boardState.getPieceAt(move.getTo());
+	private boolean isSameTeam(GameState boardState, Move move) {
+        Piece fromPiece = boardState.getPieceAt(move.getFrom()); //should be fixed since piece class is properly determined 
+        Piece toPiece = boardState.getPieceAt(move.getTo());
 
-		if (fromPiece == null || toPiece == null) {
-			return false;
-		}
+        if (fromPiece == null || toPiece == null) {
+            return false;
+        }
 
-		return fromPiece.getColor() == toPiece.getColor(); // piece color class from iGameTermination
-	}
+        return fromPiece.getPlayerId().equals(toPiece.getPlayerId()); //Now using GameManager's player class
+    }
 
 	private void promotePiece(GameState boardState, Move move) {
-		// Implementation would check if the piece should be promoted and modify the
-		// piece accordingly.
+		// String currentPlayer = gameSession.getCurrentPlayer();
+		// getCurrentPlayer() is not public, need to talk with GameManager on making it
+		// public as
+		// the logic can't work unless we know whose peice is on the edge
+
+		String currentPlayer = "Player1"; // Placeholder till we get the current player
+		boolean isKing = false; // Placeholder until I know when to use a king piece
+
+		// Piece piece = boardState.getPieceAt(move.getTo());
+		Piece piece = null;
+		if (piece == null) {
+			return;
+		}
+
+		if (isKing == true) {
+			return;
+		}
+
+		// Promotion Logic
+		// This might require some modifications in the future regarding if the
+		// appropriate peice on the oppoent's edge
+		if (currentPlayer == "Player1" && move.getTo().getY() == 0) {
+			isKing = true;
+		} else if (currentPlayer == "Player2" && move.getTo().getY() == 7) {
+			isKing = true;
+		}
 	}
 
 	private boolean isEmpty(GameState boardState, int row, int col) {
-		// Would return true if table[row][col] is empty.
-		return false;
+		Position pos = new Position(row, col);
+		return boardState.getPieceAt(pos) == null;
 	}
 
 	public boolean isValidMove(GameState boardState, Move move) {
-		/* Note: This is temporary functionality for isValidMove,
-			I'd expect this to receive lots of changes, once Game Manager
-			changes their code/requirements. Alot of the code is all over the place
-			since someone pushed that outdated build. Included printout text
-			for debugging purposes. Written by: Devyn
-		*/
-	// Check 1: Is move within bounds?
-	if (!isInBounds(move)) {
-		System.out.println("Invalid move: destination out of bounds.");
-		return false;
-	}
+    if (!isInBounds(move)) {
+        return false;
+    }
 
-	// Check 2: Is there a piece at the start?
-	Piece fromPiece = boardState.getPieceAt(move.getFrom());
-	if (fromPiece == null) {
-		System.out.println("Invalid move: no piece at starting position.");
-		return false;
-	}
+    if (!isDiagonal(move)) {
+        return false;
+    }
 
-	// Check 3: Is the destination already occupied?
-	if (boardState.getPieceAt(move.getTo()) != null) {
-		System.out.println("Invalid move: destination is already occupied.");
-		return false;
-	}
+    if (!isEmpty(boardState, move.getTo().getX(), move.getTo().getY())) {
+        return false;
+    }
 
-	// Check 4: Is the destination on the same team?
-	if (isSameTeam(boardState, move)) {
-		System.out.println("Invalid move: cannot move to a square occupied by the same team.");
-		return false;
-	}
+    if (isSameTeam(boardState, move)) {
+        return false;
+    }
 
-	// Check 5: Is it a simple diagonal move?
-	if (isDiagonal(move)) {
-		System.out.println("Valid move: regular diagonal move.");
-		return true;
-	}
-
-	// Check 6: Is it a valid jump?
-	if (isJump(boardState, move)) {
-		System.out.println("Valid move: jump move.");
-		return true;
-	}
-
-	// If it’s none of the above
-	System.out.println("Invalid move: does not match any valid movement rules.");
-	return false;
+    return true; //changed back to return true (should be fixed if not will change it back)
 }
 
 	public boolean isJump(GameState boardState, Move move) {// Would return true if intended move intended move captures
-															// an enemy piece is valid
-		boolean jump2;
-		boolean empty;
-		boolean teammate;
+		boolean jump2 = true;
 		boolean isKing = false; // Placeholder until I know when to use a king piece
+		int positionX;
+		int positionY;
+
+		if (move.getTo().getX() < move.getFrom().getX()) {
+			positionX = move.getTo().getX() - 1;
+		} else {
+			positionX = move.getTo().getX() + 1;
+		}
+
+		if (move.getTo().getY() < move.getFrom().getY()) {
+			positionY = move.getTo().getY() - 1;
+		} else {
+			positionY = move.getTo().getY() + 1;
+		}
 
 		if (isKing == true) {
 			if (Math.abs(move.getTo().getX() - move.getFrom().getX()) == 2) { // If X2 - X1 && Y2 - Y1 both are equal to
-																				// 2
 				if (Math.abs(move.getTo().getY() - move.getFrom().getY()) == 2) {
-					jump2 = true;
+					if (isEmpty(boardState, positionX, positionY) == false || isSameTeam(boardState, move) == true) {
+						jump2 = true;
+					}
 				}
 			}
 		} else {
@@ -129,13 +133,15 @@ public class GamePlay {
 		if (isKing = false) {
 			if (Math.abs(move.getTo().getX() - move.getFrom().getX()) == 2) {// X value can the absolute value of 2 but
 																				// Y cannot
-				if (move.getTo().getY() - move.getFrom().getY() == 2) {
-					jump2 = true;
+				if (move.getTo().getY() - move.getFrom().getY() == 1) {
+					if (isEmpty(boardState, positionX, positionY) == false || isSameTeam(boardState, move) == true) {
+						jump2 = true;
+					}
 				}
 			}
 		} else {
 			jump2 = false;
 		}
-		return false;
+		return jump2;
 	}
 }
