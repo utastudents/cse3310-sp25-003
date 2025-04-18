@@ -104,4 +104,83 @@ public class PairUpModuleTest {
         assertEquals(activeId, remaining.get(0).getLobbyId());
     }
 
+    @Test
+    public void testCreateLobbyWithSamePlayer() throws LobbyException {
+        PairUpModule pum = new PairUpModule();
+        String id1 = pum.createLobby("p1");
+        String id2 = pum.createLobby("p1");
+
+        // Ensure two separate lobbies are created
+        assertNotEquals("Lobbies created by the same player should have different IDs", id1, id2);
+    }
+
+    @Test
+    public void testJoinLobbyAlreadyFull() throws LobbyException {
+        PairUpModule pum = new PairUpModule();
+        String id = pum.createLobby("p1");
+        pum.joinLobby(id, "p2");
+
+        // Attempt to join a full lobby
+        assertFalse("Joining a full lobby should fail", pum.joinLobby(id, "p3"));
+    }
+
+    @Test
+    public void testCancelNonexistentLobby() {
+        PairUpModule pum = new PairUpModule();
+        try {
+            pum.cancelLobby("nonexistent-id");
+            fail("Cancelling a nonexistent lobby should throw an exception");
+        } catch (LobbyException e) {
+            assertEquals("Lobby not found", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testHandleUserQuitNonexistentLobby() {
+        PairUpModule pum = new PairUpModule();
+        try {
+            pum.handleUserQuit("nonexistent-id", "p1");
+            fail("Quitting a nonexistent lobby should throw an exception");
+        } catch (LobbyException e) {
+            assertEquals("Lobby not found", e.getMessage());
+        }
+    }
+
+    @Test
+    public void testRemoveIdleLobbiesWithNoIdle() throws LobbyException {
+        PairUpModule pum = new PairUpModule();
+
+        // Create two active lobbies
+        String id1 = pum.createLobby("p1");
+        String id2 = pum.createLobby("p2");
+
+        // Set both lobbies as recently created
+        for (Lobby lobby : pum.refreshLobbies()) {
+            lobby.setCreationTime(System.currentTimeMillis());
+        }
+
+        // Call the method that should remove idle lobbies
+        pum.removeIdleLobbies();
+
+        // Both lobbies should remain
+        List<Lobby> remaining = pum.refreshLobbies();
+        assertEquals(2, remaining.size());
+        assertTrue(remaining.stream().anyMatch(lobby -> lobby.getLobbyId().equals(id1)));
+        assertTrue(remaining.stream().anyMatch(lobby -> lobby.getLobbyId().equals(id2)));
+    }
+
+    @Test
+    public void testCheckLobbyFull() throws LobbyException {
+        PairUpModule pum = new PairUpModule();
+        String id = pum.createLobby("p1");
+
+        // Initially, the lobby should not be full
+        assertFalse("Lobby should not be full initially", pum.checkLobbyFull(id));
+
+        // Add a second player to fill the lobby
+        pum.joinLobby(id, "p2");
+
+        // Now, the lobby should be full
+        assertTrue("Lobby should be full after two players join", pum.checkLobbyFull(id));
+    }
 }
