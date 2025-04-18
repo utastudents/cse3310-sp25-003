@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import uta.cse3310.PageManager.PairResponsePayload;
+import uta.cse3310.PageManager.JoinGamePayload;
+
 
 /* PAIRUP-001/002: Manage list of lobbies, each with up to 2 participants (human or bot) */
 public class PairUpModule {
