@@ -180,30 +180,8 @@ public class BotII {
         char opp = board[opponentPos.getX()][opponentPos.getY()];
         return (opp == 'x' || opp == 'X') && board[jumpPos.getX()][jumpPos.getY()] == ' ';
     }
-    } 
-                else if (board[row][col] == 'O') 
-                {
-                    // Handle kings (all directions)
-                    Position currentPos = new Position(row, col);
-                    
-                    Position diagUpLeft = new Position(row - 1, col - 1);
-                    Position diagUpLeftJump = new Position(row - 2, col - 2);
-                    Position diagUpRight = new Position(row - 1, col + 1);
-                    Position diagUpRightJump = new Position(row - 2, col + 2);
-                    
-                    Position diagDownLeft = new Position(row + 1, col - 1);
-                    Position diagDownLeftJump = new Position(row + 2, col - 2);
-                    Position diagDownRight = new Position(row + 1, col + 1);
-                    Position diagDownRightJump = new Position(row + 2, col + 2);
 
-                    if (findCaptureOpportunity(board, diagUpLeft, diagUpLeftJump))
-                        captureMoves.add(new Move(currentPos, diagUpLeftJump, PLAYER_ID));
-                    if (findCaptureOpportunity(board, diagUpRight, diagUpRightJump))
-                        captureMoves.add(new Move(currentPos, diagUpRightJump, PLAYER_ID));
-                    if (findCaptureOpportunity(board, diagDownLeft, diagDownLeftJump))
-                        captureMoves.add(new Move(currentPos, diagDownLeftJump, PLAYER_ID));
-                    if (findCaptureOpportunity(board, diagDownRight, diagDownRightJump))
-                        captureMoves.add(new Move(currentPos, diagDownRightJump, PLAYER_ID));
+    
 private boolean isWithinBoard(Position pos) 
     {
         return pos.getX() >= 0 && pos.getX() < 8 && pos.getY() >= 0 && pos.getY() < 8;
