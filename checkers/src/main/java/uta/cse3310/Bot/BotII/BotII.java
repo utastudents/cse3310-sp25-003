@@ -1,165 +1,63 @@
 package uta.cse3310.Bot.BotII;
 
+import uta.cse3310.GameManager.Move;
+import uta.cse3310.GameManager.Position;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
+public class BotII {
+    // Bot's player ID
+    private static final String PLAYER_ID = "BotII";
 
-// Temporary placeholders
-class BoardState {
-}
-
-class Move {
-}
-
-public class BotII 
-{
-        //Main method that determines the bot's move
-    public void makeMove(BoardState boardState) 
+    // Create bot instance for GameManager
+    public BotII() 
     {
-        int score = evaluateBoard(boardState);
-
-        //If the evaluation score is high, prioritize offensive moves, else defensive
-        if (score >= 0) 
-        {
-            prioritizeOffense(boardState);
-        } 
-        else 
-        {
-            prioritizeDefense(boardState);
-        }
     }
 
-    //Offensive strategy
-    private void prioritizeOffense(BoardState boardState) {
-        //first, look for capture oppurtunities
-        if (findCaptureOpportunity(boardState)) {
-            capturePiece(boardState);
-        } 
-        else {
-            //If no capture is available, make a regular valid move
-            makeValidMove(boardState);
-        }
-    }
-    private void prioritizeDefense(BoardState boardState) 
-    {
-        ArrayList<Move> legalMoves = getLegalMoves(boardState);
-        
-        Move blockMove = findBlockMove(legalMoves);
-        if (blockMove != null) 
-        {
-            executeMove(blockMove);
-            return;
-        }
 
-        Move safeMove = findSafeMove(legalMoves);
-        if (safeMove != null) 
+    // Return the bot's next move based on board state
+    public Move onUserMove(char[][] board) 
+    {
+        // Collect all possible capture and standard moves
+        ArrayList<Move> captureMoves = new ArrayList<>();
+        ArrayList<Move> standardMoves = new ArrayList<>();
+
+        getLegalMoves(board, captureMoves, standardMoves);
+
+        // Prioritize capture moves if available
+        Random rand = new Random();
+        if (!captureMoves.isEmpty()) 
         {
-            executeMove(safeMove);
+            return captureMoves.get(rand.nextInt(captureMoves.size()));
         }
         
-    }
-    //Evaluate the board and return a score based on the amount of pieces, kings, and center control
-    public int evaluateBoard(BoardState boardState) {
-        int score = 0;
-
-        //Score for number of bot pieces and opponent pieces
-        score += 10 * countBotPieces(boardState);
-        score -= 10 * countOpponentPieces(boardState);
-
-        //Score for number of kings
-        score += 20 * countBotKings(boardState);
-        score -= 20 * countOpponentKings(boardState);
-
-        //Evaluate center control: Number of pieces in the center
-        score += 15 * countPiecesInCenter(boardState);
-
-        return score;
-    }
-
-    //Check if there's an opportunity to capture an opponent piece
-    private boolean findCaptureOpportunity(BoardState boardState) {
-        //Capture Move logic will be added here.
-        return true;
-    }
-    //capture of an opponent's piece
-    private void capturePiece(BoardState boardState) 
-    {
-        //Perform a capture on opponent piece
-
-    }
-
-    // Make a valid move (not involving a capture)
-    private void makeValidMove(BoardState boardState) {
-        //Logic to move a piece
-    }
-
-    
-    private Move findSafeMove(ArrayList<Move> legalMoves) 
-    {
-       //code to find safe moves
-       //Avoid moving from back row
-        //if (startRow != 0 && startRow != 7) 
-        //{
-         //       return move;
-        //}
+        
+        // Evaluate board and choose strategic moves
+        if (!standardMoves.isEmpty()) 
+        {
+            int score = evaluateBoard(board);
+            
+            ArrayList<Move> strategicMoves = new ArrayList<>();
+            for (Move move : standardMoves)
+            {
+                if (score >= 0 && isForwardMove(move)) 
+                {
+                    strategicMoves.add(move); // Attack by advancing
+                } 
+                else if (score < 0 && findSafeMove(move, board[move.getFrom().getX()][move.getFrom().getY()] == 'O'))
+                {
+                    strategicMoves.add(move); // Defend by retreating
+                }
+            }
+            
+            // Return random strategic move if available, else any standard move
+            if (!strategicMoves.isEmpty()) 
+            {
+                return strategicMoves.get(rand.nextInt(strategicMoves.size()));
+            }
+            return standardMoves.get(rand.nextInt(standardMoves.size()));
+        }
         
         return null;
     }
-    
-    private Move findBlockMove(List<Move> legalMoves) 
-    {
-       //code to find move that blocks opponents
-       //takes center positions
-       //if (row >= 2 && row <= 5 && col >= 2 && col <= 5) 
-       //{
-       //         return move;
-       //}
-        return null;
-    }
 
-    private void executeMove(Move move) {
-        //TODO: Actually make the move on the board
-    }
-    
-    private ArrayList<Move> getLegalMoves(BoardState boardState) 
-    {
-        //TODO: Return all legal moves for bot
-        return new ArrayList<>();
-    }
-        
-    //Helper methods for evaluation
-    private int countBotPieces(BoardState boardState) 
-    {
-        //Add code to count the bot's pieces
-        return 0; 
-    }
-
-    private int countOpponentPieces(BoardState boardState) 
-    {
-        //TODO: Add code to count the opponent's pieces
-        return 0;
-    }
-
-    private int countBotKings(BoardState boardState) 
-    {
-        //TODO: Add code to count the bot's kings
-        return 0;  
-    }
-
-    private int countOpponentKings(BoardState boardState) 
-    {
-        //TODO: Add code to count Opponents kings
-        return 0; 
-    }
-    
-       //Count the number of pieces the bot has in the center of the board
-    private int countPiecesInCenter(BoardState boardState) 
-    {
-        int count = 0;
-        //Positions on the checkers board that are considered the center
-        int[][] centerPositions = {{3, 3}, {3, 4}, {4, 3}, {4, 4}};
-        //Loop through the positions and count bot's pieces in the center
-        return count;
-    }
-   
-}
