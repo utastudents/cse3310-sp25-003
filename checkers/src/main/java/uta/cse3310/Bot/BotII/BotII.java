@@ -88,13 +88,7 @@ public class BotII {
         // Calculate score with higher weight for kings
         return botPieces + 2 * botKings - (oppPieces + 2 * oppKings);
     }
-      // Check if position is valid for a standard move
-    private boolean makeValidMove(char[][] board, Position pos) 
-    {
-        // Verify position is on board and empty
-        if (!isWithinBoard(pos)) return false;
-        return board[pos.getX()][pos.getY()] == ' ';
-    }
+
     // Find all possible capture and standard moves
     private void getLegalMoves(char[][] board, ArrayList<Move> captureMoves, ArrayList<Move> standardMoves) 
     {
@@ -182,7 +176,7 @@ public class BotII {
     }
 
     
-private boolean isWithinBoard(Position pos) 
+    private boolean isWithinBoard(Position pos) 
     {
         return pos.getX() >= 0 && pos.getX() < 8 && pos.getY() >= 0 && pos.getY() < 8;
     }
