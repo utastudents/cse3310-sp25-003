@@ -95,4 +95,89 @@ public class BotII {
         if (!isWithinBoard(pos)) return false;
         return board[pos.getX()][pos.getY()] == ' ';
     }
+    // Find all possible capture and standard moves
+    private void getLegalMoves(char[][] board, ArrayList<Move> captureMoves, ArrayList<Move> standardMoves) 
+    {
+        // Check each square for bot pieces
+        for (int row = 0; row < 8; row++) 
+        {
+            for (int col = 0; col < 8; col++)
+            {
+                if (board[row][col] == 'o') 
+                {
+                    // Handle standard pieces (downward moves)
+                    
+                    Position currentPos = new Position(row, col);
+                    
+                    Position diagDownLeft = new Position(row + 1, col - 1);
+                    Position diagDownLeftJump = new Position(row + 2, col - 2);
+                    Position diagDownRight = new Position(row + 1, col + 1);
+                    Position diagDownRightJump = new Position(row + 2, col + 2);
+
+                    if (findCaptureOpportunity(board, diagDownLeft, diagDownLeftJump))
+                        captureMoves.add(new Move(currentPos, diagDownLeftJump, PLAYER_ID));
+                    if (findCaptureOpportunity(board, diagDownRight, diagDownRightJump))
+                        captureMoves.add(new Move(currentPos, diagDownRightJump, PLAYER_ID));
+
+                    if (makeValidMove(board, diagDownLeft))
+                        standardMoves.add(new Move(currentPos, diagDownLeft, PLAYER_ID));
+                    if (makeValidMove(board, diagDownRight))
+                        standardMoves.add(new Move(currentPos, diagDownRight, PLAYER_ID));
+                        
+                        
+                } 
+                else if (board[row][col] == 'O') 
+                {
+                    // Handle kings (all directions)
+                    Position currentPos = new Position(row, col);
+                    
+                    Position diagUpLeft = new Position(row - 1, col - 1);
+                    Position diagUpLeftJump = new Position(row - 2, col - 2);
+                    Position diagUpRight = new Position(row - 1, col + 1);
+                    Position diagUpRightJump = new Position(row - 2, col + 2);
+                    
+                    Position diagDownLeft = new Position(row + 1, col - 1);
+                    Position diagDownLeftJump = new Position(row + 2, col - 2);
+                    Position diagDownRight = new Position(row + 1, col + 1);
+                    Position diagDownRightJump = new Position(row + 2, col + 2);
+
+                    if (findCaptureOpportunity(board, diagUpLeft, diagUpLeftJump))
+                        captureMoves.add(new Move(currentPos, diagUpLeftJump, PLAYER_ID));
+                    if (findCaptureOpportunity(board, diagUpRight, diagUpRightJump))
+                        captureMoves.add(new Move(currentPos, diagUpRightJump, PLAYER_ID));
+                    if (findCaptureOpportunity(board, diagDownLeft, diagDownLeftJump))
+                        captureMoves.add(new Move(currentPos, diagDownLeftJump, PLAYER_ID));
+                    if (findCaptureOpportunity(board, diagDownRight, diagDownRightJump))
+                        captureMoves.add(new Move(currentPos, diagDownRightJump, PLAYER_ID));
+
+                    if (makeValidMove(board, diagUpLeft))
+                        standardMoves.add(new Move(currentPos, diagUpLeft, PLAYER_ID));
+                    if (makeValidMove(board, diagUpRight))
+                        standardMoves.add(new Move(currentPos, diagUpRight, PLAYER_ID));
+                    if (makeValidMove(board, diagDownLeft))
+                        standardMoves.add(new Move(currentPos, diagDownLeft, PLAYER_ID));
+                    if (makeValidMove(board, diagDownRight))
+                        standardMoves.add(new Move(currentPos, diagDownRight, PLAYER_ID));
+                        
+                }
+            }
+        }
+    }
+
+    // Check if position is valid for a standard move
+    private boolean makeValidMove(char[][] board, Position pos) 
+    {
+        // Verify position is on board and empty
+        if (!isWithinBoard(pos)) return false;
+        return board[pos.getX()][pos.getY()] == ' ';
+    }
+
+    // Check if position allows a capture move
+    private boolean findCaptureOpportunity(char[][] board, Position opponentPos, Position jumpPos) 
+    {
+        // Verify opponent piece and empty landing spot
+        if (!isWithinBoard(opponentPos) || !isWithinBoard(jumpPos)) return false;
+        char opp = board[opponentPos.getX()][opponentPos.getY()];
+        return (opp == 'x' || opp == 'X') && board[jumpPos.getX()][jumpPos.getY()] == ' ';
+    }
 
