@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="wclassth=device-wclassth, initial-scale=1.0">
     <title>Join Game</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">    
 
 </head>
 <body>
@@ -43,10 +42,10 @@
                 <!--Code: to put in Buttons for selecting Players -->
                 <div id="players-row">
                     <div id="left-column">
-                        <button class="selection-button" id="player1" data-value = "Player1">
+                        <button class="selection-button" id="player1" data-value = 1>
                         Player 1
                         </button>
-                        <button class="selection-button" id="bot1" data-value = "BOT1">
+                        <button class="selection-button" id="bot1" data-value = 0>
                         BOT1
                         </button>
                     </div>
@@ -58,10 +57,10 @@
                         </div>
                     </div>
                     <div id="right-column">
-                        <button class="selection-button" id="player2" data-value = "Player2">
+                        <button class="selection-button" id="player2" data-value = 1>
                         Player 2
                         </button>
-                        <button class="selection-button" id="bot2" data-value = "BOT2">
+                        <button class="selection-button" id="bot2" data-value = 0>
                         BOT2
                         </button>
                     </div>
@@ -109,13 +108,13 @@
                                  0/2
                             </div>
     
-                            <button id="join-game"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                            <button id="join-game" onclick="joinLobby(1)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
                                 Join Lobby
                                 <!-- This is where Join Game Button lies -->
                     
                             </button>
 
-                            <button id="wait-game">
+                            <button id="wait-game" onclick="waitLobby(1)">
                                 wait
                                 <!-- This is where Wait button lies -->
                             </button>
@@ -132,13 +131,13 @@
                                 0/2
                             </div>
     
-                            <button id="join-game"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                            <button id="join-game" onclick = "joinLobby(2)" > <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
                                 Join Lobby
                                 <!-- This is where Join Game Button lies -->
                     
                             </button>
 
-                            <button id="wait-game">
+                            <button id="wait-game" onclick="waitLobby(2)">
                                 wait
                                 <!-- This is where Wait button lies -->
                             </button>
@@ -155,13 +154,13 @@
                                  0/2
                             </div>
     
-                            <button id="join-game"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                            <button id="join-game" onclick="joinLobby(3)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
                                 Join Lobby
                                 <!-- This is where Join Game Button lies -->
                     
                             </button>
 
-                            <button id="wait-game">
+                            <button id="wait-game" onclick="waitLobby(3)">
                                 wait
                                 <!-- This is where Wait button lies -->
                             </button>
@@ -178,13 +177,13 @@
                                 0/2
                             </div>
     
-                            <button id="join-game"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                            <button id="join-game" onclick="joinLobby(4)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
                                 Join Lobby
                                 <!-- This is where Join Game Button lies -->
                     
                             </button>
 
-                            <button id="wait-game">
+                            <button id="wait-game" onclick="waitLobby(4)">
                                 wait
                                 <!-- This is where Wait button lies -->
                             </button>
@@ -201,13 +200,13 @@
                                 0/2
                             </div>
     
-                            <button id="join-game"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                            <button id="join-game" onclick="joinLobby(5)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
                                 Join Lobby
                                 <!-- This is where Join Game Button lies -->
                     
                             </button>
 
-                            <button id="wait-game">
+                            <button id="wait-game" onclick="waitLobby(5)">
                                 wait
                                 <!-- This is where Wait button lies -->
                             </button>
@@ -224,13 +223,13 @@
                                 0/2
                             </div>
     
-                            <button id="join-game"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                            <button id="join-game" onclick="joinLobby(6)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
                                 Join Lobby
                                 <!-- This is where Join Game Button lies -->
                     
                             </button>
 
-                            <button id="wait-game">
+                            <button id="wait-game" onclick="waitLobby(6)">
                                 wait
                                 <!-- This is where Wait button lies -->
                             </button>
@@ -247,13 +246,13 @@
                                 0/2
                             </div>
     
-                            <button id="join-game"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                            <button id="join-game" onclick="joinLobby(7)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
                                 Join Lobby
                                 <!-- This is where Join Game Button lies -->
                     
                             </button>
 
-                            <button id="wait-game">
+                            <button id="wait-game" onclick="waitLobby(7)">
                                 wait
                                 <!-- This is where Wait button lies -->
                             </button>
@@ -270,13 +269,13 @@
                                 0/2
                             </div>
     
-                            <button id="join-game"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                            <button id="join-game" onclick="joinLobby(8)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
                                 Join Lobby
                                 <!-- This is where Join Game Button lies  -->
                     
                             </button>
 
-                            <button id="wait-game">
+                            <button id="wait-game" onclick="waitLobby(8)">
                                 wait
                                 <!-- This is where Wait button lies -->
                             </button>
@@ -293,13 +292,13 @@
                                 0/2
                             </div>
     
-                            <button id="join-game"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                            <button id="join-game" onclick="joinLobby(9)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
                                 Join Lobby
                                 <!-- This is where Join Game Button lies -->
                     
                             </button>
 
-                            <button id="wait-game">
+                            <button id="wait-game" onclick="waitLobby(9)">
                                 wait
                                 <!-- This is where Wait button lies -->
                             </button>
@@ -316,13 +315,13 @@
                                 0/2
                             </div>
     
-                            <button id="join-game"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                            <button id="join-game" onclick="joinLobby(10)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
                                 Join Lobby
                                 <!-- This is where Join Game Button lies -->
                     
                             </button>
 
-                            <button id="wait-game">
+                            <button id="wait-game" onclick="waitLobby(10)">
                                 wait
                                 <!-- This is where Wait button lies -->
                             </button>
@@ -339,7 +338,7 @@
         </div>
     </section>    
 
-
+    <script src="script.js"></script>
 </body>
 </html>
 

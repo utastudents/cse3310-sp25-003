@@ -1,27 +1,6 @@
 // var connection = null;
-// let entity1;
-// let entity2;
-
-// var serverUrl;
-// serverUrl = "ws://" + window.location.hostname + ":" + (parseInt(location.port) + 100);
-// connection = new WebSocket(serverUrl);
-
-// connection.onopen = function (evt) {
-//     console.log("open");
-// }
-
-// connection.onclose = function (evt) {
-//     console.log("close");
-// }
-
-// connection.onmessage = function (evt) {
-//     var msg;
-//     msg = evt.data;
-
-//     console.log("Message received: " + msg);
-//     document.getElementById("tbox").innerHTML = msg + '\n' + document.getElementById("tbox").innerHTML;
-//     //const obj = JSON.parse(msg);
-// }
+let entity1;
+let entity2;
 
 class UserEvent {
     msg;
@@ -38,14 +17,17 @@ function msg(msg) {
 // while(!(connection.readyState === WebSocket.OPEN))    
 // {};
 
+// Handling entities selection
+
 let selections = [];
+let selectionsNum = [];
 
 const buttons = document.querySelectorAll('.selection-button');
 const joinButton = document.querySelector('.join-game');
 
 buttons.forEach(button => {
     button.addEventListener('click', () => {
-        const value = button.getAttribute('data-value');
+        const value = button.innerHTML;
         
         if (button.classList.contains('selected')) {
             // Deselect the button
@@ -59,30 +41,29 @@ buttons.forEach(button => {
             if (selections.length < 2) {
                 button.classList.add('selected');
                 selections.push(value);
+                selectionsNum.push(button.getAttribute('data-value'))
             }
         }
         
         // Update the display
-        updateSelectionDisplay();
+        updateSelection();
     });
 });
 
 // Update the selection display
-function updateSelectionDisplay() {
+function updateSelection() {
     // Update entity displays
-    const entity1Element = document.getElementById("player1");
-    const entity2Element = document.getElementById("player2");
+    entity1 = selections[0] || 'None';
+    entity2 = selections[1] || 'None';
+    opponent1 = selectionsNum [0] || null;
+    opponent2 = selectionsNum [1] || null;
     const selectionCountElement = document.getElementById("selectionCount");
-
-    if (entity1Element) entity1Element.textContent = selections[0] || 'None';
-    if (entity2Element) entity2Element.textContent = selections[1] || 'None';
-    if (selectionCountElement) selectionCountElement.textContent = selections.length;
 
     // Enable/disable join button
     if (joinButton) joinButton.disabled = selections.length !== 2;
 }
 
-window.addEventListener("load", requestPlayersUserName);
+// window.addEventListener("load", requestPlayersUserName);
 
 function requestPlayersUserName() {
     // This method requests the name of a specific player    
@@ -176,29 +157,62 @@ function refereshLobbies() {
     msg(request);
 }
 
-function toggleEntitySelection(entityId) {
-    // This method selects or deselects a player or bot
-
-    let request = {
-        eventType: "toggleEntitySelection",
-        entityId: entityId
-    };
-
-    msg(request);
-}
-
-function joinLobby(entity1, entity2, lobbyId) {
+function joinLobby(lobbyId) {
     // This method allows the player to join a specified lobby
     // Tells page manager which two entity joined which lobby
 
-    let request = {
-        eventType: "joinLobby",
-        PlayerHandle: entity1,
-        opponentType: entity2,
-        LobbyId: lobbyId.toString()
-    };
+    let action = "join";
+    let opponentType1 = selectionsNum[0];
+    let opponentType2 = selectionsNum[1];
 
-    msg(request);
+    // const joinGamePayload = {
+    //     entity1: 'Player1',
+    //     entity2: 'Player2',
+    //     opponentType1: true, // "bot" (false) or "human" (true)
+    //     opponentType2: false, // "bot" (false) or "human" (true)
+    //     lobbyId: 'Lobby123',
+    //     action: 'join' // or "wait"
+    // };
+
+    // msg(joinGamePayload);
+
+
+    console.log("Entity1: ", entity1);
+    console.log("Entity2: ", entity2);
+    console.log("LobbyID: ", lobbyId);
+    console.log("OpponentType1: ", opponentType1);
+    console.log("OpponentType2: ", opponentType2);
+    console.log("Action: ", action);
+
+}
+
+function waitLobby(lobbyId) {
+    // This method allows the player to join a specified lobby
+    // Tells page manager which two entity joined which lobby
+    let action = "wait";
+    let opponentType1 = selectionsNum[0];
+    let opponentType2 = selectionsNum[1];
+
+
+    // const waitGamePayLoad = {
+    //     entity1: 'Player1',
+    //     entity2: 'Player2',
+    //     opponentType1: true, // "bot" (false) or "human" (true)
+    //     opponentType2: false, // "bot" (false) or "human" (true)
+    //     lobbyId: 'Lobby123',
+    //     action: 'join' // or "wait"
+    // };
+
+    // msg(joinGamePayload);
+
+
+    console.log("Entity1: ", entity1);
+    console.log("Entity2: ", entity2);
+    console.log("LobbyID: ", lobbyId);
+    console.log("OpponentType1: ", opponentType1);
+    console.log("OpponentType2: ", opponentType2);
+    console.log("Action: ", action);
+
 }
 
 function displayLobbies() {
@@ -206,17 +220,6 @@ function displayLobbies() {
 
     let request = {
         eventType: "displayLobbies"
-    };
-
-    msg(request);
-}
-
-function selectPlayer(playerId) {
-    // This method selects a player by their ID
-
-    let request = {
-        eventType: "selectPlayer",
-        playerId: playerId
     };
 
     msg(request);
