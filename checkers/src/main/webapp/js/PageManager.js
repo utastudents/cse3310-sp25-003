@@ -17,33 +17,28 @@ class PageManager {
   
       this.socket.onmessage = (event) => {
         const message = JSON.parse(event.data);
-        console.log("📩 Server response:", message);
-  
-        if (message.clientId !== undefined) {
-          this.clientId = message.clientId;
-          return;
-        }
-  
-        if (message.type === "loginResult") {
-            if (message.status.success) {
-              const loginSection = document.getElementById("login-section");
-              const joinSection = document.getElementById("joingame-section");
-          
-              if (loginSection && joinSection) {
-                loginSection.style.display = "none";
-                joinSection.style.display = "block";
-              } else {
-                console.error("❗ Sections not found in HTML.");
-              }
-            } else {
-              const errorField = document.getElementById("loginUsernameError");
-              if (errorField) {
-                errorField.innerText = message.status.message;
-              }
-            }
+        console.log("📩 Message from server:", message);
+      
+        // Directly access message and success from the root object
+        if (message.message === "Login successful" && message.success === true) {
+          console.log("🎉 Login success, switching UI");
+          const loginSection = document.getElementById("login-section");
+          const joinSection = document.getElementById("joingame-section");
+      
+          if (loginSection && joinSection) {
+            loginSection.style.display = "none";
+            joinSection.style.display = "block";
+          } else {
+            console.error("❗ Sections not found in HTML.");
           }
-          
+        } else {
+          const errorField = document.getElementById("loginUsernameError");
+          if (errorField) {
+            errorField.innerText = message.message || "Login failed.";
+          }
+        }
       };
+      
   
       this.socket.onerror = (err) => {
         console.error("❌ WebSocket error:", err);
@@ -76,6 +71,5 @@ class PageManager {
     }
   }
   
-  // 🔌 Attach to global scope
   window.pageManager = new PageManager("ws://" + window.location.hostname + ":9180");
   

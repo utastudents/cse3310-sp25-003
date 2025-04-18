@@ -5,6 +5,11 @@
   <title>Checkers Login</title>
   <style>
     .section { display: none; }
+    iframe {
+      width: 100%;
+      height: 100vh;
+      border: none;
+    }
   </style>
 </head>
 <body>
@@ -23,14 +28,12 @@
     <button onclick="handleLogin()">Login</button>
   </div>
 
-  <!-- Join Game Section -->
+  <!-- Join Game Section as iframe -->
   <div id="joingame-section" class="section">
-    <h2>Join Game Page</h2>
-    <p>Welcome to the lobby!</p>
-    <!-- You can insert JoinGame UI here -->
+    <iframe id="joinFrame" src="JoinGame/index.html"></iframe>
   </div>
 
-  <script src="js/pagemanager.js"></script>
+  <script src="js/PageManager.js"></script>
   <script>
     // Show login page by default
     document.getElementById("login-section").style.display = "block";
@@ -43,6 +46,5 @@
       }
     }
   </script>
-
 </body>
 </html>
