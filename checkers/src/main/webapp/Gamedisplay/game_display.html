@@ -419,12 +419,10 @@
               
               //this is the move data that gets passed into page manager
               pendingMoveData = {
-                boardState: boardState,
                 oldRow: oldRow,
                 oldCol: oldCol,
                 newRow: newRow,
                 newCol: newCol,
-                targetCell: cell
               };
               
               //send move data to page manager
@@ -453,8 +451,12 @@
     function executeValidMove() {
       if (!pendingMoveData) return;
       
-      const { oldRow, oldCol, newRow, newCol, targetCell } = pendingMoveData;
-      
+      const {oldRow, oldCol, newRow, newCol} = pendingMoveData;
+
+      //need to find source and target cells using pendingmove coordinates
+      const sourceCell = document.querySelector(`[data-row="${oldRow}"][data-col="${oldCol}"]`);
+      const targetCell = document.querySelector(`[data-row="${newRow}"][data-col="${newCol}"]`);
+            
       // Check if this is a capture move
       const isCapture = Math.abs(newRow - oldRow) === 2 && Math.abs(newCol - oldCol) === 2;
       
