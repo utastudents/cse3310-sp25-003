@@ -9,7 +9,7 @@
 }
 
 body {
-    background-color: black; /* fallback if image doesn't load */
+    background-color: black; /* fallback if png doesn't load */
     background-image: url('../images/bacground.png');
     background-size: cover;
     background-position: center;
