@@ -230,4 +230,66 @@ public class PairUpModule {
 
     private void notifySubscribers(String lobbyId, String status) {
         /* to PageMgr, JoinGame, etc. */ }
+
+
+    //PairPlayerMethod
+    public synchronized PairResponsePayload pairPlayer(JoinGamePayload payload) throws LobbyException {
+    PairResponsePayload response = new PairResponsePayload();
+
+    String entity1 = payload.entity1;
+    String entity2 = payload.entity2;
+    boolean opponentType1 = payload.opponentType1;
+    boolean opponentType2 = payload.opponentType2;
+    String lobbyId = payload.lobbyId;
+    String action = payload.action;
+
+    // Determine if either player is a bot
+    boolean botScenario = !opponentType1 || !opponentType2;
+
+    if (botScenario) {
+        String newLobbyId = createDoubleBotLobby();
+        response.gameID = newLobbyId;
+        response.opponentHandle = "BOT";
+        return response;
+    }
+
+    if (action.equalsIgnoreCase("wait")) {
+        String newLobbyId = createLobby(entity1);
+        response.gameID = newLobbyId;
+        response.opponentHandle = "WAITING";
+        return response;
+    }
+
+    if (action.equalsIgnoreCase("join")) {
+        if (lobbyId == null || lobbyId.isEmpty()) {
+            throw new LobbyException("Lobby ID is required when joining.");
+        }
+
+        boolean success = joinLobby(lobbyId, entity2);
+        if (!success) {
+            throw new LobbyException("Failed to join lobby");
+        }
+
+        Lobby joinedLobby = findLobby(lobbyId);
+        if (joinedLobby == null) {
+            throw new LobbyException("Lobby not found after join");
+        }
+
+        Participant[] slots = joinedLobby.getSlots();
+        String opponent = null;
+
+        for (Participant p : slots) {
+            if (p != null && !p.isBot() && !p.getPlayerId().equals(entity2)) {
+                opponent = p.getPlayerId();
+                break;
+            }
+        }
+
+        response.gameID = joinedLobby.getLobbyId();
+        response.opponentHandle = opponent != null ? opponent : "WAITING";
+        return response;
+    }
+
+    throw new LobbyException("Invalid action or opponent types.");
+}
 }
