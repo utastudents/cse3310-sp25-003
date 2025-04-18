@@ -80,9 +80,24 @@ public class Position {
         return x == position.x && y == position.y;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
+    /**
+     * Gets the element from a 2D array at this position
+     * @param <T> the type of element in the array
+     * @param array the 2D array
+     * @return the element at this position
+     */
+    public <T> T getFromArray(T[][] array) {
+        return array[x][y];
+    }
+    
+    /**
+     * Sets a value in a 2D array at this position
+     * @param <T> the type of element in the array
+     * @param array the 2D array
+     * @param value the value to set
+     */
+    public <T> void setInArray(T[][] array, T value) {
+        array[x][y] = value;
     }
 
     @Override
