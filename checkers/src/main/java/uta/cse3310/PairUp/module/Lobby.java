@@ -39,4 +39,13 @@ public class Lobby {
         this.creationTime = creationTime;
     }
 
+    public boolean isFull() {
+        for (Participant slot : slots) {
+            if (slot == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

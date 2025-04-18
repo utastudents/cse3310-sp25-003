@@ -178,44 +178,13 @@ public class PairUpModule {
         return null;
     }
 
-    /*
-     * Helper to find the opponent in the lobby
-     * private String findOpponentHandle(Lobby lobby, String currentPlayerId) {
-     * for (Participant p : lobby.getSlots()) {
-     * if (p != null && !p.isBot() && !p.getPlayerId().equals(currentPlayerId)) {
-     * return p.getPlayerId();
-     * }
-     * }
-     * return null;
-     * }
-     * 
-     * public synchronized PairResponsePayload pairPlayer(String playerHandle,
-     * boolean opponentType, String action, String lobbyId) throws LobbyException {
-     * PairResponsePayload response = new PairResponsePayload();
-     * if (!opponentType) { // false = bot
-     * String newLobbyId = createBotLobby(playerHandle);
-     * response.gameID = newLobbyId;
-     * response.opponentHandle = "BOT";
-     * return response;
-     * }
-     * // true = human
-     * if (action.equals("wait")) {
-     * String newLobbyId = createLobby(playerHandle);
-     * response.gameID = newLobbyId;
-     * response.opponentHandle = "WAITING";
-     * return response;
-     * } else if (action.equals("join")) {
-     * if (lobbyId == null || lobbyId.isEmpty()) {
-     * throw new LobbyException("Lobby ID is required when joining a human lobby.");
-     * }
-     * 
-     * }
-     * 
-     * 
-     * 
-     * 
-     * 
-     */
+    public boolean checkLobbyFull(String lobbyId) throws LobbyException {
+        Lobby lobby = findLobby(lobbyId);
+        if (lobby == null) {
+            throw new LobbyException("Lobby not found");
+        }
+        return lobby.isFull();
+    }
 
     // Helper method for testing
     void addLobby(Lobby lobby) {

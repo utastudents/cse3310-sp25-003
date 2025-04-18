@@ -24,6 +24,25 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
 
+    .displaybox {
+      display: flex;
+      background: #ffffff;
+      padding: auto;
+      border: 4px solid rgb(48, 46, 46);
+      z-index: 100;
+      width: 400px;
+      position: relative;
+      bottom: 507px;
+      height: 200px;
+    }
+
+.displaytext {
+      margin: auto;
+      font-family: Arial, sans-serif;
+      font-size: 2em;
+      color: #333;
+    }
+
     .container {
       display: flex;
       flex-direction: column;
@@ -236,6 +255,9 @@
     <h1 class="playerdata"><span id = "player1username">Player1 </span><span id="player1elo">0</span></h1>
     <div class="board" id="board"></div>
     <h1 class="playerdata"><span id ="player2username">Player2 </span><span id="player2elo">0</span></h1>
+    <div class="displaybox">
+      <h1 class="displaytext"><span id="endgamestate">Win/Loss/Draw</span></h1>
+    </div>
   </div>
 
   <div class="right-column">
@@ -351,6 +373,19 @@
           document.getElementById("player2username").style.color = color;
           document.getElementById("player2elo").style.color = color;
         }
+      }
+    }
+
+    function displayEndState(endOfGameState) {
+      if (endOfGameState == 0) {
+        document.getElementById("endgamestate").textContent = "Draw";
+
+      }
+      if (endOfGameState == 1) {
+        document.getElementById("endgamestate").textContent = "Loss";
+      }
+      if (endOfGameState == 2) {
+        document.getElementById("endgamestate").textContent = "Win";
       }
     }
 
