@@ -1,77 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="wclassth=device-wclassth, initial-scale=1.0">
-    <title>Title</title>
-
+  <meta charset="UTF-8">
+  <title>Checkers Login</title>
+  <style>
+    .section { display: none; }
+  </style>
 </head>
 <body>
-    <div id="new_account">
-    new account
-    </div>
-    <div id="join_game">
-        joinGame
-    </div>
-    <div id="game_display">
-    game display
-    </div>
-    <div id="summary">
-    summary
-    </div>
-    <div id="stuff">
-     <input type="button" value="Send Something" onclick="msg()">
-      <label for="tbox">Received</label>
-      <textarea id="tbox" name="tbox" rows="4" cols="50">
-     </textarea>
-    </div>
 
-<script>
-    // each of the 'divs' in the html page should have attributes to allow them to be hidden.
-    // the page manager should send a small json message, that tells which of these are hidden
-    // and which are visible when there is a change
-    // something like "{"display_new_account":t,"display_join_game":f,"display_game_display:f,"display_summary":f}"
+  <!-- Login Section -->
+  <div id="login-section" class="section">
+    <h2>Login</h2>
+    <label>Username:</label>
+    <input type="text" id="loginUsername"><br>
+    <div id="loginUsernameError" style="color:red;"></div>
 
+    <label>Password:</label>
+    <input type="password" id="loginPassword"><br>
+    <div id="loginPasswordError" style="color:red;"></div>
 
-    // a reminder.  we want to create one websocket connection, and use if, basically forever.
-    // or until the user decides to go to another page.
-    // this requires everything to load from this page.
+    <button onclick="handleLogin()">Login</button>
+  </div>
 
-   
-    var connection = null;
+  <!-- Join Game Section -->
+  <div id="joingame-section" class="section">
+    <h2>Join Game Page</h2>
+    <p>Welcome to the lobby!</p>
+    <!-- You can insert JoinGame UI here -->
+  </div>
 
-    var serverUrl;
-    serverUrl = "ws://" + window.location.hostname + ":" + (parseInt(location.port) + 100);
-    connection = new WebSocket(serverUrl);
+  <script src="js/pagemanager.js"></script>
+  <script>
+    // Show login page by default
+    document.getElementById("login-section").style.display = "block";
 
-    connection.onopen = function (evt) {
-        console.log("open");
+    function handleLogin() {
+      if (window.pageManager && window.pageManager.connected) {
+        window.pageManager.validateLogin();
+      } else {
+        alert("WebSocket not connected yet.");
+      }
     }
+  </script>
 
-    connection.onclose = function (evt) {
-        console.log("close");
-    }
-
-    connection.onmessage = function (evt) {
-        var msg;
-        msg = evt.data;
-
-        console.log("Message received: " + msg);
-        document.getElementById("tbox").innerHTML = msg + '\n' + document.getElementById("tbox").innerHTML;
-        //const obj = JSON.parse(msg);
-    }
-
-    class UserEvent {
-        msg;
-    }
-
-    function msg() {
-        console.log("button clicked");
-        U = new UserEvent();
-        U.msg="i pushed a button";
-        connection.send(JSON.stringify(U));
-        console.log(JSON.stringify(U))
-    }
-</script>
 </body>
 </html>
