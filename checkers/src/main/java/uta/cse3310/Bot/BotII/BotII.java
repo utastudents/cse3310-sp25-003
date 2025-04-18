@@ -165,7 +165,6 @@ public class BotII {
         if (!isWithinBoard(pos)) return false;
         return board[pos.getX()][pos.getY()] == ' ';
     }
-
     // Check if position allows a capture move
     private boolean findCaptureOpportunity(char[][] board, Position opponentPos, Position jumpPos) 
     {
