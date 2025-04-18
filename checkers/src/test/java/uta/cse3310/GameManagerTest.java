@@ -9,6 +9,13 @@ import uta.cse3310.GameManager.GameState;
 public class GameManagerTest {
     
     private GameState game;
+    
+    @Before
+    public void setUp() {
+        game = new GameState("game123", "Player1");
+    }
+
+    // Position class tests
     @Test
     public void testPosition() {
         // Test constructor and getters
@@ -64,11 +71,7 @@ public class GameManagerTest {
         assertEquals(expected, arrayPos.toString());
     }
 
-    @Before
-    public void setUp() {
-        game = new GameState("game123", "Player1");
-    }
-
+    // GameState class tests
     @Test
     public void testInitialPlayerId() {
         assertEquals("Player1", game.getCurrentPlayerId());
@@ -80,4 +83,35 @@ public class GameManagerTest {
         assertEquals("BotI", game.getCurrentPlayerId());
     }
 
+    @Test
+    public void testGameId() {
+        assertEquals("game123", game.getGameId());
+    }
+
+    @Test
+    public void testBoardInitialization() {
+        // Player1 pieces should be at bottom (rows 5-7)
+        assertNotNull(game.getPieceAt(5, 0));
+        assertNotNull(game.getPieceAt(6, 1));
+        assertNotNull(game.getPieceAt(7, 0));
+        
+        // BotI pieces should be at top (rows 0-2)
+        assertNotNull(game.getPieceAt(0, 1));
+        assertNotNull(game.getPieceAt(1, 0));
+        assertNotNull(game.getPieceAt(2, 1));
+        
+        // Middle should be empty
+        assertNull(game.getPieceAt(3, 0));
+        assertNull(game.getPieceAt(4, 1));
+    }
+
+    @Test
+    public void testPieceMovement() {
+        Position from = new Position(5, 0);
+        Position to = new Position(4, 1);
+        
+        game.applyMove(from, to);
+        assertNull(game.getPieceAt(from));
+        assertNotNull(game.getPieceAt(to));
+    }
 }
