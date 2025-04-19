@@ -61,7 +61,7 @@ public class BotII {
         return null;
     }
 // Evaluate board based on pieces and kings
-    private int evaluateBoard(char[][] board) 
+    public int evaluateBoard(char[][] board) 
     {
         
         // Count bot and opponent pieces and kings
@@ -90,7 +90,7 @@ public class BotII {
     }
 
     // Find all possible capture and standard moves
-    private void getLegalMoves(char[][] board, ArrayList<Move> captureMoves, ArrayList<Move> standardMoves) 
+    public void getLegalMoves(char[][] board, ArrayList<Move> captureMoves, ArrayList<Move> standardMoves) 
     {
         // Check each square for bot pieces
         for (int row = 0; row < 8; row++) 
@@ -159,14 +159,14 @@ public class BotII {
     }
 
     // Check if position is valid for a standard move
-    private boolean makeValidMove(char[][] board, Position pos) 
+    public boolean makeValidMove(char[][] board, Position pos) 
     {
         // Verify position is on board and empty
         if (!isWithinBoard(pos)) return false;
         return board[pos.getX()][pos.getY()] == ' ';
     }
     // Check if position allows a capture move
-    private boolean findCaptureOpportunity(char[][] board, Position opponentPos, Position jumpPos) 
+    public boolean findCaptureOpportunity(char[][] board, Position opponentPos, Position jumpPos) 
     {
         // Verify opponent piece and empty landing spot
         if (!isWithinBoard(opponentPos) || !isWithinBoard(jumpPos)) return false;
@@ -175,13 +175,13 @@ public class BotII {
     }
 
     
-    private boolean isWithinBoard(Position pos) 
+    public boolean isWithinBoard(Position pos) 
     {
         return pos.getX() >= 0 && pos.getX() < 8 && pos.getY() >= 0 && pos.getY() < 8;
     }
 
     // Check if move advances toward opponent side
-    private boolean isForwardMove(Move move) 
+    public boolean isForwardMove(Move move) 
     {
         // Compare row to detect downward movement
         int fromX = move.getFrom().getX();
@@ -190,7 +190,7 @@ public class BotII {
     }
 
     // Check if move is safe for defense
-    private boolean findSafeMove(Move move, boolean isKing) 
+    public boolean findSafeMove(Move move, boolean isKing) 
     {
         // Check for king retreat or safe standard move
         int fromX = move.getFrom().getX();
