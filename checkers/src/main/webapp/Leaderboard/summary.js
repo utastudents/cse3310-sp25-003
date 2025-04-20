@@ -8,21 +8,21 @@ function hideContent(){
     document.querySelector(".show").style.display = "flex";
 }
 
-function handleLeaderboardData(){
+function handleLeaderboardData(playerData){
     
-    const playerData = [
+    // const playerData = [
         
-        {name: "Jane", id: "#193", score: 439},
-        {name: "Christi", id: "#294", score: 284},
-        {name: "Zach", id: "#352", score: 412},
-        {name: "Debra", id: "#692", score: 391},
-        {name: "Adam", id: "#572", score: 390},
-        {name: "Shane", id: "#572", score: 100},
-        {name: "Heidi", id: "#482", score: 201},
-        {name: "Johnny", id: "#204", score: 129},
-        {name: "Dave", id: "#483", score: 122},
-        {name: "John", id: "#239", score: 583},
-    ]
+    //     {name: "Jane", id: "#193", score: 439},
+    //     {name: "Christi", id: "#294", score: 284},
+    //     {name: "Zach", id: "#352", score: 412},
+    //     {name: "Debra", id: "#692", score: 391},
+    //     {name: "Adam", id: "#572", score: 390},
+    //     {name: "Shane", id: "#572", score: 100},
+    //     {name: "Heidi", id: "#482", score: 201},
+    //     {name: "Johnny", id: "#204", score: 129},
+    //     {name: "Dave", id: "#483", score: 122},
+    //     {name: "John", id: "#239", score: 583},
+    // ]
 
     const leaderboardDiv = document.getElementById('leaderboard');
     leaderboardDiv.innerHTML = "";
@@ -64,4 +64,24 @@ function handleLeaderboardData(){
 }
 
 window.onload = handleLeaderboardData;
+
+// Generate a unique ID for the client (RQ-08)
+const clientID = "client_" + Math.floor(Math.random() * 10000);
+
+// Connect to WebSocket server (RQ-03, RQ-05)
+const socket = new WebSocket("ws://localhost:8080");
+
+// Handle incoming messages from the server (RQ-02, RQ-04, RQ-09, RQ-10)
+socket.onmessage = function(event) {
+    try {
+        const data = JSON.parse(event.data); // RQ-05: JSON used
+
+        
+        window.onload = handleLeaderboardData(playerData=data);
+
+    } catch (error) {
+        console.error("Unable to process leaderboard:", error);
+    }
+};
+
 
