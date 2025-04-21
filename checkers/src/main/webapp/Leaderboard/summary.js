@@ -8,7 +8,7 @@ function hideContent(){
     document.querySelector(".show").style.display = "flex";
 }
 
-function handleLeaderboardData(playerData){
+function handleLeaderboardData(){
     
     const playerData = [
         
