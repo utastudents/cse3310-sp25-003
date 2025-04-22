@@ -1,7 +1,6 @@
 package uta.cse3310.DB;
 
 import java.sql.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,12 +14,22 @@ public class MatchHistory {
     private String boardState;
 
 
-    public int getPlayerID() {
-        return playerID;
+    public int getBlackPlayerID(int matchID) throws SQLException , ClassNotFoundException {
+        ResultSet rs = DB.getSpecificData(matchID , "MATCH_DATABASE");
+        return rs.getInt("BLACKPLAYERID");
     }
 
-    public void setPlayerID(int playerID) {
-        this.playerID = playerID;
+    public int getRedPlayerID(int matchID) throws SQLException , ClassNotFoundException {
+        ResultSet rs = DB.getSpecificData(matchID , "MATCH_DATABASE");
+        return rs.getInt("REDPLAYERID");
+    }
+
+    public void setBlackPlayerID(Statement stmt, int playerID ,int matchID) throws SQLException , ClassNotFoundException{
+        DB.setSpecificDataInt(stmt,matchID,"BLACKPLAYERID",playerID,"MATCH_DATABASE");
+    }
+
+    public void seRedPlayerID(Statement stmt,int playerID, int matchID) throws SQLException , ClassNotFoundException{
+        DB.setSpecificDataInt(stmt,matchID,"REDPLAYERID",playerID,"MATCH_DATABASE");
     }
 
     public String loadGame(int matchID)throws SQLException, ClassNotFoundException {
