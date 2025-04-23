@@ -36,7 +36,7 @@ function handleLeaderboardData(){
     heading.className ='container'
     heading.id = 'board';
     heading.innerHTML = `
-  <div class="row">
+  <div>
     <div class="rank"><h3>Rank</h3></div>
     <div class="name"><h3>Name</h3></div>
     <div class="userId"><h3>#userId</h3></div>

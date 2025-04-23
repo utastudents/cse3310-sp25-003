@@ -38,7 +38,6 @@
   width: 600px;
   height: auto;
   border: solid black;
-
 }
 
 .items {
@@ -47,7 +46,6 @@
 
 .row {
   position: relative;
-  display: flex;
   width: 94%;
   height: 40px;
   border: solid black;
