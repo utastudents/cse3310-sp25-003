@@ -3,7 +3,77 @@
   <head>
     
     <title>Create New User / Login</title>
-    <!--import module from validation.js-->
+    
+    <style>
+
+      body {
+        font-family: Verdana, sans-serif;
+        background-color: rgb(20, 60, 20);
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+     
+      h1 
+      {
+        color: rgb(235, 245, 98);
+        margin-bottom: 20px;
+      }
+    
+
+      h2 {
+        color: white;
+        margin-top: 30px;
+      }
+    
+      .form-section {
+        background: #222121;
+        padding: 20px;
+        border-radius: 8px;
+        width: 400px;
+        margin: 20px auto;
+      }
+    
+      label {
+        display: block;
+        margin-top: 10px;
+        text-align: left;
+        color: rgb(145, 224, 224);
+      }
+    
+      input {
+        padding: 10px;
+        width: 95%;
+        margin-top: 5px;
+        border-radius: 4px;
+        border: 1px solid #999;
+      }
+    
+      input:focus {
+        border: 1px solid rgb(30, 30, 225);
+      }
+    
+      button {
+        margin-top: 15px;
+        padding: 10px;
+        width: 100%;
+        background-color: teal;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+    
+      button:hover {
+        background-color: darkcyan;
+      }
+    
+      .error {
+        color: red;
+        font-size: 12px;
+        text-align: left;
+      }
+    </style>
+       <!--import module from validation.js-->
         <script type="module">
           //connection to backend server on port 9180
           const socket= new WebSocket("ws://"+window.location.hostname+":9180");
