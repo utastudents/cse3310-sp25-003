@@ -6,7 +6,7 @@
     <!--import module from validation.js-->
         <script type="module">
           //connection to backend server on port 9180
-          const socket= new Websocket("ws://"+window.location.hostname+".9180");
+          const socket= new WebSocket("ws://"+window.location.hostname+":9180");
           
           import {inputValidator} from './validation.js';
 
