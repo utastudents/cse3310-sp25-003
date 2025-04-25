@@ -64,23 +64,19 @@
       // code
     let connection = pageManager.connection(); 
 
-    //for methods in iframes that *need* the websocket delivered like this
+    //for methods in iframes that *need* or are expecting the websocket to be delivered like this
     window.sharedWebSocket = connection; 
-    window.pagewManager = PageManager; 
+    window.pageManager = PageManager; 
 
     console.log("the websocket connection is " + connection);
     // Show login page by default
     document.getElementById("login-section").style.display = "block";
 
-    function handleLogin() {
-      pageManager.validateLogin();
-    }
-
     window.switchSection = function(sectionID){
       //hides all sections
       document.querySelectorAll('.section').forEach(section =>{ section.style.display = "none"});
       //shows the section with the matching id
-      document.getEelmentById(sectionID = "-section").style.display = "block";
+      document.getElementById(sectionID + "-section").style.display = "block";
     }
 
     connection.addEventListener('message', function(event) {
@@ -90,7 +86,7 @@
       //for all ui navigation cases put switchSection() cases here in this event listener
       if (message.message === "Login successful" && message.success === true) {
         console.log("Login success");
-        switchToSection("joingame");
+        switchSection("joingame");
       }
 
     })
