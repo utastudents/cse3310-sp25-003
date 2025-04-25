@@ -13,7 +13,7 @@ class PageManager {
 
     connect() {
       this.socket = new WebSocket(this.websocketUrl);
-  
+
       this.socket.onopen = () => {
         this.connected = true;
         console.log("✅ WebSocket connected");

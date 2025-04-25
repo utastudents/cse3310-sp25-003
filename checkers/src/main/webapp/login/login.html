@@ -152,8 +152,20 @@
 
       // Changed from module import to direct use of inputValidator class
       document.addEventListener("DOMContentLoaded", function() {
-        //connection to backend server on port 9180
-        const socket= new WebSocket("ws://"+window.location.hostname+":9180");
+        //use same websocket as parent window
+        const socket= window.parentSharedWebSocket;
+        console.log("Using WebSocket in login iframe: ", socket);
+
+        //function for the parent window (under PageManager.js)
+        window.submitLogin = function() {
+          validateLogin();
+        };
+
+        //hard coded in test user for debugging.
+        const testUser = {
+          username: "TestUser",
+          password: "Test1234!"
+        };
         
         //Signup
         window.validateSignup = function() 
@@ -199,6 +211,7 @@
                 password,
                 email,
               };
+              console.log("Sending signup data: ", signupMessage);
               socket.send(JSON.stringify(signupMessage));
                 }
           };
@@ -226,12 +239,24 @@
                 valid = false;
               }
 
+              //hardcoding in testuser case
+              if (username === testUser.username && password === testUser.password){
+                console.log("Using test account");
+                const testSuccess = {
+                  eventType: "login",
+                  username,
+                  password,
+                };
+                socket.send(JSON.stringify(signupMessage));
+              }
+
               if (valid) {
               const signupMessage= {
                 eventType: "login",
                 username,
                 password,
               };
+              console.log("Sending login data: ", signupMessage);
               socket.send(JSON.stringify(signupMessage));
                 }
               

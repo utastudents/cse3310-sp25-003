@@ -3,11 +3,12 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Checkers Login</title>
   <style>
     
     .section {
       display: none;
+      width: 100%;
+      height: 100vh;
     }
 
     .active {
@@ -20,120 +21,11 @@
       border: none;
     }
   </style>
-<!--import module from validation.js-->
-<script type="module">
-  //connection to backend server on port 9180
-  const socket= new WebSocket("ws://"+window.location.hostname+":9180");
-  
-  import {inputValidator} from './validation.js';
-
-  //Signup- TJV
-  function validateSignup() 
-    //Parse Each Element
-    {
-      inputValidator.clearErrors();
-      const username = document.getElementById("signupUsername").value;
-      const email = document.getElementById("signupEmail").value;
-      const password = document.getElementById("signupPassword").value;
-      const confirmPassword = document.getElementById("signupConfirmPassword").value;
-    
-      let valid = true;
-
-      const usernameError= inputValidator.validateUsername(username);
-      const passwordError= inputValidator.validatePassword(password);
-      const emailError= inputValidator.validateEmail(email);
-
-      if (usernameError){
-        inputValidator.displayError("signupUsernameError", usernameError);
-        valid=false;
-      }
-
-      if(passwordError){
-        inputValidator.displayError("signupPasswordError", passwordError);
-        valid=false;
-      }
-
-      if(emailError){
-        inputValidator.displayError("signupEmailError", emailError);
-        valid=false;
-      }
-
-      if (password!= confirmPassword){
-        inputValidator.displayError("signupConfirmPasswordError", "Passwords do not match.");
-        valid=false;
-      }
-      
-      //Sending info to page manager/database
-      if (valid) {
-        const signupMessage= {
-          eventType: "signup", //Changed from login to signup-AK
-          username,
-          password,
-          email,
-        };
-        socket.send(JSON.stringify(signupMessage));
-          }
-    };
-
-  //Login-IM
-  function validateLogin()
-    {
-        inputValidator.clearErrors();
-        const username = document.getElementById("loginUsername").value;
-        const password = document.getElementById("loginPassword").value;
-
-        let valid = true;
-
-        const usernameError = inputValidator.validateUsername(username);
-
-        if (usernameError)
-        {
-          inputValidator.displayError("loginUsernameError", usernameError);
-          valid = false;
-        }
-
-        if (!password)
-        {
-          inputValidator.displayError("loginPasswordError", "Password cannot be empty.");
-          valid = false;
-        }
-
-        if (valid) {
-        const signupMessage= {
-          eventType: "login",
-          username,
-          password,
-        };
-        socket.send(JSON.stringify(signupMessage));
-          }
-      }
-      window.addEventListener("DOMContentLoaded", () => {
-  
-  let login = document.getElementById("loginButton");
-  let signup = document.getElementById("signupButton");
-
-  //handle login
-  if (login) {
-    login.addEventListener("click", validateLogin);
-  }
-
-  //handle signuip
-  
-  if (signup) {
-    signup.addEventListener("click", validateSignup);
-  }
-
-  // Show login page by default
-  document.getElementById("login-section").style.display = "block";
-});
-
-
-</script>
 </head>
 
 <body>
 
-  <!-- all the .css, .js, and .html were merged into one file for the purpose of these iframes, it is much easier to reference and debug these this way.-->
+  <!-- I'm thinking right now to display the current frontend page as an iframe, and have the websockets in the pagemanager.js be global-->
   <!-- Login Section -->
   <div id="login-section" class="section">
     <iframe id="loginFrame" src="login/login.html"></iframe>
@@ -162,11 +54,53 @@
       </div> -->
 
   <script src="js/PageManager.js"></script>
-  <!--<script src="JoinGame/script.js"></script> --> <!-- what a name, script.js -->
+  <!-- <script src="JoinGame/script.js"></script> what a name, script.js -->
   <!--<script src="Leaderboard/summary.js"</script>   need to change this-->
   <!--<script src="login/validation.js"</script> -->
 
-  
+  <script>
+    let pageManager = new PageManager("ws://" + window.location.hostname + ":" + (parseInt(location.port) + 100));
+      // for now, lets extract the websocket connection so it can be used by non-object oriented
+      // code
+    let connection = pageManager.connection(); 
+
+    //for methods in iframes that *need* the websocket delivered like this
+    window.sharedWebSocket = connection; 
+    window.pagewManager = PageManager; 
+
+    console.log("the websocket connection is " + connection);
+    // Show login page by default
+    document.getElementById("login-section").style.display = "block";
+
+    function handleLogin() {
+      pageManager.validateLogin();
+    }
+
+    window.switchSection = function(sectionID){
+      //hides all sections
+      document.querySelectorAll('.section').forEach(section =>{ section.style.display = "none"});
+      //shows the section with the matching id
+      document.getEelmentById(sectionID = "-section").style.display = "block";
+    }
+
+    connection.addEventListener('message', function(event) {
+      const message = JSON.parse(event.data);
+      console.log("Message recieved from server:", message);
+
+      //for all ui navigation cases put switchSection() cases here in this event listener
+      if (message.message === "Login successful" && message.success === true) {
+        console.log("Login success");
+        switchToSection("joingame");
+      }
+
+    })
+
+    //add in functions for recieving data from the current iframe
+    function handleLogin() {
+      pageManager.validateLogin();
+    }
+
+  </script>
 </body>
 
 </html>
