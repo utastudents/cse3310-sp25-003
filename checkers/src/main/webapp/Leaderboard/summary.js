@@ -75,10 +75,11 @@ function handleLeaderboardData(){
 window.onload = handleLeaderboardData;
 
 // Generate a unique ID for the client (RQ-08)
+//  (not a good way to do this.  ask the server, it can give you a good id)
 const clientID = "client_" + Math.floor(Math.random() * 10000);
 
 // Connect to WebSocket server (RQ-03, RQ-05)
-const socket = new WebSocket("ws://localhost:8080");
+//const socket = new WebSocket("ws://localhost:8080");
 
 // Handle incoming messages from the server (RQ-02, RQ-04, RQ-09, RQ-10)
 socket.onmessage = function(event) {

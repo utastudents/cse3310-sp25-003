@@ -6,7 +6,11 @@ class PageManager {
       this.connected = false;
       this.connect();
     }
-  
+ 
+    connection() {
+        return this.socket;
+    }
+
     connect() {
       this.socket = new WebSocket(this.websocketUrl);
   
@@ -71,5 +75,5 @@ class PageManager {
     }
   }
   
-  window.pageManager = new PageManager("ws://" + window.location.hostname + ":9180");
+ // window.pageManager = new PageManager("ws://" + window.location.hostname + ":9180");
   

@@ -73,5 +73,3 @@ class inputValidator{
 
 
 }
-export {inputValidator};
-
