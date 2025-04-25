@@ -1,4 +1,6 @@
-
+body{
+  background-color: lightblue;
+}
 .hide{
   display: none;
   position: absolute;
@@ -24,6 +26,7 @@
 }
 
 #leaderboard > #board {
+  background-color: white;
   grid-area: board;
   justify-items: center;
   justify-self: center;
@@ -109,25 +112,25 @@ animation-delay: 2.25s;
 .rank {
   display: inline-flex;
   width: 10%;
-  justify-content: center;
-  
+  justify-content: center;  
 }
 
 .name {
   display: inline-flex;
-  width: 40%;
+  justify-self: left;
+  width: 10%;
 }
 
 .userId {
   opacity: 0.5;
   display: inline-flex;
+  justify-items: left;
   width: 20%;
- 
 }
 
 .score {
   display: inline-flex;
   justify-content: end;
-  width: 20%;
+  width: 50%;
   justify-self: end;
 }
