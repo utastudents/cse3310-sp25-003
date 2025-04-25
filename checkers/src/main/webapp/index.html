@@ -5,9 +5,78 @@
   <meta charset="UTF-8">
   <title>Checkers Login</title>
   <style>
+     body {
+        font-family: Verdana, sans-serif;
+        background-color: rgb(20, 60, 20);
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+     
+      h1 
+      {
+        color: rgb(235, 245, 98);
+        margin-bottom: 20px;
+        
+      }
+    
+
+      h2 {
+        color: white;
+        margin-top: 30px;
+      }
+    
+      .form-section {
+        background: #222121;
+        padding: 20px;
+        border-radius: 8px;
+        width: 400px;
+        margin: 20px auto;
+      }
+    
+      label {
+        display: block;
+        margin-top: 10px;
+        text-align: left;
+        color: rgb(145, 224, 224);
+      }
+    
+      input {
+        padding: 10px;
+        width: 95%;
+        margin-top: 5px;
+        border-radius: 4px;
+        border: 1px solid #999;
+      }
+    
+      input:focus {
+        border: 1px solid rgb(30, 30, 225);
+      }
+    
+      button {
+        margin-top: 15px;
+        padding: 10px;
+        width: 100%;
+        background-color: teal;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+    
+      button:hover {
+        background-color: darkcyan;
+      }
+    
+      .error {
+        color: red;
+        font-size: 12px;
+        text-align: left;
+      }
+    
     .section {
       display: none;
     }
+  
 
     iframe {
       width: 100%;
@@ -15,22 +84,154 @@
       border: none;
     }
   </style>
+<!--import module from validation.js-->
+<script type="module">
+  //connection to backend server on port 9180
+  const socket= new WebSocket("ws://"+window.location.hostname+":9180");
+  
+  import {inputValidator} from './validation.js';
+
+  //Signup- TJV
+  function validateSignup() 
+    //Parse Each Element
+    {
+      inputValidator.clearErrors();
+      const username = document.getElementById("signupUsername").value;
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
+      const confirmPassword = document.getElementById("signupConfirmPassword").value;
+    
+      let valid = true;
+
+      const usernameError= inputValidator.validateUsername(username);
+      const passwordError= inputValidator.validatePassword(password);
+      const emailError= inputValidator.validateEmail(email);
+
+      if (usernameError){
+        inputValidator.displayError("signupUsernameError", usernameError);
+        valid=false;
+      }
+
+      if(passwordError){
+        inputValidator.displayError("signupPasswordError", passwordError);
+        valid=false;
+      }
+
+      if(emailError){
+        inputValidator.displayError("signupEmailError", emailError);
+        valid=false;
+      }
+
+      if (password!= confirmPassword){
+        inputValidator.displayError("signupConfirmPasswordError", "Passwords do not match.");
+        valid=false;
+      }
+      
+      //Sending info to page manager/database
+      if (valid) {
+        const signupMessage= {
+          eventType: "signup", //Changed from login to signup-AK
+          username,
+          password,
+          email,
+        };
+        socket.send(JSON.stringify(signupMessage));
+          }
+    };
+
+  //Login-IM
+  function validateLogin()
+    {
+        inputValidator.clearErrors();
+        const username = document.getElementById("loginUsername").value;
+        const password = document.getElementById("loginPassword").value;
+
+        let valid = true;
+
+        const usernameError = inputValidator.validateUsername(username);
+
+        if (usernameError)
+        {
+          inputValidator.displayError("loginUsernameError", usernameError);
+          valid = false;
+        }
+
+        if (!password)
+        {
+          inputValidator.displayError("loginPasswordError", "Password cannot be empty.");
+          valid = false;
+        }
+
+        if (valid) {
+        const signupMessage= {
+          eventType: "login",
+          username,
+          password,
+        };
+        socket.send(JSON.stringify(signupMessage));
+          }
+      }
+      window.addEventListener("DOMContentLoaded", () => {
+  
+  let login = document.getElementById("loginButton");
+  let signup = document.getElementById("signupButton");
+
+  //handle login
+  if (login) {
+    login.addEventListener("click", validateLogin);
+  }
+
+  //handle signuip
+  
+  if (signup) {
+    signup.addEventListener("click", validateSignup);
+  }
+
+  // Show login page by default
+  document.getElementById("login-section").style.display = "block";
+});
+
+
+</script>
 </head>
 
 <body>
+  <h1 style="text-align: center;">CHECKERS</h1>
+  <h2>Login</h2>
 
-  <!-- Login Section -->
-  <div id="login-section" class="section">
-    <h2>Login</h2>
+  <div id ="login-section" class="form-section">
+      <label>Username:</label>
+      <input required type="text" name="loginUsername" id="loginUsername" placeholder="Username">
+      <div class="error" id="loginUsernameError"></div>
+
+      <label>Password:</label>
+      <input required type="password" name="loginPassword" id="loginPassword" placeholder="Password">
+      <div class="error" id="loginPasswordError"></div>
+
+      <button id= "loginButton"> LOGIN</button> 
+  </div>
+
+
+  <h2>Sign Up</h2>
+
+  <div class="form-section">
     <label>Username:</label>
-    <input type="text" id="loginUsername"><br>
-    <div id="loginUsernameError" style="color:red;"></div>
+    <input type="text" id="signupUsername" placeholder="Username" />
+      <div class="error" id="signupUsernameError"></div>
+
+    <label>Email:</label>
+          <input type="email" id="signupEmail" placeholder="Email" />
+          <div class="error" id="signupEmailError"></div>
 
     <label>Password:</label>
-    <input type="password" id="loginPassword"><br>
-    <div id="loginPasswordError" style="color:red;"></div>
+    <input type="password" id="signupPassword" placeholder="Password" />
+      <div class="error" id="signupPasswordError"></div>
 
-    <button onclick="handleLogin()">Login</button>
+    <label>Confirm Password:</label>
+    <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" />
+      <div class="error" id="signupConfirmPasswordError"></div>
+
+    <button id ="signupButton">Create Account</button>
   </div>
 
   <div id="joingame-section" class="section">
@@ -47,7 +248,7 @@
                 </button>
             </div>  
         </div>
-
+        
         <div id="lower-banner">
             <div id="title">
                 <!-- Code:Title for the game -->
@@ -379,19 +580,7 @@
   <!--<script src="Leaderboard/summary.js"</script>   need to change this-->
   <!--<script src="login/validation.js"</script> -->
 
-  <script>
-    let pageManager = new PageManager("ws://" + window.location.hostname + ":" + (parseInt(location.port) + 100));
-      // for now, lets extract the websocket connection so it can be used by non-object oriented
-      // code.
-    let connection = pageManager.connection();
-    console.log("the websocket connection is " + connection);
-    // Show login page by default
-    document.getElementById("login-section").style.display = "block";
-
-    function handleLogin() {
-      pageManager.validateLogin();
-    }
-  </script>
+  
 </body>
 
 </html>
