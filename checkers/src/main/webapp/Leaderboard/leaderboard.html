@@ -3,7 +3,140 @@
     <head>
         <meta charset="UTF-8">
         <title>Leaderboard page</title>
-        <link rel="stylesheet" href="./myStyle.css" />
+        <style>
+            .hide{
+              display: none;
+              position: absolute;
+              right: 0;
+              left: 0;
+              margin-inline: auto;
+              width: fit-content;
+            }
+
+            #leaderboard{
+              display: grid;
+              grid-template-areas:
+              "title title title"
+              "board board board"
+              "Button Button Button";
+            }
+
+            #leaderboard > #title{
+              grid-area: title;
+              justify-self: center;;
+              justify-items: center;
+              justify-content: center;
+            }
+
+            #leaderboard > #board {
+              grid-area: board;
+              justify-items: center;
+              justify-self: center;
+            }
+
+            #leaderboard > Button{
+              grid-area: Button;
+              justify-self: center;
+            }
+
+            .container {
+              width: 600px;
+              height: auto;
+              border: solid black;
+            }
+
+            .items {
+              color: white;
+            }
+
+            .row {
+              position: relative;
+              width: 94%;
+              height: 40px;
+              border: solid black;
+              margin: 3%;
+              align-content: center;
+            }
+
+            .seen {
+              opacity: 0;
+              transform: translateX(-50%);
+              animation: fadeLeft 2s forwards;
+            }
+
+            @keyframes fadeLeft {
+              to {
+                transform: translateX(0);
+                opacity: 1;
+              }
+            }
+
+            #number1 {
+            animation-delay: 0ms;
+            }
+
+            #number2 {
+            animation-delay: 250ms;
+            }
+
+            #number3 {
+            animation-delay: 500ms;
+            }
+
+            #number4 {
+            animation-delay: 750ms;
+            }
+
+            #number5 {
+            animation-delay: 1s;
+            }
+
+            #number6 {
+            animation-delay: 1.25s;
+            }
+
+            #number7 {
+            animation-delay: 1.5s;
+            }
+
+            #number8 {
+            animation-delay: 1.75s;
+            }
+
+            #number9 {
+            animation-delay: 2s;
+            }
+
+            #number10 {
+            animation-delay: 2.25s;
+            }
+
+            .rank {
+              display: inline-flex;
+              width: 10%;
+              justify-content: center;
+              
+            }
+
+            .name {
+              display: inline-flex;
+              width: 40%;
+            }
+
+            .userId {
+              opacity: 0.5;
+              display: inline-flex;
+              width: 20%;
+             
+            }
+
+            .score {
+              display: inline-flex;
+              justify-content: end;
+              width: 20%;
+              justify-self: end;
+            }
+        </style>
     </head>
     <body>
         <button class="show" onclick="showContent()">Open</button>
@@ -12,7 +145,102 @@
                 
             </div>
         </div>
-        <script src="./summary.js"></script>
-    
+        <script>
+            function showContent(){
+                document.querySelector(".hide").style.display = "block";
+                document.querySelector(".show").style.display = "none";
+            }
+
+            function hideContent(){
+                document.querySelector(".hide").style.display = "none";
+                document.querySelector(".show").style.display = "flex";
+            }
+
+            function handleLeaderboardData(){
+                
+                const playerData = [
+                    
+                    {name: "Jane", id: "#193", score: 439},
+                    {name: "Christi", id: "#294", score: 284},
+                    {name: "Zach", id: "#352", score: 412},
+                    {name: "Debra", id: "#692", score: 391},
+                    {name: "Adam", id: "#572", score: 390},
+                    {name: "Shane", id: "#572", score: 100},
+                    {name: "Heidi", id: "#482", score: 201},
+                    {name: "Johnny", id: "#204", score: 129},
+                    {name: "Dave", id: "#483", score: 122},
+                    {name: "John", id: "#239", score: 583},
+                ]
+
+                const leaderboardDiv = document.getElementById('leaderboard');
+                leaderboardDiv.innerHTML = "";
+
+                const title = document.createElement('h1');
+                title.id = 'title';
+
+                title.innerHTML = 'Leaderboard';
+
+                const heading = document.createElement('div');
+                heading.className ='container'
+                heading.id = 'board';
+                heading.innerHTML = `
+              <div>
+                <div class="rank"><h3>Rank</h3></div>
+                <div class="name"><h3>Name</h3></div>
+                <div class="userId"><h3>#userId</h3></div>
+                <div class="score"><h3>Wins</h3></div>
+              </div>`;
+
+
+                leaderboardDiv.appendChild(title);
+                leaderboardDiv.appendChild(heading);
+
+
+                playerData.sort((aPlayer, bPlayer) => {return bPlayer.score - aPlayer.score});
+
+                for(let count = 1; count < 11; count++){
+                    
+                    const entry = document.createElement('div')
+
+                    entry.className = 'row seen';
+                    entry.id = `number${count}`;
+                     
+                    entry.innerHTML = `
+                    <div class="rank">${count}</div>
+                    <div class="name">${playerData[count - 1].name}</div>
+                    <div class="userId">${playerData[count - 1].id}</div>
+                    <div class="score">${playerData[count - 1].score}</div>`;
+
+                    heading.appendChild(entry);
+                }
+
+                const button = document.createElement('button');
+                button.innerHTML = 'Return';
+                leaderboardDiv.appendChild(button);
+                button.onclick = hideContent;
+            }
+
+            window.onload = handleLeaderboardData;
+
+            // Generate a unique ID for the client (RQ-08)
+            //  (not a good way to do this.  ask the server, it can give you a good id)
+            const clientID = "client_" + Math.floor(Math.random() * 10000);
+
+            // Connect to WebSocket server (RQ-03, RQ-05)
+            //const socket = new WebSocket("ws://localhost:8080");
+
+            // Handle incoming messages from the server (RQ-02, RQ-04, RQ-09, RQ-10)
+            socket.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data); // RQ-05: JSON used
+
+                    
+                    window.onload = handleLeaderboardData(playerData=data);
+
+                } catch (error) {
+                    console.error("Unable to process leaderboard:", error);
+                }
+            };
+        </script>
     </body>
 </html>

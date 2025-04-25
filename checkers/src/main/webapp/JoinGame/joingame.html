@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="wclassth=device-wclassth, initial-scale=1.0">
+    <title>Join Game</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Italiana&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Italiana&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: black; /* fallback if png doesn't load */
+            background-image: url('../images/background.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            width: 100%;
+        }
+
+
+        #lobby-list {
+            list-style-type: none; /* Removes default list style */
+            padding: 0;
+            background-color: green;
+        }
+
+        #top-banner{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 30px;
+            overflow-y: auto;
+        }
+
+        #line
+        {
+            width: 68%;
+            background: linear-gradient(to right, #ff6ec4, #7873f5, #42e695, #f9ed69, #f33726);
+
+            height: 1px;
+            margin: 50px 100px 50px 100px;
+        }
+
+        #section3{
+            position: sticky;
+            top: 40px;
+            height: 47px;
+            left: 30px;
+            font-weight: 400px;
+            color: whitesmoke;
+            font-family: Italiana;
+            font-size: 40px;
+        }
+
+        #button-wrapper1{
+            display: inline-block;
+            padding: 5px; 
+            margin: auto 0px;
+            border-radius: 15px; 
+            background: linear-gradient(to right, #f33726, #fbea8b);
+        }
+
+
+        #addPlayer{
+            cursor: pointer;
+            background-color: whitesmoke;
+            color: black;
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 15px;
+            text-align: center;
+            width: 10em;
+            height: 3em;
+            border: none; 
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        #addPlayer:hover, #back:hover{
+            background-color: rgb(219, 99, 20);
+            color: whitesmoke;
+            transition: 0.3s;
+        }
+
+            
+        #lower-banner{
+            width: 100%;
+        }
+
+
+        #title{
+            font-family: Italiana;
+            color: whitesmoke;
+            font-size: 72px;
+            font-weight: 400px;
+            text-align: center;
+            margin-right: 240px;
+            flex-grow: 1;
+        }
+
+        #main{
+            width: 100%;
+            margin: 50px 0px 0px 0px;
+            height: 300px;
+        }
+
+        #main #container{
+            display: flex;
+            /* justify-content: center;   */
+            justify-content: space-between;
+            height: 100%;
+            width: 100%;
+        }
+
+        #main-left{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 70%;
+            height: 100%;
+            margin: 0px 0px 0px 120px;
+        }
+
+        #players-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+            height: 80%;
+        }
+
+        #left-column{
+            display: flex;
+            width: 25%;
+            flex-direction: column;
+            justify-content:space-between;
+            height: 100%;
+        }
+
+        #player1, #player2, #bot1, #bot2{
+            cursor: pointer;
+            width: 160px;
+            height: 70px;
+            text-align: center;
+        }
+
+        .selection-button
+        {
+            font-size: 24px;
+            color: rgb(255, 255, 255);
+            font-family: poppins;
+            font-weight: 700px;
+            border-style: solid;
+            border-width: 3px;
+            border-color: #CC00FF;
+            border-radius: 25px;
+            background-color: black;
+        }
+
+
+        .selected{
+            background-color: #fbfbfb;
+            color: black;
+            border-color: #00c4eb;
+        }
+
+        #player1:hover, #player2:hover, #bot1:hover, #bot2:hover{
+            background-color: rgb(224, 50, 157);
+            color: whitesmoke;
+            transition: 0.3s;
+        }
+
+
+
+        #middle-column{
+            display: flex;
+            width: 25%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-right: 150px;
+        }
+
+        #button-wrapper2{
+            display: flex;
+            padding: 5px; 
+            margin: auto;
+            border-radius: 20px; 
+            background: linear-gradient(to right, #d01449, #271ed3);
+            width: 350px;
+            height: 80px;
+        }
+
+        #selectPlayer{
+            margin: auto;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            align-items: center;
+            font-size: 44px;
+            color: whitesmoke;
+            font-family: Italiana;
+            font-weight: 400px;
+            border-radius: 20px;
+            background-color: black;
+            padding-top: 8px;
+        }
+
+        #sp{
+            text-align: center;
+            align-items: center;
+            font-size: 40px;
+            color: whitesmoke;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        #right-column{
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #main-right-wrapper{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            height: 100%;
+            width: 15%;
+            margin: 0px 30px 250px 0px;
+            border-radius: 15px;
+            padding: 5px;
+            background: linear-gradient(to bottom, rgb(73, 255, 73), rgb(92, 32, 245), white);
+        }
+
+        #main-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: center;
+            padding: 10px;
+            height: 100%;
+            width: 100%;
+            border-radius: 10px;
+            background: linear-gradient(to bottom, rgb(255, 255, 255), rgb(155, 116, 231));
+            transition: 0.3s;
+            
+        }
+
+        #mr{
+            color: black;
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        #lobby{
+            margin-top: -20px;
+            width: 100%;
+        }
+
+        #lobby #container
+        {
+            display: flex;
+            justify-content: space-between;
+            height: 100%;
+            width: 100%;
+            margin: 150px 0px 0px 130px;
+        }
+
+        #lobby-main{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 65%;
+        }
+
+        #lobby-top{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        #lobby-Title-Card {
+            text-align: center;
+            height: 46px;
+            width: 300px;
+            border-radius: 10px;
+            background: linear-gradient(to right, rgb(2, 253, 2), white, orange);
+            margin: auto;
+        }
+
+        #lobbywrite
+        {
+            color: black;
+            font-family: sans-serif;
+            font-size: 41px;
+        }
+
+        #refresh
+        {
+            display: flex;
+            flex-direction: row ;
+            justify-content: flex-end;
+            text-align: center;
+            background: black;
+            
+        }
+
+        #refereshwrite
+        {
+            color: white;
+            font-family: sans-serif;
+            font-size: 22px;
+            font-weight: bold;
+            width: 50px;
+            height: 45px;
+            margin-right: 50px;
+        }
+
+        #lobby-bottom{
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            height: 400px;
+            overflow-y: auto;
+            background: rgb(195, 193, 193);
+        }
+
+
+        #lobby-item {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            justify-content: space-between;
+            height: 40px;
+            width: 100%;
+            background: rgb(11, 88, 100);
+            color: white;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+
+        #lobby-item:first-child {
+            margin-top: 40px;
+        }
+
+        #lobby-name {
+            flex: 2;
+            margin-right: 150px;
+        }
+
+        #capacity {
+            flex: 1;
+            margin-right: 180px;
+        }
+
+
+        #join-game {
+            cursor: pointer;
+            display: flex;
+            background-color: rgb(2, 253, 2);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 60px;
+            height: 20px;
+            width: 100px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Irish Grover;
+            font-size: 17px;
+            font-weight: 400px;
+            color: rgba(146, 66, 66, 1);
+            white-space: nowrap;
+        }
+
+
+        #back-button{
+            display: inline-block;
+            padding: 5px; 
+            margin-top: auto;
+            border-radius: 15px; 
+            background: linear-gradient(to right, #f33726, #fbea8b);
+            margin-right: 150px;
+            position: sticky;
+            bottom: 2px;
+            cursor: pointer;
+        }
+
+        #back
+        {
+            cursor: pointer;
+            background-color: whitesmoke;
+            color: black;
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 13px;
+            text-align: center;
+            width: 10em;
+            height: 3em;
+            border: none; 
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #wait-game {
+            cursor: pointer;
+            display: flex;
+            background: rgb(255, 255, 0);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 60px;
+            height: 20px;
+            width: 90px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Irish Grover;
+            font-size: 17px;
+            font-weight: 400px;
+            color: rgba(146, 66, 66, 1);
+            white-space: nowrap;
+        }
+
+        /* Adding Button Click effect and Animation */
+        button {
+            transition: all 0.25s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::after {
+            content: "";
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: -100%;
+            transition: left 0.3s ease;
+            z-index: 0;
+        }
+
+        button:hover::after {
+            left: 0;
+        }
+
+        button:active {
+            transform: scale(0.96);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+        }
+        /* Container to hold both buttons side by side with space */
+        #lobby-buttons {
+            display: flex;
+            gap: 10px; /* Adjusting spacing here */
+            justify-content: flex-start;
+            align-items: center;
+        }
+        #refresh-button {
+            background-color: rgba(30, 137, 13, 0.655);
+            color:burlywood;
+            font-family: sans-serif;
+            font-weight: bold;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #refresh-button:hover {
+            background-color: rgb(191, 255, 0); /* sky blue */
+            color: rgb(7, 33, 160);
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
+        }
+    </style>    
+
+</head>
+<body>
+    <section id = "banner">
+        <div id="top-banner">
+            <div id="section3">
+                <!-- Code: Section 3 -->
+                 section 3
+            </div>
+            <div id="button-wrapper1">
+                <button id="addPlayer" onclick = "addPlayerToLobby">
+                    <!-- Code: Button (add player) -->
+                     Add Player
+                </button>
+            </div>  
+        </div>
+
+        <div id="lower-banner">
+            <div id="title">
+                <!-- Code:Title for the game -->
+                 CHECKERS
+            </div>
+        </div>
+    </section> 
+
+    <section id = "seperator">
+        <div id="line">
+
+        </div>
+    </section>
+
+    <section id="main">
+        <div id="container">
+            <div id="main-left">
+                <!--Code: to put in Buttons for selecting Players -->
+                <div id="players-row">
+                    <div id="left-column">
+                        <button class="selection-button" id="player1" data-value = 1>
+                        Player 1
+                        </button>
+                        <button class="selection-button" id="bot1" data-value = 0>
+                        BOT1
+                        </button>
+                    </div>
+                    <div id="middle-column">
+                        <div id="button-wrapper2">
+                            <div id="selectPlayer">
+                                <p id="sP">Select Players</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="right-column">
+                        <button class="selection-button" id="player2" data-value = 1>
+                        Player 2
+                        </button>
+                        <button class="selection-button" id="bot2" data-value = 0>
+                        BOT2
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="main-right-wrapper">
+                <div id="main-right">
+                    <!--Code: to put in the list of Active Players in the game -->
+                    <p id="mr">Active Players</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id = "seperator">
+        <div id="line">
+
+        </div>
+    </section>
+
+    <section id="lobby">
+        <div id="container">
+            <div id="lobby-main">
+                <div id="lobby-top">
+                    <div id="lobby-Title-Card">
+                        <!-- Code: "Lobby" Name(only the name) -->
+                         <p id = "lobbywrite">LOBBIES</p>
+                    </div>
+                    <div id="refresh">
+                        <!-- will refresh the lobby -->
+                         <p id="refresh-button">Refresh</button> 
+                    </div>
+                </div>
+                <div id="lobby-bottom">  <!-- It should be scrollable-->
+                    <!-- This is where all 10 lobbies go -->
+                    <ul>
+                        <li id="lobby-item">
+                            <div id="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                 Lobby Name 1
+                            </div>
+    
+                            <div id="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                 0/2
+                            </div>
+    
+                            <button id="join-game" onclick="joinLobby(1)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </button>
+
+                            <button id="wait-game" onclick="waitLobby(1)">
+                                wait
+                                <!-- This is where Wait button lies -->
+                            </button>
+    
+                        </li>
+                        <li id="lobby-item">
+                            <div id="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 2
+                            </div>
+    
+                            <div id="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <button id="join-game" onclick = "joinLobby(2)" > <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </button>
+
+                            <button id="wait-game" onclick="waitLobby(2)">
+                                wait
+                                <!-- This is where Wait button lies -->
+                            </button>
+    
+                        </li>
+                        <li id="lobby-item">
+                            <div id="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 3
+                            </div>
+    
+                            <div id="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                 0/2
+                            </div>
+    
+                            <button id="join-game" onclick="joinLobby(3)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </button>
+
+                            <button id="wait-game" onclick="waitLobby(3)">
+                                wait
+                                <!-- This is where Wait button lies -->
+                            </button>
+    
+                        </li>
+                        <li id="lobby-item">
+                            <div id="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 4
+                            </div>
+    
+                            <div id="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <button id="join-game" onclick="joinLobby(4)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </button>
+
+                            <button id="wait-game" onclick="waitLobby(4)">
+                                wait
+                                <!-- This is where Wait button lies -->
+                            </button>
+    
+                        </li>
+                        <li id="lobby-item">
+                            <div id="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 5
+                            </div>
+    
+                            <div id="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <button id="join-game" onclick="joinLobby(5)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </button>
+
+                            <button id="wait-game" onclick="waitLobby(5)">
+                                wait
+                                <!-- This is where Wait button lies -->
+                            </button>
+    
+                        </li>
+                        <li id="lobby-item">
+                            <div id="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 6
+                            </div>
+    
+                            <div id="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <button id="join-game" onclick="joinLobby(6)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </button>
+
+                            <button id="wait-game" onclick="waitLobby(6)">
+                                wait
+                                <!-- This is where Wait button lies -->
+                            </button>
+    
+                        </li>
+                        <li id="lobby-item">
+                            <div id="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 7
+                            </div>
+    
+                            <div id="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <button id="join-game" onclick="joinLobby(7)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </button>
+
+                            <button id="wait-game" onclick="waitLobby(7)">
+                                wait
+                                <!-- This is where Wait button lies -->
+                            </button>
+    
+                        </li>
+                        <li id="lobby-item">
+                            <div id="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 8
+                            </div>
+    
+                            <div id="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed  -->
+                                0/2
+                            </div>
+    
+                            <button id="join-game" onclick="joinLobby(8)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies  -->
+                    
+                            </button>
+
+                            <button id="wait-game" onclick="waitLobby(8)">
+                                wait
+                                <!-- This is where Wait button lies -->
+                            </button>
+    
+                        </li>
+                        <li id="lobby-item">
+                            <div id="lobby-name">
+                                <!-- This is where lobby name is entered -->
+                                Lobby Name 9
+                            </div>
+    
+                            <div id="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <button id="join-game" onclick="joinLobby(9)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </button>
+
+                            <button id="wait-game" onclick="waitLobby(9)">
+                                wait
+                                <!-- This is where Wait button lies -->
+                            </button>
+    
+                        </li>
+                        <li id="lobby-item">
+                            <div id="lobby-name">
+                                <!-- This is where lobby name is entered  -->
+                                Lobby Name 10
+                            </div>
+    
+                            <div id="capacity">
+                                <!-- This is where the current number of player in the lobby is displayed -->
+                                0/2
+                            </div>
+    
+                            <button id="join-game" onclick="joinLobby(10)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                                Join Lobby
+                                <!-- This is where Join Game Button lies -->
+                    
+                            </button>
+
+                            <button id="wait-game" onclick="waitLobby(10)">
+                                wait
+                                <!-- This is where Wait button lies -->
+                            </button>
+    
+                        </li>
+                    </ul>
+                </div>
+            </div>  
+        
+            <div id="back-button" onclick="handleBackButton()">
+                <button id="back">Back</button>
+            </div>
+        
+        </div>
+    </section>    
+
+    <script>
+        // var connection = null;
+        let entity1;
+        let entity2;
+
+        class UserEvent {
+            msg;
+        }
+
+        function msg(msg) {
+            console.log("button clicked");
+            U = new UserEvent();
+            U.msg = msg;
+            connection.send(JSON.stringify(U));
+            console.log(JSON.stringify(U));
+        }
+
+        // UNCOMMENT THIS WHEN ADDED SOCKET SUCCESSFULLY
+
+        // socket.addEventListener('message', (event) => {
+        //     const jsonData = JSON.parse(event.data);
+        //     switch (event.status.message){
+        //         case "Players list retrieved successfully":
+        //             handleUsernames(event);
+        //             break;
+
+        //         default:
+        //             console.log("Done");
+        //     }
+        // });
+
+
+        // while(!(connection.readyState === WebSocket.OPEN))    
+        // {};
+
+        let selections = [];
+        let selectionsNum = [];
+
+        // Handling entities selection
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const buttons = document.querySelectorAll('.selection-button');
+            // const joinButton = document.querySelector('#join-game'); 
+
+            // Verify buttons are found
+            console.log("Found selection buttons:", buttons.length);
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    console.log("Button clicked:", this.innerHTML);
+                    
+                    const value = this.innerHTML;
+                    const dataValue = this.getAttribute('data-value');
+                    
+                    if (this.classList.contains('selected')) {
+                        // Deselect the button
+                        this.classList.remove('selected');
+                        const index = selections.indexOf(value);
+                        if (index > -1) {
+                            selections.splice(index, 1);
+                            selectionsNum.splice(index, 1);
+                        }
+                    } else {
+                        // Only allow selection if fewer than 2 are already selected
+                        if (selections.length < 2) {
+                            this.classList.add('selected');
+                            selections.push(value);
+                            selectionsNum.push(dataValue);
+                        }
+                    }
+                    
+                    // Update the display
+                    updateSelection();
+                });
+            });
+        });
+
+
+        // Update the selection display
+        function updateSelection() {
+            // Update entity displays
+            entity1 = selections[0] || 'None';
+            entity2 = selections[1] || 'None';
+            opponent1 = selectionsNum [0] || null;
+            opponent2 = selectionsNum [1] || null;
+
+            // Enable/disable join button
+            // if (joinButton) joinButton.disabled = selections.length !== 2;
+        }
+
+        // window.addEventListener("load", requestPlayersUserName);
+
+        function requestPlayersUserName() {
+            // This method requests the name of a specific player    
+            let request = {
+                eventType: "getPlayersUsername"
+            };
+
+            msg(request);
+        }
+
+        function handleUsernames(usernames) {
+    // This method processes the list of usernames
+    // If both player's username are present then they are assigned player
+    // 1 and 2 respectively else, just player 1
+
+    const playerList = usernames.status.playersList;
+
+    // Display or assign players based on how many usernames are received
+    if (playerList.length >= 2) {
+        entity1 = playerList[0];
+        entity2 = playerList[1];
+        console.log("Player 1:", entity1);
+        console.log("Player 2:", entity2);
+        displayPlayers(2);
+    } else if (playerList.length === 1) {
+        entity1 = playerList[0];
+        console.log("Only one player connected. Player 1:", entity1);
+        displayPlayers(1);
+    } else {
+        console.log("No players connected.");
+        displayPlayers(0);
+    }
+}
+
+function displayPlayers(num) {
+    // This method displays the list of players that are active and logged in
+    if (num === 2) {
+        document.getElementById("player1").innerHTML = entity1;
+        document.getElementById("player2").innerHTML = entity2;
+    } else if (num === 1) {
+        document.getElementById("player1").innerHTML = entity1;
+        document.getElementById("player2").innerHTML = "Waiting...";
+    } else {
+        document.getElementById("player1").innerHTML = "None";
+        document.getElementById("player2").innerHTML = "None";
+    }
+}
+
+function requestAllUsername() {
+    // This method sends a request to get all usernames
+    let request = {
+        eventType: "getAllUsernames"
+    };
+
+    msg(request);
+}
+
+function displayUsers(usernames) {
+    // Displays users in the particular game session
+    console.log("Active users in session:", usernames);
+}
+
+function addPlayerToLobby() {
+    // This method adds a player to the current lobby
+    // One addButton is clicked it initiates the function
+
+    let request = {
+        eventType: "addPlayerToLobby"
+    };
+
+    msg(request);
+}
+
+function handleBackButton() {
+    // Button that takes user to previous page
+
+    let request = {
+        eventType: "goToLoginPage"
+    };
+
+    msg(request);
+}
+
+function refereshLobbies() {
+    // This method refreshes the list of game lobbies
+
+    let request = {
+        eventType: "refreshLobbies"
+    };
+
+    msg(request);
+}
+
+function joinLobby(lobbyId) {
+    // This method allows the player to join a specified lobby
+    // Tells page manager which two entity joined which lobby
+
+    let action = "join";
+    let opponentType1 = selectionsNum[0];
+    let opponentType2 = selectionsNum[1];
+
+    let details = {
+        entity1: entity1,
+        entity2: entity2,
+        opponentType1: opponentType1, // "bot" (0) or "human" (1)
+        opponentType2: opponentType2, // "bot" (0) or "human" (1)
+        lobbyId: lobbyId,
+        action: action
+    };
+
+    let request = {
+        eventType: "handleJoinGame",
+        msg: JSON.stringify(details)
+    };
+
+    //Test if works
+    console.log("Entity1: ", entity1);
+    console.log("Entity2: ", entity2);
+    console.log("opponentType1: ", opponentType1);
+    console.log("opponentType2: ", opponentType2);
+    console.log("ACTION: ", action);
+    console.log("ID: ", lobbyId);
+
+    msg(request);
+}
+
+function waitLobby(lobbyId) {
+    // This method allows the player to join a specified lobby
+    // Tells page manager which two entity joined which lobby
+    let action = "wait";
+    let opponentType1 = selectionsNum[0];
+    let opponentType2 = selectionsNum[1];
+
+    let details = {
+        entity1: entity1,
+        entity2: entity2,
+        opponentType1: opponentType1,
+        opponentType2: opponentType2,
+        lobbyId: lobbyId,
+        action: action
+    };
+
+    let request = {
+        eventType: "handleJoinGame",
+        msg: JSON.stringify(details)
+    };
+
+    //Test if works
+    console.log("Entity1: ", entity1);
+    console.log("Entity2: ", entity2);
+    console.log("opponentType1: ", opponentType1);
+    console.log("opponentType2: ", opponentType2);
+    console.log("ACTION: ", action);
+    console.log("ID: ", lobbyId);
+
+    msg(request);
+}
+
+function displayLobbies() {
+    // This method shows a list of all available lobbies
+
+    let request = {
+        eventType: "displayLobbies"
+    };
+
+    msg(request);
+}
