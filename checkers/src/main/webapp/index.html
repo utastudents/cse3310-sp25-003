@@ -191,8 +191,40 @@
   document.getElementById("login-section").style.display = "block";
 });
 
+//Our understanding- PageManager will handle JSON parsing and we are handling UI responses based on the data provided by DB/PageMAnger
+//This is going to handle websocket messgae and display appropriate alerts to users
+//It allows login if user exists in DB, if not asks user to signup
+socket.onmessage = function(event){
+    let playerData;
+    try{
+        //convert JSON string received from server
+        playerData=JSON.parse(event.data);
 
-</script>
+    }catch (e){
+        console.error("Failed to get server response", e);
+        return;
+    }
+    //eventType as per PageManager.java
+    if(playerData.eventType!== "loginResult"){
+        return;
+    }
+    //since the PM handles success wrapped in status
+    if(!playerData.status.success){
+        alert("Login failed. PLease try again !");
+        return;
+    }
+    //Only if user exists, update UI
+    if(playerData.status.success){
+        alert("Welcome Back! Let's Play Again!!");
+        document.getElementById("login-section").style.display="none";
+        document.getElementById("joingame-section").style.display="block";
+    }else{
+        //If not, ask them to create account
+        alert ("Yay this is your first time! Please Signup :)");
+    } 
+}
+    
+    </script>
 </head>
 
 <body>
