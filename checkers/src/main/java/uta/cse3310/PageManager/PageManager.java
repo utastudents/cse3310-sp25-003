@@ -17,7 +17,6 @@ import uta.cse3310.PairUp.PairUp;
 import uta.cse3310.GameManager.GameManager;
 
 public class PageManager {
-    private DB db;
     private PairUp pairUp;
     private GameManager gameManager;
     private Map<Integer, GameStatus> activeGames;
@@ -25,8 +24,7 @@ public class PageManager {
     private Integer turn = 0;
 
     public PageManager() {
-        db = new DB();
-        pairUp = new PairUp(db);
+        pairUp = new PairUp(DB.getDB());
         gameManager = new GameManager();
         activeGames = new HashMap<>();
         waitingPlayers = new ArrayList<>();
@@ -125,25 +123,17 @@ public class PageManager {
             return reply;
         }
 
-        try {
-            PlayerInfo user = new PlayerInfo();
+        PlayerInfo user = DB.getDB().getPlayerInfo(userEvent.id);
 
-            String username = user.getUserName(userEvent.id);
-            String password = user.getPassWord(userEvent.id);
+        String username = user.getUsername();
+        String password = user.getPassword();
 
-            if (login.username == username && login.password == password) {
-                reply.status.success = true;
-                reply.status.message = "User logged in successfully";
-            } else {
-                reply.status.success = false;
-                reply.status.message = "Username or password does not match";
-            }
-        } catch (SQLException e) {
+        if (login.username == username && login.password == password) {
+            reply.status.success = true;
+            reply.status.message = "User logged in successfully";
+        } else {
             reply.status.success = false;
-            reply.status.message = "Registration failed: " + e.getMessage();
-        } catch (ClassNotFoundException e) {
-            reply.status.success = false;
-            reply.status.message = "Registration failed: " + e.getMessage();
+            reply.status.message = "Username or password does not match";
         }
 
         return reply;
@@ -176,15 +166,10 @@ public class PageManager {
 
         if (signup.email != null && !signup.email.isEmpty()) {
             try {
-                Connection c = DB.initConnection();
-                Statement stmt = c.createStatement();
-                DB.initUser(stmt, signup.username, signup.email, signup.password);
+                DB.getDB().initUser(signup.username, signup.email, signup.password);
                 reply.status.success = true;
                 reply.status.message = "User registered successfully";
             } catch (SQLException e) {
-                reply.status.success = false;
-                reply.status.message = "Registration failed: " + e.getMessage();
-            } catch (ClassNotFoundException e) {
                 reply.status.success = false;
                 reply.status.message = "Registration failed: " + e.getMessage();
             }

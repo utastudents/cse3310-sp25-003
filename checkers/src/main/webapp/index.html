@@ -1,31 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Checkers Login</title>
-  <style>
-     body {
+  <head>
+    <meta charset="UTF-8" />
+    <title>Checkers Login</title>
+    <style>
+      body {
         font-family: Verdana, sans-serif;
         background-color: rgb(20, 60, 20);
         color: white;
         text-align: center;
         padding: 20px;
       }
-     
-      h1 
-      {
+
+      h1 {
         color: rgb(235, 245, 98);
         margin-bottom: 20px;
-        
       }
-    
 
       h2 {
         color: white;
         margin-top: 30px;
       }
-    
+
       .form-section {
         background: #222121;
         padding: 20px;
@@ -33,14 +29,14 @@
         width: 400px;
         margin: 20px auto;
       }
-    
+
       label {
         display: block;
         margin-top: 10px;
         text-align: left;
         color: rgb(145, 224, 224);
       }
-    
+
       input {
         padding: 10px;
         width: 95%;
@@ -48,11 +44,11 @@
         border-radius: 4px;
         border: 1px solid #999;
       }
-    
+
       input:focus {
         border: 1px solid rgb(30, 30, 225);
       }
-    
+
       button {
         margin-top: 15px;
         padding: 10px;
@@ -62,85 +58,89 @@
         border: none;
         border-radius: 4px;
       }
-    
+
       button:hover {
         background-color: darkcyan;
       }
-    
+
       .error {
         color: red;
         font-size: 12px;
         text-align: left;
       }
-    
-    .section {
-      display: none;
-    }
-  
 
-    iframe {
-      width: 100%;
-      height: 100vh;
-      border: none;
-    }
-  </style>
-<!--import module from validation.js-->
-<script type="module">
-  //connection to backend server on port 9180
-  const socket= new WebSocket("ws://"+window.location.hostname+":9180");
-  
-  import {inputValidator} from './validation.js';
-
-  //Signup- TJV
-  function validateSignup() 
-    //Parse Each Element
-    {
-      inputValidator.clearErrors();
-      const username = document.getElementById("signupUsername").value;
-      const email = document.getElementById("signupEmail").value;
-      const password = document.getElementById("signupPassword").value;
-      const confirmPassword = document.getElementById("signupConfirmPassword").value;
-    
-      let valid = true;
-
-      const usernameError= inputValidator.validateUsername(username);
-      const passwordError= inputValidator.validatePassword(password);
-      const emailError= inputValidator.validateEmail(email);
-
-      if (usernameError){
-        inputValidator.displayError("signupUsernameError", usernameError);
-        valid=false;
+      .section {
+        display: none;
       }
 
-      if(passwordError){
-        inputValidator.displayError("signupPasswordError", passwordError);
-        valid=false;
+      iframe {
+        width: 100%;
+        height: 100vh;
+        border: none;
+      }
+    </style>
+    <!--import module from validation.js-->
+    <script type="module">
+      //connection to backend server on port 9180
+      const socket = new WebSocket(
+        "ws://" + window.location.hostname + ":9180"
+      );
+
+      import { inputValidator } from "./validation.js";
+
+      //Signup- TJV
+      function validateSignup() {
+        //Parse Each Element
+        inputValidator.clearErrors();
+        const username = document.getElementById("signupUsername").value;
+        const email = document.getElementById("signupEmail").value;
+        const password = document.getElementById("signupPassword").value;
+        const confirmPassword = document.getElementById(
+          "signupConfirmPassword"
+        ).value;
+
+        let valid = true;
+
+        const usernameError = inputValidator.validateUsername(username);
+        const passwordError = inputValidator.validatePassword(password);
+        const emailError = inputValidator.validateEmail(email);
+
+        if (usernameError) {
+          inputValidator.displayError("signupUsernameError", usernameError);
+          valid = false;
+        }
+
+        if (passwordError) {
+          inputValidator.displayError("signupPasswordError", passwordError);
+          valid = false;
+        }
+
+        if (emailError) {
+          inputValidator.displayError("signupEmailError", emailError);
+          valid = false;
+        }
+
+        if (password != confirmPassword) {
+          inputValidator.displayError(
+            "signupConfirmPasswordError",
+            "Passwords do not match."
+          );
+          valid = false;
+        }
+
+        //Sending info to page manager/database
+        if (valid) {
+          let msg = JSON.stringify({ username, password, email });
+          const signupMessage = {
+            eventType: "signup", //Changed from login to signup-AK
+            msg,
+          };
+          socket.send(JSON.stringify(signupMessage));
+        }
       }
 
-      if(emailError){
-        inputValidator.displayError("signupEmailError", emailError);
-        valid=false;
-      }
-
-      if (password!= confirmPassword){
-        inputValidator.displayError("signupConfirmPasswordError", "Passwords do not match.");
-        valid=false;
-      }
-      
-      //Sending info to page manager/database
-      if (valid) {
-        let msg = JSON.stringify({username, password, email});
-        const signupMessage= {
-          eventType: "signup", //Changed from login to signup-AK
-          msg,
-        };
-        socket.send(JSON.stringify(signupMessage));
-          }
-    };
-
-  //Login-IM
-  function validateLogin()
-    {
+      //Login-IM
+      function validateLogin() {
         inputValidator.clearErrors();
         const username = document.getElementById("loginUsername").value;
         const password = document.getElementById("loginPassword").value;
@@ -149,469 +149,472 @@
 
         const usernameError = inputValidator.validateUsername(username);
 
-        if (usernameError)
-        {
+        if (usernameError) {
           inputValidator.displayError("loginUsernameError", usernameError);
           valid = false;
         }
 
-        if (!password)
-        {
-          inputValidator.displayError("loginPasswordError", "Password cannot be empty.");
+        if (!password) {
+          inputValidator.displayError(
+            "loginPasswordError",
+            "Password cannot be empty."
+          );
           valid = false;
         }
 
         if (valid) {
-            let msg = JSON.stringify({username, password});
-            const signupMessage= {
-                eventType: "login",
-                msg
-            };
-            socket.send(JSON.stringify(signupMessage));
-          }
+          let msg = JSON.stringify({ username, password });
+          const signupMessage = {
+            eventType: "login",
+            msg,
+          };
+          socket.send(JSON.stringify(signupMessage));
+        }
       }
+
+      function handleSocket(e) {
+        console.log(e.data);
+      }
+
       window.addEventListener("DOMContentLoaded", () => {
-  
-  let login = document.getElementById("loginButton");
-  let signup = document.getElementById("signupButton");
+        let login = document.getElementById("loginButton");
+        let signup = document.getElementById("signupButton");
+        socket.addEventListener("message", handleSocket);
 
-  //handle login
-  if (login) {
-    login.addEventListener("click", validateLogin);
-  }
+        //handle login
+        if (login) {
+          login.addEventListener("click", validateLogin);
+        }
 
-  //handle signuip
-  
-  if (signup) {
-    signup.addEventListener("click", validateSignup);
-  }
+        //handle signuip
 
-  // Show login page by default
-  document.getElementById("login-section").style.display = "block";
-});
+        if (signup) {
+          signup.addEventListener("click", validateSignup);
+        }
 
-//Our understanding- PageManager will handle JSON parsing and we are handling UI responses based on the data provided by DB/PageMAnger
-//This is going to handle websocket messgae and display appropriate alerts to users
-//It allows login if user exists in DB, if not asks user to signup
-socket.onmessage = function(event){
-    let playerData;
-    try{
-        //convert JSON string received from server
-        playerData=JSON.parse(event.data);
+        // Show login page by default
+        document.getElementById("login-section").style.display = "block";
+      });
 
-    }catch (e){
-        console.error("Failed to get server response", e);
-        return;
-    }
-    //eventType as per PageManager.java
-    if(playerData.eventType!== "loginResult"){
-        return;
-    }
-    //since the PM handles success wrapped in status
-    if(!playerData.status.success){
-        alert("Login failed. PLease try again !");
-        return;
-    }
-    //Only if user exists, update UI
-    if(playerData.status.success){
-        alert("Welcome Back! Let's Play Again!!");
-        document.getElementById("login-section").style.display="none";
-        document.getElementById("joingame-section").style.display="block";
-    }else{
-        //If not, ask them to create account
-        alert ("Yay this is your first time! Please Signup :)");
-    } 
-}
-    
+      //Our understanding- PageManager will handle JSON parsing and we are handling UI responses based on the data provided by DB/PageMAnger
+      //This is going to handle websocket messgae and display appropriate alerts to users
+      //It allows login if user exists in DB, if not asks user to signup
+      socket.onmessage = function (event) {
+        let playerData;
+        try {
+          //convert JSON string received from server
+          playerData = JSON.parse(event.data);
+        } catch (e) {
+          console.error("Failed to get server response", e);
+          return;
+        }
+        //eventType as per PageManager.java
+        if (playerData.eventType !== "loginResult") {
+          return;
+        }
+        //since the PM handles success wrapped in status
+        if (!playerData.status.success) {
+          alert("Login failed. PLease try again !");
+          return;
+        }
+        //Only if user exists, update UI
+        if (playerData.status.success) {
+          alert("Welcome Back! Let's Play Again!!");
+          document.getElementById("login-section").style.display = "none";
+          document.getElementById("joingame-section").style.display = "block";
+        } else {
+          //If not, ask them to create account
+          alert("Yay this is your first time! Please Signup :)");
+        }
+      };
     </script>
-</head>
+  </head>
 
-<body>
-  <h1 style="text-align: center;">CHECKERS</h1>
-  <h2>Login</h2>
+  <body>
+    <h1 style="text-align: center">CHECKERS</h1>
+    <h2>Login</h2>
 
-  <div id ="login-section" class="form-section">
+    <div id="login-section" class="form-section">
       <label>Username:</label>
-      <input required type="text" name="loginUsername" id="loginUsername" placeholder="Username">
+      <input
+        required
+        type="text"
+        name="loginUsername"
+        id="loginUsername"
+        placeholder="Username"
+      />
       <div class="error" id="loginUsernameError"></div>
 
       <label>Password:</label>
-      <input required type="password" name="loginPassword" id="loginPassword" placeholder="Password">
+      <input
+        required
+        type="password"
+        name="loginPassword"
+        id="loginPassword"
+        placeholder="Password"
+      />
       <div class="error" id="loginPasswordError"></div>
 
-      <button id= "loginButton"> LOGIN</button> 
-  </div>
+      <button id="loginButton">LOGIN</button>
+    </div>
 
+    <h2>Sign Up</h2>
 
-  <h2>Sign Up</h2>
-
-  <div class="form-section">
-    <label>Username:</label>
-    <input type="text" id="signupUsername" placeholder="Username" />
+    <div class="form-section">
+      <label>Username:</label>
+      <input type="text" id="signupUsername" placeholder="Username" />
       <div class="error" id="signupUsernameError"></div>
 
-    <label>Email:</label>
-          <input type="email" id="signupEmail" placeholder="Email" />
-          <div class="error" id="signupEmailError"></div>
+      <label>Email:</label>
+      <input type="email" id="signupEmail" placeholder="Email" />
+      <div class="error" id="signupEmailError"></div>
 
-    <label>Password:</label>
-    <input type="password" id="signupPassword" placeholder="Password" />
+      <label>Password:</label>
+      <input type="password" id="signupPassword" placeholder="Password" />
       <div class="error" id="signupPasswordError"></div>
 
-    <label>Confirm Password:</label>
-    <input type="password" id="signupConfirmPassword" placeholder="Confirm Password" />
+      <label>Confirm Password:</label>
+      <input
+        type="password"
+        id="signupConfirmPassword"
+        placeholder="Confirm Password"
+      />
       <div class="error" id="signupConfirmPasswordError"></div>
 
-    <button id ="signupButton">Create Account</button>
-  </div>
+      <button id="signupButton">Create Account</button>
+    </div>
 
-  <div id="joingame-section" class="section">
-    <section id = "banner">
+    <div id="joingame-section" class="section">
+      <section id="banner">
         <div id="top-banner">
-            <div id="section3">
-                <!-- Code: Section 3 -->
-                 section 3
-            </div>
-            <div id="button-wrapper1">
-                <button id="addPlayer" onclick = "addPlayerToLobby">
-                    <!-- Code: Button (add player) -->
-                     Add Player
-                </button>
-            </div>  
+          <div id="section3">
+            <!-- Code: Section 3 -->
+            section 3
+          </div>
+          <div id="button-wrapper1">
+            <button id="addPlayer" onclick="addPlayerToLobby">
+              <!-- Code: Button (add player) -->
+              Add Player
+            </button>
+          </div>
         </div>
-        
+
         <div id="lower-banner">
-            <div id="title">
-                <!-- Code:Title for the game -->
-                 CHECKERS
-            </div>
+          <div id="title">
+            <!-- Code:Title for the game -->
+            CHECKERS
+          </div>
         </div>
-    </section> 
+      </section>
 
-    <section id = "seperator">
-        <div id="line">
+      <section id="seperator">
+        <div id="line"></div>
+      </section>
 
-        </div>
-    </section>
-
-    <section id="main">
+      <section id="main">
         <div id="container">
-            <div id="main-left">
-                <!--Code: to put in Buttons for selecting Players -->
-                <div id="players-row">
-                    <div id="left-column">
-                        <button class="selection-button" id="player1" data-value = 1>
-                        Player 1
-                        </button>
-                        <button class="selection-button" id="bot1" data-value = 0>
-                        BOT1
-                        </button>
-                    </div>
-                    <div id="middle-column">
-                        <div id="button-wrapper2">
-                            <div id="selectPlayer">
-                                <p id="sP">Select Players</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="right-column">
-                        <button class="selection-button" id="player2" data-value = 1>
-                        Player 2
-                        </button>
-                        <button class="selection-button" id="bot2" data-value = 0>
-                        BOT2
-                        </button>
-                    </div>
+          <div id="main-left">
+            <!--Code: to put in Buttons for selecting Players -->
+            <div id="players-row">
+              <div id="left-column">
+                <button class="selection-button" id="player1" data-value="1">
+                  Player 1
+                </button>
+                <button class="selection-button" id="bot1" data-value="0">
+                  BOT1
+                </button>
+              </div>
+              <div id="middle-column">
+                <div id="button-wrapper2">
+                  <div id="selectPlayer">
+                    <p id="sP">Select Players</p>
+                  </div>
                 </div>
+              </div>
+              <div id="right-column">
+                <button class="selection-button" id="player2" data-value="1">
+                  Player 2
+                </button>
+                <button class="selection-button" id="bot2" data-value="0">
+                  BOT2
+                </button>
+              </div>
             </div>
-            <div id="main-right-wrapper">
-                <div id="main-right">
-                    <!--Code: to put in the list of Active Players in the game -->
-                    <p id="mr">Active Players</p>
-                </div>
+          </div>
+          <div id="main-right-wrapper">
+            <div id="main-right">
+              <!--Code: to put in the list of Active Players in the game -->
+              <p id="mr">Active Players</p>
             </div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <section id = "seperator">
-        <div id="line">
+      <section id="seperator">
+        <div id="line"></div>
+      </section>
 
-        </div>
-    </section>
-
-    <section id="lobby">
+      <section id="lobby">
         <div id="container">
-            <div id="lobby-main">
-                <div id="lobby-top">
-                    <div id="lobby-Title-Card">
-                        <!-- Code: "Lobby" Name(only the name) -->
-                         <p id = "lobbywrite">LOBBIES</p>
-                    </div>
-                    <div id="refresh">
-                        <!-- will refresh the lobby -->
-                         <p id="refresh-button">Refresh</button> 
-                    </div>
-                </div>
-                <div id="lobby-bottom">  <!-- It should be scrollable-->
-                    <!-- This is where all 10 lobbies go -->
-                    <ul>
-                        <li id="lobby-item">
-                            <div id="lobby-name">
-                                <!-- This is where lobby name is entered -->
-                                 Lobby Name 1
-                            </div>
-    
-                            <div id="capacity">
-                                <!-- This is where the current number of player in the lobby is displayed -->
-                                 0/2
-                            </div>
-    
-                            <button id="join-game" onclick="joinLobby(1)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
-                                Join Lobby
-                                <!-- This is where Join Game Button lies -->
-                    
-                            </button>
-
-                            <button id="wait-game" onclick="waitLobby(1)">
-                                wait
-                                <!-- This is where Wait button lies -->
-                            </button>
-    
-                        </li>
-                        <li id="lobby-item">
-                            <div id="lobby-name">
-                                <!-- This is where lobby name is entered -->
-                                Lobby Name 2
-                            </div>
-    
-                            <div id="capacity">
-                                <!-- This is where the current number of player in the lobby is displayed -->
-                                0/2
-                            </div>
-    
-                            <button id="join-game" onclick = "joinLobby(2)" > <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
-                                Join Lobby
-                                <!-- This is where Join Game Button lies -->
-                    
-                            </button>
-
-                            <button id="wait-game" onclick="waitLobby(2)">
-                                wait
-                                <!-- This is where Wait button lies -->
-                            </button>
-    
-                        </li>
-                        <li id="lobby-item">
-                            <div id="lobby-name">
-                                <!-- This is where lobby name is entered -->
-                                Lobby Name 3
-                            </div>
-    
-                            <div id="capacity">
-                                <!-- This is where the current number of player in the lobby is displayed -->
-                                 0/2
-                            </div>
-    
-                            <button id="join-game" onclick="joinLobby(3)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
-                                Join Lobby
-                                <!-- This is where Join Game Button lies -->
-                    
-                            </button>
-
-                            <button id="wait-game" onclick="waitLobby(3)">
-                                wait
-                                <!-- This is where Wait button lies -->
-                            </button>
-    
-                        </li>
-                        <li id="lobby-item">
-                            <div id="lobby-name">
-                                <!-- This is where lobby name is entered -->
-                                Lobby Name 4
-                            </div>
-    
-                            <div id="capacity">
-                                <!-- This is where the current number of player in the lobby is displayed -->
-                                0/2
-                            </div>
-    
-                            <button id="join-game" onclick="joinLobby(4)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
-                                Join Lobby
-                                <!-- This is where Join Game Button lies -->
-                    
-                            </button>
-
-                            <button id="wait-game" onclick="waitLobby(4)">
-                                wait
-                                <!-- This is where Wait button lies -->
-                            </button>
-    
-                        </li>
-                        <li id="lobby-item">
-                            <div id="lobby-name">
-                                <!-- This is where lobby name is entered -->
-                                Lobby Name 5
-                            </div>
-    
-                            <div id="capacity">
-                                <!-- This is where the current number of player in the lobby is displayed -->
-                                0/2
-                            </div>
-    
-                            <button id="join-game" onclick="joinLobby(5)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
-                                Join Lobby
-                                <!-- This is where Join Game Button lies -->
-                    
-                            </button>
-
-                            <button id="wait-game" onclick="waitLobby(5)">
-                                wait
-                                <!-- This is where Wait button lies -->
-                            </button>
-    
-                        </li>
-                        <li id="lobby-item">
-                            <div id="lobby-name">
-                                <!-- This is where lobby name is entered -->
-                                Lobby Name 6
-                            </div>
-    
-                            <div id="capacity">
-                                <!-- This is where the current number of player in the lobby is displayed -->
-                                0/2
-                            </div>
-    
-                            <button id="join-game" onclick="joinLobby(6)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
-                                Join Lobby
-                                <!-- This is where Join Game Button lies -->
-                    
-                            </button>
-
-                            <button id="wait-game" onclick="waitLobby(6)">
-                                wait
-                                <!-- This is where Wait button lies -->
-                            </button>
-    
-                        </li>
-                        <li id="lobby-item">
-                            <div id="lobby-name">
-                                <!-- This is where lobby name is entered -->
-                                Lobby Name 7
-                            </div>
-    
-                            <div id="capacity">
-                                <!-- This is where the current number of player in the lobby is displayed -->
-                                0/2
-                            </div>
-    
-                            <button id="join-game" onclick="joinLobby(7)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
-                                Join Lobby
-                                <!-- This is where Join Game Button lies -->
-                    
-                            </button>
-
-                            <button id="wait-game" onclick="waitLobby(7)">
-                                wait
-                                <!-- This is where Wait button lies -->
-                            </button>
-    
-                        </li>
-                        <li id="lobby-item">
-                            <div id="lobby-name">
-                                <!-- This is where lobby name is entered -->
-                                Lobby Name 8
-                            </div>
-    
-                            <div id="capacity">
-                                <!-- This is where the current number of player in the lobby is displayed  -->
-                                0/2
-                            </div>
-    
-                            <button id="join-game" onclick="joinLobby(8)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
-                                Join Lobby
-                                <!-- This is where Join Game Button lies  -->
-                    
-                            </button>
-
-                            <button id="wait-game" onclick="waitLobby(8)">
-                                wait
-                                <!-- This is where Wait button lies -->
-                            </button>
-    
-                        </li>
-                        <li id="lobby-item">
-                            <div id="lobby-name">
-                                <!-- This is where lobby name is entered -->
-                                Lobby Name 9
-                            </div>
-    
-                            <div id="capacity">
-                                <!-- This is where the current number of player in the lobby is displayed -->
-                                0/2
-                            </div>
-    
-                            <button id="join-game" onclick="joinLobby(9)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
-                                Join Lobby
-                                <!-- This is where Join Game Button lies -->
-                    
-                            </button>
-
-                            <button id="wait-game" onclick="waitLobby(9)">
-                                wait
-                                <!-- This is where Wait button lies -->
-                            </button>
-    
-                        </li>
-                        <li id="lobby-item">
-                            <div id="lobby-name">
-                                <!-- This is where lobby name is entered  -->
-                                Lobby Name 10
-                            </div>
-    
-                            <div id="capacity">
-                                <!-- This is where the current number of player in the lobby is displayed -->
-                                0/2
-                            </div>
-    
-                            <button id="join-game" onclick="joinLobby(10)"> <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
-                                Join Lobby
-                                <!-- This is where Join Game Button lies -->
-                    
-                            </button>
-
-                            <button id="wait-game" onclick="waitLobby(10)">
-                                wait
-                                <!-- This is where Wait button lies -->
-                            </button>
-    
-                        </li>
-                    </ul>
-                </div>
-            </div>  
-        
-            <div id="back-button" onclick="handleBackButton()">
-                <button id="back">Back</button>
+          <div id="lobby-main">
+            <div id="lobby-top">
+              <div id="lobby-Title-Card">
+                <!-- Code: "Lobby" Name(only the name) -->
+                <p id="lobbywrite">LOBBIES</p>
+              </div>
+              <div id="refresh">
+                <!-- will refresh the lobby -->
+                <button id="refresh-button">Refresh</button>
+              </div>
             </div>
-        
+            <div id="lobby-bottom">
+              <!-- It should be scrollable-->
+              <!-- This is where all 10 lobbies go -->
+              <ul>
+                <li id="lobby-item">
+                  <div id="lobby-name">
+                    <!-- This is where lobby name is entered -->
+                    Lobby Name 1
+                  </div>
+
+                  <div id="capacity">
+                    <!-- This is where the current number of player in the lobby is displayed -->
+                    0/2
+                  </div>
+
+                  <button id="join-game" onclick="joinLobby(1)">
+                    <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                    Join Lobby
+                    <!-- This is where Join Game Button lies -->
+                  </button>
+
+                  <button id="wait-game" onclick="waitLobby(1)">
+                    wait
+                    <!-- This is where Wait button lies -->
+                  </button>
+                </li>
+                <li id="lobby-item">
+                  <div id="lobby-name">
+                    <!-- This is where lobby name is entered -->
+                    Lobby Name 2
+                  </div>
+
+                  <div id="capacity">
+                    <!-- This is where the current number of player in the lobby is displayed -->
+                    0/2
+                  </div>
+
+                  <button id="join-game" onclick="joinLobby(2)">
+                    <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                    Join Lobby
+                    <!-- This is where Join Game Button lies -->
+                  </button>
+
+                  <button id="wait-game" onclick="waitLobby(2)">
+                    wait
+                    <!-- This is where Wait button lies -->
+                  </button>
+                </li>
+                <li id="lobby-item">
+                  <div id="lobby-name">
+                    <!-- This is where lobby name is entered -->
+                    Lobby Name 3
+                  </div>
+
+                  <div id="capacity">
+                    <!-- This is where the current number of player in the lobby is displayed -->
+                    0/2
+                  </div>
+
+                  <button id="join-game" onclick="joinLobby(3)">
+                    <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                    Join Lobby
+                    <!-- This is where Join Game Button lies -->
+                  </button>
+
+                  <button id="wait-game" onclick="waitLobby(3)">
+                    wait
+                    <!-- This is where Wait button lies -->
+                  </button>
+                </li>
+                <li id="lobby-item">
+                  <div id="lobby-name">
+                    <!-- This is where lobby name is entered -->
+                    Lobby Name 4
+                  </div>
+
+                  <div id="capacity">
+                    <!-- This is where the current number of player in the lobby is displayed -->
+                    0/2
+                  </div>
+
+                  <button id="join-game" onclick="joinLobby(4)">
+                    <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                    Join Lobby
+                    <!-- This is where Join Game Button lies -->
+                  </button>
+
+                  <button id="wait-game" onclick="waitLobby(4)">
+                    wait
+                    <!-- This is where Wait button lies -->
+                  </button>
+                </li>
+                <li id="lobby-item">
+                  <div id="lobby-name">
+                    <!-- This is where lobby name is entered -->
+                    Lobby Name 5
+                  </div>
+
+                  <div id="capacity">
+                    <!-- This is where the current number of player in the lobby is displayed -->
+                    0/2
+                  </div>
+
+                  <button id="join-game" onclick="joinLobby(5)">
+                    <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                    Join Lobby
+                    <!-- This is where Join Game Button lies -->
+                  </button>
+
+                  <button id="wait-game" onclick="waitLobby(5)">
+                    wait
+                    <!-- This is where Wait button lies -->
+                  </button>
+                </li>
+                <li id="lobby-item">
+                  <div id="lobby-name">
+                    <!-- This is where lobby name is entered -->
+                    Lobby Name 6
+                  </div>
+
+                  <div id="capacity">
+                    <!-- This is where the current number of player in the lobby is displayed -->
+                    0/2
+                  </div>
+
+                  <button id="join-game" onclick="joinLobby(6)">
+                    <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                    Join Lobby
+                    <!-- This is where Join Game Button lies -->
+                  </button>
+
+                  <button id="wait-game" onclick="waitLobby(6)">
+                    wait
+                    <!-- This is where Wait button lies -->
+                  </button>
+                </li>
+                <li id="lobby-item">
+                  <div id="lobby-name">
+                    <!-- This is where lobby name is entered -->
+                    Lobby Name 7
+                  </div>
+
+                  <div id="capacity">
+                    <!-- This is where the current number of player in the lobby is displayed -->
+                    0/2
+                  </div>
+
+                  <button id="join-game" onclick="joinLobby(7)">
+                    <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                    Join Lobby
+                    <!-- This is where Join Game Button lies -->
+                  </button>
+
+                  <button id="wait-game" onclick="waitLobby(7)">
+                    wait
+                    <!-- This is where Wait button lies -->
+                  </button>
+                </li>
+                <li id="lobby-item">
+                  <div id="lobby-name">
+                    <!-- This is where lobby name is entered -->
+                    Lobby Name 8
+                  </div>
+
+                  <div id="capacity">
+                    <!-- This is where the current number of player in the lobby is displayed  -->
+                    0/2
+                  </div>
+
+                  <button id="join-game" onclick="joinLobby(8)">
+                    <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                    Join Lobby
+                    <!-- This is where Join Game Button lies  -->
+                  </button>
+
+                  <button id="wait-game" onclick="waitLobby(8)">
+                    wait
+                    <!-- This is where Wait button lies -->
+                  </button>
+                </li>
+                <li id="lobby-item">
+                  <div id="lobby-name">
+                    <!-- This is where lobby name is entered -->
+                    Lobby Name 9
+                  </div>
+
+                  <div id="capacity">
+                    <!-- This is where the current number of player in the lobby is displayed -->
+                    0/2
+                  </div>
+
+                  <button id="join-game" onclick="joinLobby(9)">
+                    <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                    Join Lobby
+                    <!-- This is where Join Game Button lies -->
+                  </button>
+
+                  <button id="wait-game" onclick="waitLobby(9)">
+                    wait
+                    <!-- This is where Wait button lies -->
+                  </button>
+                </li>
+                <li id="lobby-item">
+                  <div id="lobby-name">
+                    <!-- This is where lobby name is entered  -->
+                    Lobby Name 10
+                  </div>
+
+                  <div id="capacity">
+                    <!-- This is where the current number of player in the lobby is displayed -->
+                    0/2
+                  </div>
+
+                  <button id="join-game" onclick="joinLobby(10)">
+                    <!-- join-game is a single class and button is another single class. Button can inherit all the attributes from the button class defined in Add-player Button. So no need to code it once again you can tweak it/overwrite as we dclass with java function-->
+                    Join Lobby
+                    <!-- This is where Join Game Button lies -->
+                  </button>
+
+                  <button id="wait-game" onclick="waitLobby(10)">
+                    wait
+                    <!-- This is where Wait button lies -->
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="back-button" onclick="handleBackButton()">
+            <button id="back">Back</button>
+          </div>
         </div>
-    </section>    
+      </section>
 
-    <!--    <script src="script.js"></script> -->
-    <!--<iframe id="joinFrame" src="JoinGame/index.html"></iframe> -->
-  </div>
+      <!--    <script src="script.js"></script> -->
+      <!--<iframe id="joinFrame" src="JoinGame/index.html"></iframe> -->
+    </div>
 
-      <!-- <div class="hide">
+    <!-- <div class="hide">
           <button class="show" onclick="showContent()">Open</button>
             <div id="leaderboard">
           </div>
       </div> -->
 
-  <script src="js/PageManager.js"></script>
-  <script src="JoinGame/script.js"></script> <!-- what a name, script.js -->
-  <!--<script src="Leaderboard/summary.js"</script>   need to change this-->
-  <!--<script src="login/validation.js"</script> -->
-
-  
-</body>
-
+    <script src="js/PageManager.js"></script>
+    <script src="JoinGame/script.js"></script>
+    <!-- what a name, script.js -->
+    <!--<script src="Leaderboard/summary.js"</script>   need to change this-->
+    <!--<script src="login/validation.js"</script> -->
+  </body>
 </html>

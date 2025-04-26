@@ -1,11 +1,13 @@
 package uta.cse3310.GameTermination;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import uta.cse3310.DB.DB;
+import uta.cse3310.DB.PlayerInfo;
 import uta.cse3310.GameManager.GameState;
 import uta.cse3310.GameManager.Move;
 import uta.cse3310.GameManager.Piece;
@@ -147,9 +149,15 @@ public class GameTermination {
             int loserId = getPlayerDatabaseId(loser);
             int winnerId = getPlayerDatabaseId(winner);
 
+            PlayerInfo winnerInfo = DB.getDB().getPlayerInfo(winnerId);
+            PlayerInfo losserInfo = DB.getDB().getPlayerInfo(loserId);
+
             if (loserId > 0 && winnerId > 0) {
-                DB.incrementLoss(loserId);
-                DB.incrementWin(winnerId);
+                winnerInfo.setWins(winnerInfo.getWins() + 1);
+                losserInfo.setLosses(losserInfo.getLosses() + 1);
+
+                DB.getDB().updatePlayerInfo(losserInfo);
+                DB.getDB().updatePlayerInfo(winnerInfo);
 
                 // Save the match in database
                 saveMatchHistory(loserId, winnerId, finalState);
@@ -168,9 +176,6 @@ public class GameTermination {
      */
     private void saveMatchHistory(int loserId, int winnerId, GameState finalState) {
         try {
-            // Create a connection to the database
-            java.sql.Connection c = DB.initConnection();
-            java.sql.Statement stmt = c.createStatement();
 
             // Assuming BotI is always black and Player1 is always red for simplicity
             // This might need adjustment if player roles can change
@@ -181,10 +186,8 @@ public class GameTermination {
             String boardState = getBoardHash(finalState); // Use the existing board hashing method
 
             // Initialize a match entry in the database
-            DB.initMatch(stmt, blackPlayerId, redPlayerId, boardState, winnerId, loserId);
-
-            DB.closeConnection(c, stmt);
-        } catch (Exception e) {
+            DB.getDB().initMatch(blackPlayerId, redPlayerId, boardState, winnerId, loserId);
+        } catch (SQLException e) {
             System.err.println("Error saving match history: " + e.getMessage());
         }
     }
@@ -195,7 +198,7 @@ public class GameTermination {
     private int getPlayerDatabaseId(String playerId) {
         try {
             // Use the DB method to get the ID based on the username (playerId)
-            return DB.getPlayerIdByUsername(playerId);
+            return DB.getDB().getPlayerIdByUsername(playerId);
         } catch (Exception e) {
             System.err.println("Error retrieving database ID for player " + playerId + ": " + e.getMessage());
             return -1; // Return -1 or handle error appropriately

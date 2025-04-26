@@ -1,98 +1,61 @@
 package uta.cse3310.DB;
-// import uta.cse3310.DB.*;
-
-
-import java.util.Vector;
-
-import java.sql.*;
-
 
 public class PlayerInfo {
-    
-    private String userName;
-    private String passWord;
+    private int id;
+
+    private String username;
+    private String password;
     private String email;
-    private Vector<Boolean> winLoss = new Vector<>();
     private int wins;
     private int losses;
     private double elo;
 
-    // public PlayerInfo(){
-    //     userName = "";
-    //     passWord = "";
-    //     email = "";
-    //     wins = 0;
-    //     losses = 0;
-    //     elo = 0;
-
-    // }
-
-   
-    public String getUserName(int userID) throws SQLException , ClassNotFoundException{
-        ResultSet rs = DB.getSpecificData(userID, "USER");
-        String result = rs.getString("USERNAME");
-        return result;
+    public PlayerInfo(int id, String username, String password, String email, int wins, int losses) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.wins = wins;
+        this.losses = losses;
+        this.elo = 0;
     }
 
-    public void setUserName(Statement stmt, String name , int userID) throws SQLException , ClassNotFoundException{
-        DB.setSpecificDataString(stmt, userID, "USERNAME", name, "USER");
-
+    public int getId() {
+        return id;
     }
 
-    
-    public String getPassWord(int userID) throws SQLException , ClassNotFoundException{
-        ResultSet rs = DB.getSpecificData(userID, "USER");
-        String result = rs.getString("PASSWORD");
-        return result;
+    public String getUsername() {
+        return username;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassWord(Statement stmt, String pass, int userID) throws SQLException, ClassNotFoundException {
-        DB.setSpecificDataString(stmt, userID, "PASSWORD", pass, "USER");
+    public int getWins() {
+        return wins;
     }
 
-    public static String getEmail(int userID) throws SQLException, ClassNotFoundException{
-        ResultSet rs = DB.getSpecificData(userID,"USER");
-        String result = rs.getString("EMAIL");
-        
-        return result;
+    public void setWins(int wins) {
+        this.wins = wins;
     }
 
-    public void setEmail(Statement stmt, String email, int playerID) throws SQLException, ClassNotFoundException{
-        DB.setSpecificDataString(stmt, playerID, "EMAIL", email, "USER");
+    public int getLosses() {
+        return losses;
     }
 
-    public int getWins(int playerID) throws SQLException, ClassNotFoundException{
-        ResultSet rs = DB.getSpecificData(playerID, "USER");
-        int result = rs.getInt("WINS");
-        
-        return result;
+    public void setLosses(int losses) {
+        this.losses = losses;
     }
 
-    public void setWins(Statement stmt, int wins, int playerID) throws SQLException, ClassNotFoundException{
-        DB.setSpecificDataInt(stmt, playerID, "WINS", wins, "USER");
-    }
-
-    public int getLosses(int playerID) throws SQLException, ClassNotFoundException{
-        ResultSet rs = DB.getSpecificData(playerID,"USER");
-        int result = rs.getInt("LOSSES");
-
-        return result;
-    }
-
-    public void setLosses(Statement stmt, int losses, int playerID) throws SQLException, ClassNotFoundException{
-        DB.setSpecificDataInt(stmt, playerID, "LOSSES", losses, "USER");
-    }
-    
     public double getElo() {
 
         return elo;
     }
 
-    public void setElo(double elo) {
-        this.elo = elo;
-    }
-
-    public double calculateElo(int win, int loss) {
+    public double calculateElo() {
         double kFactor = 32; // K-factor used for Elo rating systems
         int opponentElo = 1200; // Example opponent Elo
 
@@ -100,14 +63,10 @@ public class PlayerInfo {
         double expectedScore = 1 / (1 + Math.pow(10, (opponentElo - this.elo) / 400.0));
 
         // Calculate actual score based on win/loss
-        double actualScore = win > loss ? 1 : 0; // 1 for win, 0 for loss
+        double actualScore = this.wins > this.losses ? 1 : 0; // 1 for win, 0 for loss
 
         // Update Elo rating (Elo = Elo + K-factor * (actual score - expected score))
         this.elo = this.elo + kFactor * (actualScore - expectedScore);
-
-        // Update wins and losses
-        this.wins += win;
-        this.losses += loss;
 
         return this.elo;
 
