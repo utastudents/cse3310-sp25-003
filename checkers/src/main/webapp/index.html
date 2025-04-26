@@ -129,11 +129,10 @@
       
       //Sending info to page manager/database
       if (valid) {
+        let msg = JSON.stringify({username, password, email});
         const signupMessage= {
           eventType: "signup", //Changed from login to signup-AK
-          username,
-          password,
-          email,
+          msg,
         };
         socket.send(JSON.stringify(signupMessage));
           }
@@ -163,12 +162,12 @@
         }
 
         if (valid) {
-        const signupMessage= {
-          eventType: "login",
-          username,
-          password,
-        };
-        socket.send(JSON.stringify(signupMessage));
+            let msg = JSON.stringify({username, password});
+            const signupMessage= {
+                eventType: "login",
+                msg
+            };
+            socket.send(JSON.stringify(signupMessage));
           }
       }
       window.addEventListener("DOMContentLoaded", () => {

@@ -33,6 +33,24 @@ public class JsonConverter {
         }
     }
 
+    public static LoginPayload parseLoginPayload(String json) {
+        try {
+            return gson.fromJson(json, LoginPayload.class);
+        } catch (JsonSyntaxException e) {
+            System.err.println("Error parsing UserEvent JSON: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public static SignupPayload parseSigupPayload(String json) {
+        try {
+            return gson.fromJson(json, SignupPayload.class);
+        } catch (JsonSyntaxException e) {
+            System.err.println("Error parsing UserEvent JSON: " + e.getMessage());
+            return null;
+        }
+    }
+
     // Parse raw JSON string to JsonObject
     public static JsonObject parseJsonObject(String json) {
         try {

@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.Gson;
 
 import uta.cse3310.DB.DB;
+import uta.cse3310.DB.PlayerInfo;
 import uta.cse3310.PairUp.PairUp;
 import uta.cse3310.GameManager.GameManager;
 
@@ -29,20 +30,6 @@ public class PageManager {
         gameManager = new GameManager();
         activeGames = new HashMap<>();
         waitingPlayers = new ArrayList<>();
-    }
-
-    private UserEventReply handleLogin(LoginPayload payload) {
-        UserEventReply reply = new UserEventReply();
-        reply.status = new GameStatus();
-        reply.recipients = new ArrayList<>();
-
-        if (payload.username.equals("testUser") && payload.password.equals("password123")) {
-            reply.status.message = "Login successful";
-        } else {
-            reply.status.message = "Invalid username or password";
-        }
-
-        return reply;
     }
 
     private UserEventReply handleGameStatus(String gameID) {
@@ -120,53 +107,93 @@ public class PageManager {
         reply.recipients.add(userEvent.id);
         reply.type = "loginResult";
 
-        Connection c = null;
-        Statement stmt = null;
+        LoginPayload login = JsonConverter.parseLoginPayload(userEvent.msg);
+
+        if (login == null) {
+            reply.status.success = false;
+            reply.status.message = "Invalid JSON format";
+            return reply;
+        }
+        if (login.username == null || login.username.isEmpty()) {
+            reply.status.success = false;
+            reply.status.message = "Username is required";
+            return reply;
+        }
+        if (login.password == null || login.password.isEmpty()) {
+            reply.status.success = false;
+            reply.status.message = "Password is required";
+            return reply;
+        }
 
         try {
-            JsonObject jsonData = JsonConverter.parseJsonObject(userEvent.msg);
+            PlayerInfo user = new PlayerInfo();
 
-            if (jsonData == null) {
-                return JsonConverter.createErrorReply("Invalid JSON format", userEvent.id);
-            }
+            String username = user.getUserName(userEvent.id);
+            String password = user.getPassWord(userEvent.id);
 
-            String username = JsonConverter.extractField(userEvent.msg, "username");
-            if (username == null || username.isEmpty()) {
-                return JsonConverter.createErrorReply("Username is required", userEvent.id);
-            }
-
-            String password = JsonConverter.extractField(userEvent.msg, "password");
-            String email = JsonConverter.extractField(userEvent.msg, "email");
-
-            c = DB.initConnection();
-            stmt = c.createStatement();
-
-            if (email != null && !email.isEmpty()) {
-                try {
-                    DB.initUser(stmt, username, email, password);
-                    reply.status.success = true;
-                    reply.status.message = "User registered successfully";
-                } catch (SQLException e) {
-                    reply.status.success = false;
-                    reply.status.message = "Registration failed: " + e.getMessage();
-                }
-            } else {
+            if (login.username == username && login.password == password) {
                 reply.status.success = true;
-                reply.status.message = "Login successful";
+                reply.status.message = "User logged in successfully";
+            } else {
+                reply.status.success = false;
+                reply.status.message = "Username or password does not match";
             }
-
-            return reply;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             reply.status.success = false;
-            reply.status.message = "Error during login: " + e.getMessage();
-            return reply;
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (c != null) c.close();
-            } catch (SQLException e) {
-            }
+            reply.status.message = "Registration failed: " + e.getMessage();
+        } catch (ClassNotFoundException e) {
+            reply.status.success = false;
+            reply.status.message = "Registration failed: " + e.getMessage();
         }
+
+        return reply;
+    }
+
+    public UserEventReply handleSignup(UserEvent userEvent) {
+        UserEventReply reply = new UserEventReply();
+        reply.status = new GameStatus();
+        reply.recipients = new ArrayList<>();
+        reply.recipients.add(userEvent.id);
+        reply.type = "loginResult";
+
+        SignupPayload signup = JsonConverter.parseSigupPayload(userEvent.msg);
+
+        if (signup == null) {
+            reply.status.success = false;
+            reply.status.message = "Invalid JSON format";
+            return reply;
+        }
+        if (signup.username == null || signup.username.isEmpty()) {
+            reply.status.success = false;
+            reply.status.message = "Username is required";
+            return reply;
+        }
+        if (signup.password == null || signup.password.isEmpty()) {
+            reply.status.success = false;
+            reply.status.message = "Password is required";
+            return reply;
+        }
+
+        if (signup.email != null && !signup.email.isEmpty()) {
+            try {
+                Connection c = DB.initConnection();
+                Statement stmt = c.createStatement();
+                DB.initUser(stmt, signup.username, signup.email, signup.password);
+                reply.status.success = true;
+                reply.status.message = "User registered successfully";
+            } catch (SQLException e) {
+                reply.status.success = false;
+                reply.status.message = "Registration failed: " + e.getMessage();
+            } catch (ClassNotFoundException e) {
+                reply.status.success = false;
+                reply.status.message = "Registration failed: " + e.getMessage();
+            }
+        } else {
+            reply.status.success = true;
+            reply.status.message = "Login successful";
+        }
+
+        return reply;
     }
 
     public UserEventReply handleJoinGame(UserEvent userEvent) {
@@ -228,7 +255,8 @@ public class PageManager {
     }
 
     public GameStatus getGameStatus(Integer gameId) {
-        if (gameId == null) return null;
+        if (gameId == null)
+            return null;
         return activeGames.get(gameId);
     }
 }
