@@ -86,7 +86,8 @@ public class DB {
     */
    public void initConnection() throws SQLException, ClassNotFoundException {
       Class.forName("org.sqlite.JDBC");
-      this.connection = DriverManager.getConnection("jdbc:sqlite:uta/cse3310/DB/Database.db");
+      // ran from the 'checkers' directory...
+      this.connection = DriverManager.getConnection("jdbc:sqlite:./src/main/java/uta/cse3310/DB/Database.db");
    }
 
    /** CLOSE CONNECTION ONCE FINISHED WITH DATABASE */
