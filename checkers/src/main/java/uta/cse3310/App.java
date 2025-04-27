@@ -120,6 +120,8 @@ public class App extends WebSocketServer {
 
   @Override
   public void onMessage(WebSocket conn, String message) {
+    // for debugging
+    System.out.println("received " + message);
 
     // Bring in the data from the webpage
     // At this point, it is known it will be a UserEvent

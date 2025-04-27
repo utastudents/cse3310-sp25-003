@@ -134,6 +134,7 @@
             eventType: "signup", //Changed from login to signup-AK
             msg,
           };
+          console.log("sending "+ JSON.stringify(signupMessage));
           socket.send(JSON.stringify(signupMessage));
         }
       }
@@ -167,6 +168,7 @@
             eventType: "login",
             msg,
           };
+          console.log("sending "+JSON.stringify(signupMessage));
           socket.send(JSON.stringify(signupMessage));
         }
       }
