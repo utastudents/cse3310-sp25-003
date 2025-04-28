@@ -83,12 +83,12 @@ public class JsonConverter {
     // Build a reply object for error messages
     public static UserEventReply createErrorReply(String errorMessage, Integer userId) {
         UserEventReply reply = new UserEventReply();
-        reply.status = new GameStatus();
-        reply.status.message = errorMessage;
-        reply.status.success = false;
+        reply.setMessage(errorMessage);
+        reply.setSuccess(false);
 
-        reply.recipients = new ArrayList<>();
-        reply.recipients.add(userId);
+        ArrayList<Integer> recipients = new ArrayList<>();
+        recipients.add(userId);
+        reply.setRecipients(recipients);
 
         return reply;
     }
@@ -96,13 +96,13 @@ public class JsonConverter {
     // Build a reply object for success responses
     public static UserEventReply createSuccessReply(String type, String message, Integer userId) {
         UserEventReply reply = new UserEventReply();
-        reply.status = new GameStatus();
-        reply.status.message = message;
-        reply.status.success = true;
-        reply.type = type;
+        reply.setMessage(message);
+        reply.setSuccess(true);
+        reply.setType(type);
 
-        reply.recipients = new ArrayList<>();
-        reply.recipients.add(userId);
+        ArrayList<Integer> recipients = new ArrayList<>();
+        recipients.add(userId);
+        reply.setRecipients(recipients);
 
         return reply;
     }

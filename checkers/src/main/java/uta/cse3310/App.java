@@ -1,4 +1,3 @@
-
 // This is example code provided to CSE3310 Spring 2025
 //
 // You are free to use as is, or change any of the code provided
@@ -142,13 +141,20 @@ public class App extends WebSocketServer {
     Reply = PM.ProcessInput(U);
     // Send it to all that need it
 
-    String jsonString = gson.toJson(Reply.status);
+    String jsonString = gson.toJson(Reply);
 
-    for (Integer id : Reply.recipients) {
-      WebSocket destination = id2con.get(id);
-
-      destination.send(jsonString);
-      System.out.println("sending " + jsonString + " to " + id);
+    if (Reply.getRecipients() != null) {
+      for (Integer id : Reply.getRecipients()) {
+        WebSocket destination = id2con.get(id);
+        if (destination != null) {
+          destination.send(jsonString);
+          System.out.println("sending " + jsonString + " to " + id);
+        }
+      }
+    } else {
+      // If no specific recipients, send back to sender
+      conn.send(jsonString);
+      System.out.println("sending " + jsonString + " to sender");
     }
   }
 

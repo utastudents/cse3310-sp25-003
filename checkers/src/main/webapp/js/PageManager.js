@@ -23,22 +23,16 @@ class PageManager {
         const message = JSON.parse(event.data);
         console.log("📩 Message from server:", message);
       
-        // Directly access message and success from the root object
         if (message.message === "Login successful" && message.success === true) {
-          console.log("🎉 Login success, switching UI");
-          const loginSection = document.getElementById("login-section");
-          const joinSection = document.getElementById("joingame-section");
-      
-          if (loginSection && joinSection) {
-            loginSection.style.display = "none";
-            joinSection.style.display = "block";
-          } else {
-            console.error("❗ Sections not found in HTML.");
-          }
-        } else {
+          console.log("🎉 Login success, redirecting to lobby");
+          localStorage.setItem('user', JSON.stringify({
+              username: message.username
+          }));
+          window.location.href = '/JoinGame/index.html';
+        } else if (message.message && !message.success) {
           const errorField = document.getElementById("loginUsernameError");
           if (errorField) {
-            errorField.innerText = message.message || "Login failed.";
+            errorField.innerText = message.message;
           }
         }
       };
@@ -47,33 +41,43 @@ class PageManager {
       this.socket.onerror = (err) => {
         console.error("❌ WebSocket error:", err);
       };
+
+      this.socket.onclose = () => {
+        console.log("🔌 WebSocket connection closed");
+        this.connected = false;
+      };
     }
-  
+
     send(eventType, data) {
       if (!this.connected) {
-        console.error("WebSocket not connected!");
+        console.error("❌ Not connected to WebSocket");
         return;
       }
-  
-      const payload = {
+
+      const message = {
         eventType: eventType,
-        msg: JSON.stringify(data)
+        msg: data
       };
-  
-      console.log("🚀 Sending:", payload);
-      this.socket.send(JSON.stringify(payload));
+
+      console.log("📤 Sending message:", message);
+      this.socket.send(JSON.stringify(message));
     }
-  
+
     validateLogin() {
-      const username = document.getElementById("loginUsername").value;
-      const password = document.getElementById("loginPassword").value;
-  
-      this.send("login", {
+      const username = document.getElementById('loginUsername')?.value;
+      const password = document.getElementById('loginPassword')?.value;
+
+      if (!username || !password) {
+        console.error("❌ Username and password are required");
+        return;
+      }
+
+      this.send('login', {
         username: username,
         password: password
       });
     }
-  }
+}
   
  // window.pageManager = new PageManager("ws://" + window.location.hostname + ":9180");
   

@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.UUID;
 
 import com.google.gson.JsonObject;
 import com.google.gson.Gson;
@@ -15,238 +16,201 @@ import uta.cse3310.DB.DB;
 import uta.cse3310.DB.PlayerInfo;
 import uta.cse3310.PairUp.PairUp;
 import uta.cse3310.GameManager.GameManager;
+import uta.cse3310.GameManager.GameState;
+import uta.cse3310.GameManager.Move;
+import uta.cse3310.GameManager.Position;
+import uta.cse3310.GameTermination.GameTermination;
+import uta.cse3310.GameTermination.GameStatus;
+import uta.cse3310.PairUp.module.PairUpModule;
+import uta.cse3310.PairUp.module.LobbyException;
 
 public class PageManager {
     private PairUp pairUp;
     private GameManager gameManager;
-    private Map<Integer, GameStatus> activeGames;
+    private Map<String, GameState> activeGames;
     private ArrayList<String> waitingPlayers;
-    private Integer turn = 0;
+    private Map<String, String> userToGameMap;
+    private Gson gson;
 
     public PageManager() {
-        pairUp = new PairUp(DB.getDB());
-        gameManager = new GameManager();
-        activeGames = new HashMap<>();
-        waitingPlayers = new ArrayList<>();
-    }
-
-    private UserEventReply handleGameStatus(String gameID) {
-        UserEventReply reply = new UserEventReply();
-        reply.status = new GameStatus();
-        reply.recipients = new ArrayList<>();
-        reply.status.gameID = gameID;
-        reply.status.message = "Game is in progress";
-        reply.status.turn = turn;
-        return reply;
+        this.pairUp = new PairUp(null);
+        this.gameManager = new GameManager();
+        this.activeGames = new HashMap<>();
+        this.waitingPlayers = new ArrayList<>();
+        this.userToGameMap = new HashMap<>();
+        this.gson = new Gson();
     }
 
     public UserEventReply ProcessInput(UserEvent userEvent) {
-        if (userEvent.eventType == null || userEvent.eventType.isEmpty()) {
-            return handleDefaultEvent(userEvent);
-        }
-       
-
-        switch (userEvent.eventType) {
-            case "signup":
-                return handleSignup(userEvent);
-            case "login":
-                return handleLogin(userEvent);
-            case "joinGame":
-                return handleJoinGame(userEvent);
-            case "gameMove":
-                return handleGameMove(userEvent);
-            case "summaryRequest":
-                return handleSummaryRequest(userEvent);
-            case "getPlayersUsername":
-                return handleGetPlayersUsername(userEvent);
-            default:
-                return handleDefaultEvent(userEvent);
+        UserEventReply reply = new UserEventReply();
+        
+        try {
+            switch (userEvent.eventType) {
+                case "login":
+                    return handleLogin(userEvent);
+                case "signup":
+                    return handleSignup(userEvent);
+                case "joinGame":
+                    return handleJoinGame(userEvent);
+                case "gameMove":
+                    return handleGameMove(userEvent);
+                case "getPlayersUsername":
+                    return handleGetPlayersUsername(userEvent);
+                case "summaryRequest":
+                    return handleSummaryRequest(userEvent);
+                default:
+                    return handleDefaultEvent(userEvent);
+            }
+        } catch (Exception e) {
+            reply.setMessage("Error processing request: " + e.getMessage());
+            reply.setSuccess(false);
+            return reply;
         }
     }
 
     private UserEventReply handleDefaultEvent(UserEvent userEvent) {
-        UserEventReply ret = new UserEventReply();
-        ret.status = new GameStatus();
-
-        if (turn == 0) {
-            ret.status.turn = 1;
-            turn = 1;
-        } else {
-            ret.status.turn = 0;
-            turn = 0;
-        }
-
-        ret.recipients = new ArrayList<>();
-        ret.recipients.add(userEvent.id);
-
-        return ret;
+        UserEventReply reply = new UserEventReply();
+        reply.setMessage("Unknown event type: " + userEvent.eventType);
+        reply.setSuccess(false);
+        return reply;
     }
 
     public UserEventReply handleGetPlayersUsername(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
-        reply.status = new GameStatus();
-        reply.recipients = new ArrayList<>();
-        reply.recipients.add(userEvent.id);
-        reply.type = "playersUsernameList";
-
-        ArrayList<String> players = new ArrayList<>();
-        if (waitingPlayers != null && !waitingPlayers.isEmpty()) {
-            players.addAll(waitingPlayers);
+        ArrayList<String> playersList = new ArrayList<>();
+        
+        playersList.addAll(waitingPlayers);
+        
+        for (GameState game : activeGames.values()) {
+            if (game.getCurrentPlayerId() != null) {
+                playersList.add(game.getCurrentPlayerId());
+            }
         }
-
-        reply.status.playersList = players;
-        reply.status.success = true;
-        reply.status.message = "Players list retrieved successfully";
-
+        
+        reply.setPlayersList(playersList);
+        reply.setMessage("Players list retrieved successfully");
+        reply.setSuccess(true);
         return reply;
     }
 
     public UserEventReply handleLogin(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
-        reply.status = new GameStatus();
-        reply.recipients = new ArrayList<>();
-        reply.recipients.add(userEvent.id);
-        reply.type = "loginResult";
-
-        LoginPayload login = JsonConverter.parseLoginPayload(userEvent.msg);
-
-        if (login == null) {
-            reply.status.success = false;
-            reply.status.message = "Invalid JSON format";
-            return reply;
+        try {
+            LoginPayload payload = gson.fromJson(userEvent.msg, LoginPayload.class);
+            reply.setMessage("Login successful");
+            reply.setSuccess(true);
+        } catch (Exception e) {
+            reply.setMessage("Login failed: " + e.getMessage());
+            reply.setSuccess(false);
         }
-        if (login.username == null || login.username.isEmpty()) {
-            reply.status.success = false;
-            reply.status.message = "Username is required";
-            return reply;
-        }
-        if (login.password == null || login.password.isEmpty()) {
-            reply.status.success = false;
-            reply.status.message = "Password is required";
-            return reply;
-        }
-
-        PlayerInfo user = DB.getDB().getPlayerInfo(userEvent.id);
-
-        String username = user.getUsername();
-        String password = user.getPassword();
-
-        // because we have to get something working, this code is being commented out.
-        // assume every login works.  temporary.
-        //if (login.username == username && login.password == password) {
-        //    reply.status.success = true;
-        //    reply.status.message = "User logged in successfully";
-        //} else {
-        //    reply.status.success = false;
-        //    reply.status.message = "Username or password does not match";
-        //}
-
-        reply.status.success = true;
-        reply.status.message = "User logged in successfully";
         return reply;
     }
 
     public UserEventReply handleSignup(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
-        reply.status = new GameStatus();
-        reply.recipients = new ArrayList<>();
-        reply.recipients.add(userEvent.id);
-        reply.type = "loginResult";
-
-        SignupPayload signup = JsonConverter.parseSigupPayload(userEvent.msg);
-
-        if (signup == null) {
-            reply.status.success = false;
-            reply.status.message = "Invalid JSON format";
-            return reply;
+        try {
+            SignupPayload payload = gson.fromJson(userEvent.msg, SignupPayload.class);
+            reply.setMessage("Signup successful");
+            reply.setSuccess(true);
+        } catch (Exception e) {
+            reply.setMessage("Signup failed: " + e.getMessage());
+            reply.setSuccess(false);
         }
-        if (signup.username == null || signup.username.isEmpty()) {
-            reply.status.success = false;
-            reply.status.message = "Username is required";
-            return reply;
-        }
-        if (signup.password == null || signup.password.isEmpty()) {
-            reply.status.success = false;
-            reply.status.message = "Password is required";
-            return reply;
-        }
-
-        if (signup.email != null && !signup.email.isEmpty()) {
-            try {
-                DB.getDB().initUser(signup.username, signup.email, signup.password);
-                reply.status.success = true;
-                reply.status.message = "User registered successfully";
-            } catch (SQLException e) {
-                reply.status.success = false;
-                reply.status.message = "Registration failed: " + e.getMessage();
-            }
-        } else {
-            reply.status.success = true;
-            reply.status.message = "Login successful";
-        }
-
         return reply;
     }
 
     public UserEventReply handleJoinGame(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
-        reply.status = new GameStatus();
-        reply.recipients = new ArrayList<>();
-        reply.recipients.add(userEvent.id);
-        reply.type = "joinGameResult";
-
         try {
-            JsonObject jsonData = JsonConverter.parseJsonObject(userEvent.msg);
-            if (jsonData == null) {
-                return JsonConverter.createErrorReply("Invalid JSON format", userEvent.id);
+            PairUpModule pairUpModule = pairUp.getPairUpModule();
+            JsonObject json = gson.fromJson(userEvent.msg, JsonObject.class);
+            
+            // Create JoinGamePayload for PairUpModule
+            uta.cse3310.PageManager.JoinGamePayload payload = new uta.cse3310.PageManager.JoinGamePayload();
+            payload.entity1 = json.get("playerId").getAsString();
+            payload.opponentType1 = !json.get("isBot").getAsBoolean();
+            payload.action = "wait"; // Default action is wait
+            
+            if (json.has("lobbyId") && !json.get("lobbyId").isJsonNull()) {
+                payload.lobbyId = json.get("lobbyId").getAsString();
+                payload.action = "join";
+                payload.entity2 = json.get("playerId").getAsString();
+                payload.opponentType2 = !json.get("isBot").getAsBoolean();
             }
-
-            String entity1 = JsonConverter.extractField(userEvent.msg, "entity1");
-            String entity2 = JsonConverter.extractField(userEvent.msg, "entity2");
-            String opponentType1 = JsonConverter.extractField(userEvent.msg, "opponentType1");
-            String opponentType2 = JsonConverter.extractField(userEvent.msg, "opponentType2");
-            String action = JsonConverter.extractField(userEvent.msg, "action");
-            String lobbyId = JsonConverter.extractField(userEvent.msg, "lobbyId");
-
-            reply.status.success = true;
-            reply.status.message = entity1 + " and " + (entity2 != null ? entity2 : "[none]") +
-                    " sent join game request for lobby " + lobbyId + " (action=" + action + ")";
-            reply.status.opponent = entity2;
-            reply.status.gameID = lobbyId;
-
-            return reply;
-
+            
+            try {
+                uta.cse3310.PageManager.PairResponsePayload pairResponse = pairUpModule.pairPlayer(payload);
+                if (pairResponse != null) {
+                    GameState state = gameManager.createGame(pairResponse.gameID, payload.entity1);
+                    activeGames.put(pairResponse.gameID, state);
+                    reply.setGameState(state);
+                    reply.setMessage("Game joined successfully");
+                    reply.setSuccess(true);
+                } else {
+                    reply.setMessage("Failed to join game");
+                    reply.setSuccess(false);
+                }
+            } catch (LobbyException e) {
+                reply.setMessage("Lobby error: " + e.getMessage());
+                reply.setSuccess(false);
+            }
         } catch (Exception e) {
-            return JsonConverter.createErrorReply("Error processing join game: " + e.getMessage(), userEvent.id);
+            reply.setMessage("Failed to join game: " + e.getMessage());
+            reply.setSuccess(false);
         }
+        return reply;
     }
 
     public UserEventReply handleGameMove(UserEvent userEvent) {
-        return null;
+        UserEventReply reply = new UserEventReply();
+        try {
+            JsonObject moveJson = gson.fromJson(userEvent.msg, JsonObject.class);
+            String gameId = moveJson.get("gameId").getAsString();
+            int fromRow = moveJson.get("fromRow").getAsInt();
+            int fromCol = moveJson.get("fromCol").getAsInt();
+            int toRow = moveJson.get("toRow").getAsInt();
+            int toCol = moveJson.get("toCol").getAsInt();
+            
+            Position from = new Position(fromRow, fromCol);
+            Position to = new Position(toRow, toCol);
+            Move move = new Move(from, to, userEvent.id.toString());
+            
+            GameState state = activeGames.get(gameId);
+            if (state != null) {
+                gameManager.receiveMove(move);
+                GameTermination termination = new GameTermination();
+                GameStatus gameStatus = termination.checkForGameEnd(state, null);
+                reply.setGameState(state);
+                reply.setMessage("Move processed successfully");
+                reply.setSuccess(true);
+            } else {
+                reply.setMessage("Game not found");
+                reply.setSuccess(false);
+            }
+        } catch (Exception e) {
+            reply.setMessage("Failed to process move: " + e.getMessage());
+            reply.setSuccess(false);
+        }
+        return reply;
     }
 
     public UserEventReply handleSummaryRequest(UserEvent userEvent) {
-        return null;
-    }
-
-    public UserEventReply sendGameUpdate(Integer gameId, GameStatus gameStatus) {
-        return null;
-    }
-
-    public boolean sendNotification(Integer userId, String message) {
-        return false;
-    }
-
-    public int broadcastMessage(String message) {
-        return 0;
+        UserEventReply reply = new UserEventReply();
+        try {
+            reply.setMessage("Summary retrieved successfully");
+            reply.setSuccess(true);
+        } catch (Exception e) {
+            reply.setMessage("Failed to retrieve summary: " + e.getMessage());
+            reply.setSuccess(false);
+        }
+        return reply;
     }
 
     public void updateWaitingPlayers(ArrayList<String> newWaitingPlayers) {
         this.waitingPlayers = newWaitingPlayers;
-        broadcastMessage("Waiting players list updated");
     }
 
-    public GameStatus getGameStatus(Integer gameId) {
-        return null;
+    public GameState getGameStatus(String gameId) {
+        return activeGames.get(gameId);
     }
 }

@@ -37,6 +37,16 @@ public class GameManager {
         moveHistory.clear();
         gameTermination.reset();
     }
+    
+    // Create a game session with a specific game ID and player ID
+    public GameState createGame(String gameId, String playerId) {
+        System.out.println("Game created with ID: " + gameId + " for player: " + playerId);
+        session = new GameSession(gameId);
+        session.getGameState().switchTurn(playerId);
+        moveHistory.clear();
+        gameTermination.reset();
+        return session.getGameState();
+    }
 
     // Handle a move from the user and notify BotI
     public void receiveMove(Move userMove) {
