@@ -44,8 +44,11 @@ public class PageManager {
         if (userEvent.eventType == null || userEvent.eventType.isEmpty()) {
             return handleDefaultEvent(userEvent);
         }
+       
 
         switch (userEvent.eventType) {
+            //case "signup":
+                // where is it?????
             case "login":
                 return handleLogin(userEvent);
             case "joinGame":
@@ -128,14 +131,18 @@ public class PageManager {
         String username = user.getUsername();
         String password = user.getPassword();
 
-        if (login.username == username && login.password == password) {
-            reply.status.success = true;
-            reply.status.message = "User logged in successfully";
-        } else {
-            reply.status.success = false;
-            reply.status.message = "Username or password does not match";
-        }
+        // because we have to get something working, this code is being commented out.
+        // assume every login works.  temporary.
+        //if (login.username == username && login.password == password) {
+        //    reply.status.success = true;
+        //    reply.status.message = "User logged in successfully";
+        //} else {
+        //    reply.status.success = false;
+        //    reply.status.message = "Username or password does not match";
+        //}
 
+        reply.status.success = true;
+        reply.status.message = "User logged in successfully";
         return reply;
     }
 

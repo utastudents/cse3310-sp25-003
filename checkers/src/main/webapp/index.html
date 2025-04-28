@@ -173,14 +173,15 @@
         }
       }
 
-      function handleSocket(e) {
-        console.log(e.data);
-      }
+      //function handleSocket(e) {
+      //  console.log(e.data);
+      //}
 
       window.addEventListener("DOMContentLoaded", () => {
         let login = document.getElementById("loginButton");
         let signup = document.getElementById("signupButton");
-        socket.addEventListener("message", handleSocket);
+        // why is this here ????
+        //socket.addEventListener("message", handleSocket);
 
         //handle login
         if (login) {
@@ -201,6 +202,7 @@
       //This is going to handle websocket messgae and display appropriate alerts to users
       //It allows login if user exists in DB, if not asks user to signup
       socket.onmessage = function (event) {
+        console.log("received "+event.data);
         let playerData;
         try {
           //convert JSON string received from server
@@ -209,23 +211,30 @@
           console.error("Failed to get server response", e);
           return;
         }
-        //eventType as per PageManager.java
-        if (playerData.eventType !== "loginResult") {
-          return;
-        }
-        //since the PM handles success wrapped in status
-        if (!playerData.status.success) {
-          alert("Login failed. PLease try again !");
-          return;
-        }
-        //Only if user exists, update UI
-        if (playerData.status.success) {
-          alert("Welcome Back! Let's Play Again!!");
-          document.getElementById("login-section").style.display = "none";
-          document.getElementById("joingame-section").style.display = "block";
-        } else {
-          //If not, ask them to create account
-          alert("Yay this is your first time! Please Signup :)");
+
+        // delete this line before committing   received {"message":"User logged in successfully","success":true}
+       // as of 4/27/2025, the code below is an attempt to process the messages as they have arrived. as they are
+       if ('message' in playerData && playerData.message=="User logged in successfully" && playerData.success==true) {
+
+
+          //eventType as per PageManager.java
+          //if (playerData.eventType !== "loginResult") {
+          //  return;
+          //}
+          //since the PM handles success wrapped in status
+          //if (!playerData.status.success) {
+          //   alert("Login failed. PLease try again !");
+          //   return;
+          //}
+          //Only if user exists, update UI
+          if (playerData.success) {
+            alert("Welcome Back! Let's Play Again!!");
+            document.getElementById("login-section").style.display = "none";
+            document.getElementById("joingame-section").style.display = "block";
+          } else {
+            //If not, ask them to create account
+            alert("Yay this is your first time! Please Signup :)");
+          }
         }
       };
     </script>
@@ -616,6 +625,6 @@
     <script src="JoinGame/script.js"></script>
     <!-- what a name, script.js -->
     <!--<script src="Leaderboard/summary.js"</script>   need to change this-->
-    <!--<script src="login/validation.js"</script> -->
+    <script src="login/validation.js"</script>
   </body>
 </html>
