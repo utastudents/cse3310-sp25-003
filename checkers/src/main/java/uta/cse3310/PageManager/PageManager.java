@@ -47,8 +47,8 @@ public class PageManager {
        
 
         switch (userEvent.eventType) {
-            //case "signup":
-                // where is it?????
+            case "signup":
+                return handleSignup(userEvent);
             case "login":
                 return handleLogin(userEvent);
             case "joinGame":

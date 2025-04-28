@@ -196,6 +196,7 @@
 
         // Show login page by default
         document.getElementById("login-section").style.display = "block";
+        document.getElementById("signup-section").style.display = "block";
       });
 
       //Our understanding- PageManager will handle JSON parsing and we are handling UI responses based on the data provided by DB/PageMAnger
@@ -230,6 +231,7 @@
           if (playerData.success) {
             alert("Welcome Back! Let's Play Again!!");
             document.getElementById("login-section").style.display = "none";
+            document.getElementById("signup-section").style.display = "none";
             document.getElementById("joingame-section").style.display = "block";
           } else {
             //If not, ask them to create account
@@ -242,9 +244,9 @@
 
   <body>
     <h1 style="text-align: center">CHECKERS</h1>
-    <h2>Login</h2>
 
     <div id="login-section" class="form-section">
+      <h2>Login</h2>
       <label>Username:</label>
       <input
         required
@@ -268,9 +270,9 @@
       <button id="loginButton">LOGIN</button>
     </div>
 
-    <h2>Sign Up</h2>
 
-    <div class="form-section">
+    <div id="signup-section" class="form-section">
+      <h2>Sign Up</h2>
       <label>Username:</label>
       <input type="text" id="signupUsername" placeholder="Username" />
       <div class="error" id="signupUsernameError"></div>

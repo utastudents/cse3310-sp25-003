@@ -37,7 +37,7 @@ let selectionsNum = [];
 
 // Handling entities selection
 document.addEventListener('DOMContentLoaded', function() {
-
+console.log("i am here");
     const buttons = document.querySelectorAll('.selection-button');
     // const joinButton = document.querySelector('#join-game'); 
 
