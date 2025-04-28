@@ -85,6 +85,21 @@
         "ws://" + window.location.hostname + ":" + (parseInt(location.port) + 100)
       );
 
+      socket.onopen = function (event){
+        console.log("open");
+      }
+
+      socket.onclose = function (event){
+        console.log("close");
+      }
+
+      socket.onmessage = function(event)
+      {
+        const msg = event.status.message;
+      }
+
+      console.log("Received Message: " + msg);
+
       import { inputValidator } from "./validation.js";
 
       //Signup- TJV
@@ -627,6 +642,6 @@
     <script src="JoinGame/script.js"></script>
     <!-- what a name, script.js -->
     <!--<script src="Leaderboard/summary.js"</script>   need to change this-->
-    <script src="login/validation.js"</script>
+    <script src="login/validation.js"></script>
   </body>
 </html>
