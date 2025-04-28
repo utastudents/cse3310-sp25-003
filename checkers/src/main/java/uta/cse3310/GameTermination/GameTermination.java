@@ -15,7 +15,26 @@ import uta.cse3310.GameManager.Position;
 import uta.cse3310.GamePlay.GamePlay;
 
 /**
- * Implements the game termination logic.
+ * The GameTermination class is responsible for implementing the logic to determine
+ * when a game of checkers has ended. It evaluates various termination conditions
+ * such as all pieces being captured, no legal moves available, draw rules (e.g.,
+ * 40-move rule, 25-move king rule), threefold repetition, and mutual stalemate.
+ * 
+ * This class also provides functionality to:
+ * - Track the history of game states for repetition checks.
+ * - Update player statistics in the database after a game ends.
+ * - Save match history to the database.
+ * 
+ * The termination logic is prioritized as follows:
+ * 1. All pieces of one player are captured.
+ * 2. No legal moves are available for the current player.
+ * 3. Mutual stalemate (neither player has valid moves).
+ * 4. 40-move rule (no captures in 40 consecutive moves).
+ * 5. 25-move rule (only kings remain, and no captures in 25 consecutive moves).
+ * 6. Threefold repetition of the same board state.
+ * 
+ * The class also provides helper methods to evaluate board states, validate moves,
+ * and interact with the database for player and match data.
  */
 public class GameTermination {
 
