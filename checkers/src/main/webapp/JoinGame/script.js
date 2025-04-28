@@ -24,7 +24,7 @@ socket.onmessage = (event) => {
     console.log("Received Message: "+jsonData)
     const data = JSON.parse(jsonData)
     switch (data.message){
-        case "Players list retrieved successfully"::
+        case "Players list retrieved successfully":
             handleUsernames(data.playersList)
             break;
         
