@@ -2,14 +2,6 @@
 <script src="/js/PageManager.js"></script>
 const pageManager = new PageManager('ws://localhost:9180');
 
-
-let entity1;
-let entity2;
-
-
-
-
-
 // UNCOMMENT THIS WHEN ADDED SOCKET SUCCESSFULLY
 
 socket.addEventListener('message', (event) => {
@@ -25,10 +17,6 @@ socket.addEventListener('message', (event) => {
 });
 
 
-while(!(socket.readyState === WebSocket.OPEN))    
-{
-    requestPlayersUserName();
-};
 
 let selections = [];
 let selectionsNum = [];
