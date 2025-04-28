@@ -95,10 +95,11 @@
 
       socket.onmessage = function(event)
       {
-        const msg = event.status.message;
+        const msg = event.data;
+        console.log("Received Message: " + msg);
       }
 
-      console.log("Received Message: " + msg);
+   
 
       import { inputValidator } from "./validation.js";
 
