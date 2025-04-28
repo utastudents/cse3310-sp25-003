@@ -19,17 +19,20 @@ function msg(msg) {
 
 // UNCOMMENT THIS WHEN ADDED SOCKET SUCCESSFULLY
 
-socket.addEventListener('message', (event) => {
-    const jsonData = JSON.parse(event.data);
-    switch (event.status.message){
-        case "Players list retrieved successfully":
-            handleUsernames(event);
+socket.onmessage = (event) => {
+    const jsonData = event.data;
+    console.log("Received Message: "+jsonData)
+    const data = JSON.parse(jsonData)
+    switch (data.message){
+        case "Players list retrieved successfully"::
+            handleUsernames(data.playersList)
             break;
-
-        default:
-            console.log("Done");
+        
+            default:
+                console.log("Message Sending Sucessfull")
     }
-});
+
+}
 
 
 while(!(socket.readyState === WebSocket.OPEN))    
@@ -108,7 +111,7 @@ function handleUsernames(usernames) {
     // If both player's username are present then they are assigned player
     // 1 and 2 respectively else, just player 1
 
-    const playerList = usernames.status.playersList;
+    const playerList = usernames;
 
     // Display or assign players based on how many usernames are received
     if (playerList.length >= 2) {
