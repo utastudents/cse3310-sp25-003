@@ -35,10 +35,10 @@ socket.onmessage = (event) => {
 }
 
 
-while(!(socket.readyState === WebSocket.OPEN))    
-{
+socket.onopen = function (event){
+    console.log("Socket Open")
     requestPlayersUserName();
-};
+}
 
 let selections = [];
 let selectionsNum = [];
