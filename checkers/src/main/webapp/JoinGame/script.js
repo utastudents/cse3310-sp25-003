@@ -1,43 +1,41 @@
 // var connection = null;
+<script src="/js/PageManager.js"></script>
+const pageManager = new PageManager('ws://localhost:9180');
+
+
 let entity1;
 let entity2;
 
-class UserEvent {
-    msg;
-}
 
-function msg(msg) {
-    console.log("button clicked");
-    U = new UserEvent();
-    U.msg = msg;
-    connection.send(JSON.stringify(U));
-    console.log(JSON.stringify(U));
-}
+
+
 
 // UNCOMMENT THIS WHEN ADDED SOCKET SUCCESSFULLY
 
-// socket.addEventListener('message', (event) => {
-//     const jsonData = JSON.parse(event.data);
-//     switch (event.status.message){
-//         case "Players list retrieved successfully":
-//             handleUsernames(event);
-//             break;
+socket.addEventListener('message', (event) => {
+    const jsonData = JSON.parse(event.data);
+    switch (event.status.message){
+        case "Players list retrieved successfully":
+            handleUsernames(event);
+            break;
 
-//         default:
-//             console.log("Done");
-//     }
-// });
+        default:
+            console.log("Done");
+    }
+});
 
 
-// while(!(connection.readyState === WebSocket.OPEN))    
-// {};
+while(!(socket.readyState === WebSocket.OPEN))    
+{
+    requestPlayersUserName();
+};
 
 let selections = [];
 let selectionsNum = [];
 
 // Handling entities selection
 document.addEventListener('DOMContentLoaded', function() {
-console.log("i am here");
+
     const buttons = document.querySelectorAll('.selection-button');
     // const joinButton = document.querySelector('#join-game'); 
 
@@ -91,11 +89,7 @@ function updateSelection() {
 
 function requestPlayersUserName() {
     // This method requests the name of a specific player    
-    let request = {
-        eventType: "getPlayersUsername"
-    };
-
-    msg(request);
+    pageManager.send('getPlayersUsername', msg)
 }
 
 function handleUsernames(usernames) {
@@ -136,13 +130,9 @@ function displayPlayers(num) {
     }
 }
 
-function requestAllUsername() {
+function requestAllUsernames() {
     // This method sends a request to get all usernames
-    let request = {
-        eventType: "getAllUsernames"
-    };
-
-    msg(request);
+    pageManager.send('requestAllUsernames', msg)
 }
 
 function displayUsers(usernames) {
@@ -154,31 +144,18 @@ function addPlayerToLobby() {
     // This method adds a player to the current lobby
     // One addButton is clicked it initiates the function
 
-    let request = {
-        eventType: "addPlayerToLobby"
-    };
-
-    msg(request);
+    pageManager.send('addPlayerToLobby', null)
 }
 
 function handleBackButton() {
     // Button that takes user to previous page
 
-    let request = {
-        eventType: "goToLoginPage"
-    };
-
-    msg(request);
+    pageManager.send('handleBackButton', null)
 }
 
 function refereshLobbies() {
     // This method refreshes the list of game lobbies
-
-    let request = {
-        eventType: "refreshLobbies"
-    };
-
-    msg(request);
+    pageManager.send('refereshLobbies', null)
 }
 
 function joinLobby(lobbyId) {
@@ -198,20 +175,15 @@ function joinLobby(lobbyId) {
         action: action
     };
 
-    let request = {
-        eventType: "handleJoinGame",
-        msg: JSON.stringify(details)
-    };
+    //     //Test if works
+    // console.log("Entity1: ", entity1);
+    // console.log("Entity2: ", entity2);
+    // console.log("opponentType1: ", opponentType1);
+    // console.log("opponentType2: ", opponentType2);
+    // console.log("ACTION: ", action);
+    // console.log("ID: ", lobbyId);
 
-        //Test if works
-    console.log("Entity1: ", entity1);
-    console.log("Entity2: ", entity2);
-    console.log("opponentType1: ", opponentType1);
-    console.log("opponentType2: ", opponentType2);
-    console.log("ACTION: ", action);
-    console.log("ID: ", lobbyId);
-
-    msg(request);
+    pageManager.send('handleJoinGame', msg)
 
 }
 
@@ -237,14 +209,14 @@ function waitLobby(lobbyId) {
     };
 
         //Test if works
-    console.log("Entity1: ", entity1);
-    console.log("Entity2: ", entity2);
-    console.log("opponentType1: ", opponentType1);
-    console.log("opponentType2: ", opponentType2);
-    console.log("ACTION: ", action);
-    console.log("ID: ", lobbyId);
+    // console.log("Entity1: ", entity1);
+    // console.log("Entity2: ", entity2);
+    // console.log("opponentType1: ", opponentType1);
+    // console.log("opponentType2: ", opponentType2);
+    // console.log("ACTION: ", action);
+    // console.log("ID: ", lobbyId);
 
-    msg(request);
+    pageManager.send('handleJoinGame', msg)
 }
 
 function displayLobbies() {
