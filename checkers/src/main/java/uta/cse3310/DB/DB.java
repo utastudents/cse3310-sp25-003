@@ -9,14 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-// Compile with
-// javac *.java  
-
-// Run with Command below when on Windows
-// java -cp ".;sqlite-jdbc-3.49.1.0.jar" .\DB.java
-
-// or use bat File
-// .\run-db.bat
 
 public class DB {
 
@@ -29,7 +21,10 @@ public class DB {
 
          Statement st = connection.createStatement();
 
-         this.createDatabase(st);
+         // YOU ONLY NEED TO CREATE A DATABASE ONCE
+         // THIS LINE OF CODE MAKES A WHOLE NEW DATABASE EVERY SINGLE TIME THE CODE RUNS
+         
+         // this.createDatabase(st);
 
          st.close();
 
@@ -121,8 +116,7 @@ public class DB {
    }
 
    /** CREATE A NEW MATCH IN THE DATABASE */
-   public void initMatch(int BLACKPLAYERID, int REDPLAYERID, String BOARDSTATE, int WINNERID,
-         int LOSERID) throws SQLException {
+   public void initMatch(int BLACKPLAYERID, int REDPLAYERID, String BOARDSTATE, int WINNERID, int LOSERID) throws SQLException {
       Statement stmt = this.connection.createStatement();
       // BLACKPLAYERID(INT), REDPLAYERID(INT), BOARDSTATE(STRING), WINNERID(INT),
       // LOSERID(INT)
