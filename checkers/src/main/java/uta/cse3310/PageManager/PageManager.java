@@ -247,8 +247,6 @@ public class PageManager {
     }
 
     public GameStatus getGameStatus(Integer gameId) {
-        if (gameId == null)
-            return null;
-        return activeGames.get(gameId);
+        return null;
     }
 }
