@@ -1,0 +1,132 @@
+
+.hide{
+    display: none;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin-inline: auto;
+    width: fit-content;
+  }
+  
+  #leaderboard{
+    display: grid;
+    color: black;
+    background-color: rgb(20, 60, 20);
+    grid-template-areas:
+    "title title title"
+    "board board board"
+    "show show show";
+  }
+  
+  #leaderboard > #title{
+    grid-area: title;
+    justify-self: center;;
+    justify-items: center;
+    justify-content: center;
+  }
+  
+  #leaderboard > #board {
+    background-color: white;
+    grid-area: board;
+    justify-items: center;
+    justify-self: center;
+  }
+  
+  #leaderboard > #Hidden{
+    grid-area: show;
+    justify-self: center;
+  }
+  
+  .container {
+    width: 600px;
+    height: auto;
+    border: solid black;
+  }
+  
+  .row {
+    position: relative;
+    width: 94%;
+    height: 40px;
+    border: solid black;
+    margin: 3%;
+    align-content: center;
+  }
+  
+  .seen {
+    opacity: 0;
+    transform: translateX(-50%);
+    animation: fadeLeft 2s forwards;
+  }
+  
+  @keyframes fadeLeft {
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  #number1 {
+  animation-delay: 0ms;
+  }
+  
+  #number2 {
+  animation-delay: 250ms;
+  }
+  
+  #number3 {
+  animation-delay: 500ms;
+  }
+  
+  #number4 {
+  animation-delay: 750ms;
+  }
+  
+  #number5 {
+  animation-delay: 1s;
+  }
+  
+  #number6 {
+  animation-delay: 1.25s;
+  }
+  
+  #number7 {
+  animation-delay: 1.5s;
+  }
+  
+  #number8 {
+  animation-delay: 1.75s;
+  }
+  
+  #number9 {
+  animation-delay: 2s;
+  }
+  
+  #number10 {
+  animation-delay: 2.25s;
+  }
+  
+  .rank {
+    display: inline-flex;
+    width: 10%;
+    justify-content: center;  
+  }
+  
+  .name {
+    display: inline-flex;
+    justify-self: left;
+    width: 10%;
+  }
+  
+  .userId {
+    opacity: 0.5;
+    display: inline-flex;
+    justify-items: left;
+    width: 20%;
+  }
+  
+  .score {
+    display: inline-flex;
+    justify-content: end;
+    width: 50%;
+    justify-self: end;
+  }

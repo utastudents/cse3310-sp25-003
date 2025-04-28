@@ -79,6 +79,7 @@
         border: none;
       }
     </style>
+    <link rel="stylesheet" href="./index.css" />
     <!--import module from validation.js-->
     <script type="module">
       const socket = new WebSocket(
@@ -261,6 +262,7 @@
   <body>
     <h1 style="text-align: center">CHECKERS</h1>
 
+
     <div id="login-section" class="form-section">
       <h2>Login</h2>
       <label>Username:</label>
@@ -311,6 +313,12 @@
 
       <button id="signupButton">Create Account</button>
     </div>
+
+    <button class="show" onclick="showContent()">Open</button>
+    <div class="hide">
+        <div id="leaderboard">
+      </div>
+  </div>
 
     <div id="joingame-section" class="section">
       <section id="banner">
@@ -633,16 +641,11 @@
       <!--<iframe id="joinFrame" src="JoinGame/index.html"></iframe> -->
     </div>
 
-    <!-- <div class="hide">
-          <button class="show" onclick="showContent()">Open</button>
-            <div id="leaderboard">
-          </div>
-      </div> -->
 
     <script src="js/PageManager.js"></script>
     <script src="JoinGame/script.js"></script>
     <!-- what a name, script.js -->
-    <!--<script src="Leaderboard/summary.js"</script>   need to change this-->
+    <script src="Leaderboard/summary.js"></script>
     <script src="login/validation.js"></script>
   </body>
 </html>

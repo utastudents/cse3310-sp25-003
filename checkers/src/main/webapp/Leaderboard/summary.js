@@ -68,6 +68,7 @@ function handleLeaderboardData(){
 
     const button = document.createElement('button');
     button.innerHTML = 'Return';
+    button.id = 'Hidden'
     leaderboardDiv.appendChild(button);
     button.onclick = hideContent;
 }
@@ -76,7 +77,21 @@ window.onload = handleLeaderboardData;
 
 // Generate a unique ID for the client (RQ-08)
 //  (not a good way to do this.  ask the server, it can give you a good id)
-const clientID = "client_" + Math.floor(Math.random() * 10000);
+// const clientID = "client_" + Math.floor(Math.random() * 10000);
+
+fetch('http://localhost:9080')
+    .then(response => {
+        if(!response.ok){
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then(clientID => {
+        console.log('Client ID: ', clientID);
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation: ', error);
+    })
 
 // Connect to WebSocket server (RQ-03, RQ-05)
 //const socket = new WebSocket("ws://localhost:8080");
