@@ -1,6 +1,21 @@
-// var connection = null;
-<script src="/js/PageManager.js"></script>
-const pageManager = new PageManager('ws://localhost:9180');
+
+let entity1;
+let entity2;
+
+class UserEvent {
+    msg;
+}
+
+function msg(msg) {
+    console.log("button clicked");
+    U = new UserEvent();
+    U.msg = msg;
+    console.log("sending "+ JSON.stringify(U));
+    socket.send(JSON.stringify(U));
+    socket.log(JSON.stringify(U));
+}
+
+
 
 // UNCOMMENT THIS WHEN ADDED SOCKET SUCCESSFULLY
 
@@ -17,6 +32,10 @@ socket.addEventListener('message', (event) => {
 });
 
 
+while(!(socket.readyState === WebSocket.OPEN))    
+{
+    requestPlayersUserName();
+};
 
 let selections = [];
 let selectionsNum = [];
@@ -77,7 +96,11 @@ function updateSelection() {
 
 function requestPlayersUserName() {
     // This method requests the name of a specific player    
-    pageManager.send('getPlayersUsername', msg)
+    let request = {
+        eventType: "getPlayersUsername"
+    };
+
+    msg(request);
 }
 
 function handleUsernames(usernames) {
@@ -118,9 +141,13 @@ function displayPlayers(num) {
     }
 }
 
-function requestAllUsernames() {
+function requestAllUsername() {
     // This method sends a request to get all usernames
-    pageManager.send('requestAllUsernames', msg)
+    let request = {
+        eventType: "getAllUsernames"
+    };
+
+    msg(request);
 }
 
 function displayUsers(usernames) {
@@ -132,18 +159,31 @@ function addPlayerToLobby() {
     // This method adds a player to the current lobby
     // One addButton is clicked it initiates the function
 
-    pageManager.send('addPlayerToLobby', null)
+    let request = {
+        eventType: "addPlayerToLobby"
+    };
+
+    msg(request);
 }
 
 function handleBackButton() {
     // Button that takes user to previous page
 
-    pageManager.send('handleBackButton', null)
+    let request = {
+        eventType: "goToLoginPage"
+    };
+
+    msg(request);
 }
 
 function refereshLobbies() {
     // This method refreshes the list of game lobbies
-    pageManager.send('refereshLobbies', null)
+
+    let request = {
+        eventType: "refreshLobbies"
+    };
+
+    msg(request);
 }
 
 function joinLobby(lobbyId) {
@@ -163,15 +203,20 @@ function joinLobby(lobbyId) {
         action: action
     };
 
-    //     //Test if works
-    // console.log("Entity1: ", entity1);
-    // console.log("Entity2: ", entity2);
-    // console.log("opponentType1: ", opponentType1);
-    // console.log("opponentType2: ", opponentType2);
-    // console.log("ACTION: ", action);
-    // console.log("ID: ", lobbyId);
+    let request = {
+        eventType: "handleJoinGame",
+        msg: JSON.stringify(details)
+    };
 
-    pageManager.send('handleJoinGame', msg)
+        //Test if works
+    console.log("Entity1: ", entity1);
+    console.log("Entity2: ", entity2);
+    console.log("opponentType1: ", opponentType1);
+    console.log("opponentType2: ", opponentType2);
+    console.log("ACTION: ", action);
+    console.log("ID: ", lobbyId);
+
+    msg(request);
 
 }
 
@@ -197,14 +242,14 @@ function waitLobby(lobbyId) {
     };
 
         //Test if works
-    // console.log("Entity1: ", entity1);
-    // console.log("Entity2: ", entity2);
-    // console.log("opponentType1: ", opponentType1);
-    // console.log("opponentType2: ", opponentType2);
-    // console.log("ACTION: ", action);
-    // console.log("ID: ", lobbyId);
+    console.log("Entity1: ", entity1);
+    console.log("Entity2: ", entity2);
+    console.log("opponentType1: ", opponentType1);
+    console.log("opponentType2: ", opponentType2);
+    console.log("ACTION: ", action);
+    console.log("ID: ", lobbyId);
 
-    pageManager.send('handleJoinGame', msg)
+    msg(request);
 }
 
 function displayLobbies() {
