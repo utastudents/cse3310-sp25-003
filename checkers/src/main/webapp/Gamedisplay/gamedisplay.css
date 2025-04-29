@@ -1,0 +1,240 @@
+body 
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; */
+  background-color: #f0f0f0;
+  margin: 0;
+}
+
+.board 
+{
+  display: grid;
+  grid-template-columns: repeat(8, 80px);
+  grid-template-rows: repeat(8, 80px);
+  border: 5px solid #333;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.displaybox {
+  display: flex;
+  background: #ffffff;
+  padding: auto;
+  border: 4px solid rgb(48, 46, 46);
+  z-index: 100;
+  width: 400px;
+  position: relative;
+  bottom: 507px;
+  height: 200px;
+}
+
+.displaytext {
+  margin: auto;
+  font-family: Arial, sans-serif;
+  font-size: 2em;
+  color: #333;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center - 20;
+}
+
+.playerdata {
+  margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 2em;
+  color: #333;
+}
+.cell 
+{
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
+.light 
+{
+  background-color: #dd5f45;
+}
+
+.dark 
+{
+  background-color: #615956;
+}
+
+.piece 
+{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.red 
+{
+  background-color: rgb(229, 25, 25);
+}
+
+.faded
+{
+  background-color: rgb(180, 168, 168);
+}
+
+.blue 
+{
+  background-color: rgb(1, 1, 19);
+}
+
+.selected 
+{
+  outline: 4px solid yellow;
+  transform: scale(1.1);
+}
+
+/* King styling - crown symbol */
+.king::after {
+  content: "♛";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  color: gold;
+  text-shadow: 0 0 3px black;
+}
+.resign-button {
+  background-color: #e63946; /* Red */
+  color: white;
+  font-size: 1.2em;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.resign-button:hover {
+  background-color: #c62828;
+}
+.draw-button {
+  background-color: #28a745;
+  color: white;
+  font-size: 1.2em;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+}
+
+.draw-button:hover {
+  background-color: #218838;
+}
+.sound-control {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.sound-control:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.sound-control:focus {
+  outline: none;
+}
+
+button:focus {
+  outline: 3px solid #0077cc;
+  outline-offset: 2px;
+}
+
+.piece:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.draw-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #666;
+}
+
+.last-move {
+  box-shadow: 0 0 10px 4px gold;
+}
+
+.dark-theme {
+  background-color: #121212;
+  color: white;
+}
+
+.dark-theme .playerdata {
+  color: #f0f0f0;
+}
+
+.playerdata {
+  color: #2c3e50; /* keeping it for light mode */
+}
+
+.dark-theme .board {
+  border-color: #ccc;
+  box-shadow: none;
+}
+
+.theme-toggle-button {
+  background-color: #a78bfa;
+  color: white;
+  font-size: 1.1em;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.theme-toggle-button:hover {
+  background-color: #8b5cf6;
+}
+
+.game-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+  padding: 30px;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding-top: 30px;
+}
