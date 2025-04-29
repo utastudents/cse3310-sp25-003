@@ -1,6 +1,7 @@
 package uta.cse3310.PairUp.module;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -205,6 +206,7 @@ public class PairUpModule {
     }
 
     private Lobby findLobby(String lobbyId) {
+        System.out.println(Arrays.toString(activeLobbies.toArray()));
         return activeLobbies.stream()
                 .filter(l -> l.getLobbyId().equals(lobbyId))
                 .findFirst()
@@ -259,18 +261,26 @@ public class PairUpModule {
         response.opponentHandle = "WAITING";
         return response;
     }
+    System.out.println("here");
+    System.out.println("action: " + action);
 
     if (action.equalsIgnoreCase("join")) {
+        System.out.println("here2");
         if (lobbyId == null || lobbyId.isEmpty()) {
             throw new LobbyException("Lobby ID is required when joining.");
         }
+        System.out.println("here3");
 
-        boolean success = joinLobby(lobbyId, entity2);
+        String testLobbyId = createLobby(entity1);
+        // boolean success = joinLobby(lobbyId, entity2);
+        boolean success = joinLobby(testLobbyId, entity2);
+        System.out.println(success);
         if (!success) {
             throw new LobbyException("Failed to join lobby");
         }
 
-        Lobby joinedLobby = findLobby(lobbyId);
+        // Lobby joinedLobby = findLobby(lobbyId);
+        Lobby joinedLobby = findLobby(testLobbyId);
         if (joinedLobby == null) {
             throw new LobbyException("Lobby not found after join");
         }

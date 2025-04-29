@@ -133,33 +133,45 @@ public class PageManager {
         try {
             PairUpModule pairUpModule = pairUp.getPairUpModule();
             JsonObject json = gson.fromJson(userEvent.msg, JsonObject.class);
+            // Debugging
+            System.out.println(json.toString());
             
             // Create JoinGamePayload for PairUpModule
             uta.cse3310.PageManager.JoinGamePayload payload = new uta.cse3310.PageManager.JoinGamePayload();
-            payload.entity1 = json.get("playerId").getAsString();
-            payload.opponentType1 = !json.get("isBot").getAsBoolean();
+            // payload.entity1 = json.get("playerId").getAsString();
+            payload.entity1 = json.get("entity1").getAsString();
+            // payload.opponentType1 = !json.get("isBot").getAsBoolean();
+            payload.opponentType1 = json.get("opponentType1").getAsString().equals("1");
             payload.action = "wait"; // Default action is wait
             
             if (json.has("lobbyId") && !json.get("lobbyId").isJsonNull()) {
                 payload.lobbyId = json.get("lobbyId").getAsString();
+                // Debugging
+                System.out.println(payload.lobbyId);
                 payload.action = "join";
-                payload.entity2 = json.get("playerId").getAsString();
-                payload.opponentType2 = !json.get("isBot").getAsBoolean();
+                // payload.entity2 = json.get("playerId").getAsString();
+                payload.entity2 = json.get("entity2").getAsString();
+                // payload.opponentType2 = !json.get("isBot").getAsBoolean();
+                payload.opponentType2 = json.get("opponentType2").getAsString().equals("0");
             }
             
             try {
                 uta.cse3310.PageManager.PairResponsePayload pairResponse = pairUpModule.pairPlayer(payload);
+                System.out.println("here");
                 if (pairResponse != null) {
+                    System.out.println("pairResponse != null");
                     GameState state = gameManager.createGame(pairResponse.gameID, payload.entity1);
                     activeGames.put(pairResponse.gameID, state);
                     reply.setGameState(state);
                     reply.setMessage("Game joined successfully");
                     reply.setSuccess(true);
                 } else {
+                    System.out.println("pairResponse == null");
                     reply.setMessage("Failed to join game");
                     reply.setSuccess(false);
                 }
             } catch (LobbyException e) {
+                System.out.println("lobby error");
                 reply.setMessage("Lobby error: " + e.getMessage());
                 reply.setSuccess(false);
             }
