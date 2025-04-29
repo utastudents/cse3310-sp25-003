@@ -102,6 +102,9 @@ public class PageManager {
         UserEventReply reply = new UserEventReply();
         try {
             LoginPayload payload = gson.fromJson(userEvent.msg, LoginPayload.class);
+            if (!waitingPlayers.contains(payload.username)) {
+                waitingPlayers.add(payload.username);
+            }
             reply.setMessage("User logged in successfully");
             reply.setSuccess(true);
         } catch (Exception e) {

@@ -199,7 +199,7 @@ public class App extends WebSocketServer {
       port = Integer.valueOf(WSPort);
     }
 
-    App A = new App(port);
+    App A = new App(new InetSocketAddress("0.0.0.0", port));
     A.setReuseAddr(true);
     A.start();
     System.out.println("websocket Server started on port: " + port);

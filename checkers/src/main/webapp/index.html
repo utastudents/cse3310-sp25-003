@@ -433,7 +433,7 @@
 
   console.log("Creating socket");
   const socket = new WebSocket(
-    "ws://" + window.location.hostname + ":" + (parseInt(location.port) + 100)
+    "ws://" + window.location.hostname + ":9180"
   );
 
   window.socket = socket;
