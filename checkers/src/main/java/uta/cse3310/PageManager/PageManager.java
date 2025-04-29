@@ -1,6 +1,7 @@
 package uta.cse3310.PageManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.sql.Connection;
@@ -72,6 +73,8 @@ public class PageManager {
         UserEventReply reply = new UserEventReply();
         reply.setMessage("Unknown event type: " + userEvent.eventType);
         reply.setSuccess(false);
+        reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+
         return reply;
     }
 
@@ -90,6 +93,8 @@ public class PageManager {
         reply.setPlayersList(playersList);
         reply.setMessage("Players list retrieved successfully");
         reply.setSuccess(true);
+        reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+
         return reply;
     }
 
@@ -97,12 +102,14 @@ public class PageManager {
         UserEventReply reply = new UserEventReply();
         try {
             LoginPayload payload = gson.fromJson(userEvent.msg, LoginPayload.class);
-            reply.setMessage("Login successful");
+            reply.setMessage("User logged in successfully");
             reply.setSuccess(true);
         } catch (Exception e) {
             reply.setMessage("Login failed: " + e.getMessage());
             reply.setSuccess(false);
         }
+        reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+
         return reply;
     }
 
@@ -116,6 +123,8 @@ public class PageManager {
             reply.setMessage("Signup failed: " + e.getMessage());
             reply.setSuccess(false);
         }
+        reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+
         return reply;
     }
 
@@ -158,6 +167,8 @@ public class PageManager {
             reply.setMessage("Failed to join game: " + e.getMessage());
             reply.setSuccess(false);
         }
+        reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+
         return reply;
     }
 
@@ -191,6 +202,8 @@ public class PageManager {
             reply.setMessage("Failed to process move: " + e.getMessage());
             reply.setSuccess(false);
         }
+        reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+
         return reply;
     }
 
@@ -203,6 +216,8 @@ public class PageManager {
             reply.setMessage("Failed to retrieve summary: " + e.getMessage());
             reply.setSuccess(false);
         }
+        reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+
         return reply;
     }
 
