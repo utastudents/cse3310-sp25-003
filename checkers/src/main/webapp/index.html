@@ -473,11 +473,22 @@
         alert("Yay this is your first time! Please Signup :)");
       }
     }
-
     else if('message' in data && data.message=="Players list retrieved successfully" ){
       console.log("Retriving Username/s");
       handleUsernames(data.playersList);
       console.log("Usernames: "+data.playersList);
+    }
+    else if('message' in data && data.message=="Game joined successfully" && data.success == true){
+      console.log("Game joined successfully");
+      document.getElementById("login-section").style.display = "none";
+      document.getElementById("joingame-section").style.display = "none";
+      document.getElementById("gamedisplay-section").style.display = "block";
+      const script = document.createElement('script');
+      script.src = 'Gamedisplay/gamedisplayScript.js';
+      script.onload = () => {
+        console.log("Gamedisplay/gamedisplayScript.js loaded");
+      };
+      document.body.appendChild(script);
     }
 
     // else if('messsage' in data && data.message=="GameDisplay is not handled by PM")
