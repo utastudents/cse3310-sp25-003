@@ -1,51 +1,42 @@
-
+// var connection = null;
 let entity1;
 let entity2;
 
-class UserEvent {
-    msg;
-}
+// class UserEvent {
+//     msg;
+// }
 
-function msg(msg) {
-    console.log("button clicked");
-    U = new UserEvent();
-    U.msg = msg;
-    console.log("sending "+ JSON.stringify(U));
-    socket.send(JSON.stringify(U));
-    socket.log(JSON.stringify(U));
-}
-
-
+// function msg(msg) {
+//     console.log("button clicked");
+//     U = new UserEvent();
+//     U.msg = msg;
+//     socket.send(JSON.stringify(U));
+//     console.log("Message Sent: "+JSON.stringify(U));
+// }
 
 // UNCOMMENT THIS WHEN ADDED SOCKET SUCCESSFULLY
 
-socket.onmessage = (event) => {
-    const jsonData = event.data;
-    console.log("Received Message: "+jsonData)
-    const data = JSON.parse(jsonData)
-    switch (data.message){
-        case "Players list retrieved successfully":
-            handleUsernames(data.playersList)
-            break;
-        
-            default:
-                console.log("Message Sending Sucessfull")
-    }
+// socket.addEventListener('message', (event) => {
+//     const jsonData = JSON.parse(event.data);
+//     switch (event.status.message){
+//         case "Players list retrieved successfully":
+//             handleUsernames(event);
+//             break;
 
-}
+//         default:
+//             console.log("Done");
+//     }
+// });
 
 
-socket.onopen = function (event){
-    console.log("Socket Open")
-    requestPlayersUserName();
-}
+// while(!(connection.readyState === WebSocket.OPEN))    
+// {};
 
 let selections = [];
 let selectionsNum = [];
 
 // Handling entities selection
 document.addEventListener('DOMContentLoaded', function() {
-
     const buttons = document.querySelectorAll('.selection-button');
     // const joinButton = document.querySelector('#join-game'); 
 
@@ -102,8 +93,10 @@ function requestPlayersUserName() {
     let request = {
         eventType: "getPlayersUsername"
     };
-
-    msg(request);
+    console.log("Requested UserNames");
+    console.log("Message Sent: "+JSON.stringify(request));
+    socket.send(JSON.stringify(request));
+    
 }
 
 function handleUsernames(usernames) {
@@ -112,21 +105,22 @@ function handleUsernames(usernames) {
     // 1 and 2 respectively else, just player 1
 
     const playerList = usernames;
-
-    // Display or assign players based on how many usernames are received
-    if (playerList.length >= 2) {
-        entity1 = playerList[0];
-        entity2 = playerList[1];
-        console.log("Player 1:", entity1);
-        console.log("Player 2:", entity2);
-        displayPlayers(2);
-    } else if (playerList.length === 1) {
-        entity1 = playerList[0];
-        console.log("Only one player connected. Player 1:", entity1);
-        displayPlayers(1);
+    if (playerList) {
+        if (playerList.length >= 2) {
+            entity1 = playerList[0];
+            entity2 = playerList[1];
+            console.log("Player 1:", entity1);
+            console.log("Player 2:", entity2);
+            displayPlayers(2);
+        } else if (playerList.length === 1) {
+            entity1 = playerList[0];
+            console.log("Only one player connected. Player 1:", entity1);
+            displayPlayers(1);
     } else {
         console.log("No players connected.");
         displayPlayers(0);
+    }
+
     }
 }
 
@@ -139,8 +133,8 @@ function displayPlayers(num) {
         document.getElementById("player1").innerHTML = entity1;
         document.getElementById("player2").innerHTML = "Waiting...";
     } else {
-        document.getElementById("player1").innerHTML = "None";
-        document.getElementById("player2").innerHTML = "None";
+        document.getElementById("player1").innerHTML = "Player1";
+        document.getElementById("player2").innerHTML = "Player2";
     }
 }
 
@@ -198,16 +192,16 @@ function joinLobby(lobbyId) {
     let opponentType2 = selectionsNum[1];
 
     let details = {
-        entity1: entity1,
-        entity2: entity2,
-        opponentType1: opponentType1, // "bot" (0) or "human" (1)
-        opponentType2: opponentType2, // "bot" (0) or "human" (1)
+        entity1: entity1.trim(),
+        entity2: entity2.trim(),
+        opponentType1: opponentType1.trim(), // "bot" (0) or "human" (1)
+        opponentType2: opponentType2.trim(), // "bot" (0) or "human" (1)
         lobbyId: lobbyId,
         action: action
     };
 
     let request = {
-        eventType: "handleJoinGame",
+        eventType: "joinGame",
         msg: JSON.stringify(details)
     };
 
@@ -219,7 +213,9 @@ function joinLobby(lobbyId) {
     console.log("ACTION: ", action);
     console.log("ID: ", lobbyId);
 
-    msg(request);
+    console.log("Sending Message: "+JSON.stringify(request));
+    socket.send(JSON.stringify(request));
+    
 
 }
 
@@ -231,16 +227,16 @@ function waitLobby(lobbyId) {
     let opponentType2 = selectionsNum[1];
 
     let details = {
-        entity1: entity1,
-        entity2: entity2,
-        opponentType1: opponentType1,
-        opponentType2: opponentType2,
+        entity1: entity1.trim(),
+        entity2: entity2.trim(),
+        opponentType1: opponentType1.trim(),
+        opponentType2: opponentType2.trim(),
         lobbyId: lobbyId,
         action: action
     };
 
     let request = {
-        eventType: "handleJoinGame",
+        eventType: "joinGame",
         msg: JSON.stringify(details)
     };
 
@@ -252,7 +248,8 @@ function waitLobby(lobbyId) {
     console.log("ACTION: ", action);
     console.log("ID: ", lobbyId);
 
-    msg(request);
+    console.log("Sending Message: "+JSON.stringify(request));
+    socket.send(JSON.stringify(request));
 }
 
 function displayLobbies() {
