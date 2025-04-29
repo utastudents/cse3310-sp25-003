@@ -501,6 +501,9 @@
       script.src = 'Gamedisplay/gamedisplayScript.js';
       script.onload = () => {
         console.log("Gamedisplay/gamedisplayScript.js loaded");
+        // TODO: Having it set up this way may break if 2 or more games/lobbies are simultaneously
+        // running. Revisit this later.
+        gameId = data.gameState.gameId;
       };
       document.body.appendChild(script);
     }

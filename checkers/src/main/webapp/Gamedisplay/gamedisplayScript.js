@@ -85,6 +85,9 @@ if (endOfGameState == 2) {
 
 
 let selectedPiece = null;
+// TODO: Having it set up this way may break if 2 or more games/lobbies are simultaneously
+// running. Revisit this later.
+let gameId = null;
 
 //2d board array to pass through page manager
 function getBoardStateAsCharArray() {
@@ -158,7 +161,8 @@ for (let row = 0; row < 8; row++)
         //send move data to page manager
         if (socket && socket.readyState === WebSocket.OPEN) {
             socket.send(JSON.stringify({
-            type: 'validateMove',
+            gameId: gameId,
+            eventType: 'gameMove',
             board: boardState,
             from: { row: oldRow, col: oldCol },
             to: { row: newRow, col: newCol }
