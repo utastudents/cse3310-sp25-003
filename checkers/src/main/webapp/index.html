@@ -468,12 +468,26 @@
                 requestPlayersUserName();
             };
             document.body.appendChild(script);
-      } else {
-        //If not, ask them to create account
-        alert("Yay this is your first time! Please Signup :)");
-      }
+      } 
+    }else if('message' in data && data.message== "Incorrect username or password") {
+      alert ("Invalid username or password.");
+
     }
-    else if('message' in data && data.message=="Players list retrieved successfully" ){
+    else if ('message' in data && data.message== "Username already exists"){
+      alert ("Username already exists. Please Login :)");
+    }
+
+    else if ('message' in data && data.message== "Incorrect password"){
+      alert ("Incorrect Password. Please try again :(");
+    }
+    else if ('message' in data && data.message== "Account not found"){
+      alert ("Yay!! This is your first time. Please signup :)");
+    }
+
+    else if ('message' in data && data.message== "Signup successful"){
+      alert ("Signup Successful!! Please Login to continue :)");
+      
+    }else if('message' in data && data.message=="Players list retrieved successfully" ){
       console.log("Retriving Username/s");
       handleUsernames(data.playersList);
       console.log("Usernames: "+data.playersList);

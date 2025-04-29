@@ -102,32 +102,74 @@ public class PageManager {
         UserEventReply reply = new UserEventReply();
         try {
             LoginPayload payload = gson.fromJson(userEvent.msg, LoginPayload.class);
-            if (!waitingPlayers.contains(payload.username)) {
-                waitingPlayers.add(payload.username);
+            DB db = DB.getDB(); //connect to DB
+            Statement stmt = db.connection.createStatement(); //sql stmt to run query on DB
+    
+            // check if the username exists
+            String userCheckQuery = "SELECT * FROM USER_DATABASE WHERE USERNAME = '" + payload.username + "'";
+            ResultSet usernameResult = stmt.executeQuery(userCheckQuery);
+    
+            if (usernameResult.next()) {
+                // Username exists then check password
+                String correctPassword = usernameResult.getString("PASSWORD");
+                if (payload.password.equals(correctPassword)) { //if password match
+                    reply.setMessage("User logged in successfully");
+                    reply.setSuccess(true);
+                } else {
+                    reply.setMessage("Incorrect password");
+                    reply.setSuccess(false);
+                }
+            } else {
+                // Username not in DB
+                reply.setMessage("Account not found");
+                reply.setSuccess(false); //dont allow login
             }
-            reply.setMessage("User logged in successfully");
-            reply.setSuccess(true);
-        } catch (Exception e) {
+    
+            usernameResult.close();
+            stmt.close();
+        } catch (Exception e) 
+        {
             reply.setMessage("Login failed: " + e.getMessage());
             reply.setSuccess(false);
         }
-        reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+    
+        reply.setType("login"); // set aslogin response for index.html
 
+        //setting recipient for reply as only on user 
+        reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
         return reply;
     }
-
+    
+    
     public UserEventReply handleSignup(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
         try {
             SignupPayload payload = gson.fromJson(userEvent.msg, SignupPayload.class);
-            reply.setMessage("Signup successful");
-            reply.setSuccess(true);
+            DB db = DB.getDB();
+            Statement stmt = db.connection.createStatement();
+    
+            // Check if username already in DB
+            String checkSql = "SELECT * FROM USER_DATABASE WHERE USERNAME = '" + payload.username + "'";
+            ResultSet usernameResult = stmt.executeQuery(checkSql);
+    
+            if (usernameResult.next()) { //if username already found in DB
+                reply.setMessage("Username already exists");
+                reply.setSuccess(false);
+            } else {
+                //send the info to DB to store
+                db.initUser(payload.username, payload.email, payload.password);
+                reply.setMessage("Signup successful");
+                reply.setSuccess(true);
+            }
+    
+            usernameResult.close();
+            stmt.close();
         } catch (Exception e) {
             reply.setMessage("Signup failed: " + e.getMessage());
             reply.setSuccess(false);
         }
+    
         reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
-
         return reply;
     }
 
