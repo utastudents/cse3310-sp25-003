@@ -10,9 +10,8 @@
 
 #leaderboard{
   display: grid;
-  color: black;
   position: relative;
-  z-index: 10;
+  z-index: 2;
   grid-template-areas:
   "title title title"
   "board board board"
