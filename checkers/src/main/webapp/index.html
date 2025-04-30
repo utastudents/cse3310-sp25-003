@@ -507,6 +507,10 @@
       };
       document.body.appendChild(script);
     }
+    else if('message' in data && data.message=="Move processed successfully" && data.success == true){
+      console.log("Move processed successfully. Updating game display");
+      executeValidMove();
+    }
 
     // else if('messsage' in data && data.message=="GameDisplay is not handled by PM")
   }
