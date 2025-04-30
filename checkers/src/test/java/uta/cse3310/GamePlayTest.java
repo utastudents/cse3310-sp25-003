@@ -1,4 +1,4 @@
-package cse3310.uta;
+package uta.cse3310;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import org.junit.Test;
