@@ -97,16 +97,16 @@ fetch('http://localhost:9080')
 //const socket = new WebSocket("ws://localhost:8080");
 
 // Handle incoming messages from the server (RQ-02, RQ-04, RQ-09, RQ-10)
-socket.onmessage = function(event) {
-    try {
-        const data = JSON.parse(event.data); // RQ-05: JSON used
+// socket.onmessage = function(event) {
+//     try {
+//         const data = JSON.parse(event.data); // RQ-05: JSON used
 
         
-        window.onload = handleLeaderboardData(playerData=data);
+//         window.onload = handleLeaderboardData(playerData=data);
 
-    } catch (error) {
-        console.error("Unable to process leaderboard:", error);
-    }
-};
+//     } catch (error) {
+//         console.error("Unable to process leaderboard:", error);
+//     }
+// };
 
 

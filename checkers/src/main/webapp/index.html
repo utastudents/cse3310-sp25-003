@@ -11,6 +11,13 @@
   </head>
 
   <body>
+    <div id="summary-section" class="section">
+      <button class="show" onclick="showContent()">Open</button>
+      <div class="hide">    
+            <div id="leaderboard">
+          </div>
+      </div>
+    </div>
     <div id="login-section">
       <h1 style="text-align: center">CHECKERS</h1>
 
@@ -431,16 +438,11 @@
         </div>
       </div>
     </div>
-    <!-- <div class="hide">
-        <button class="show" onclick="showContent()">Open</button>
-          <div id="leaderboard">
-        </div>
-    </div> -->
 
     <script src="js/PageManager.js"></script>
     <script src="JoinGame/script.js"></script>
     <!-- what a name, script.js -->
-    <!--<script src="Leaderboard/summary.js"</script>   need to change this-->
+    <script src="Leaderboard/summary.js"></script>
     <script src="login/validation.js"></script>
   </body>
 </html>
@@ -479,6 +481,7 @@
         console.log("Exiting Login/SignUp page and showing JoinLobby page");
         document.getElementById("login-section").style.display = "none";
         document.getElementById("joingame-section").style.display = "block";
+        document.getElementById("summary-section").style.display = "block";
         document.getElementById("gamedisplay-section").style.display = "none";
         const script = document.createElement("script");
         script.src = "joinGame/script.js";
