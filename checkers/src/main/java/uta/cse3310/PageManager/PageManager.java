@@ -256,7 +256,14 @@ public class PageManager {
             
             GameState state = activeGames.get(gameId);
             if (state != null) {
-                gameManager.receiveMove(move);
+                boolean ok = gameManager.receiveMove(move);
+            // IF move was illegal
+                if (!ok) {                                  
+                reply.setMessage("Invalid move");
+                reply.setSuccess(false);
+                reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+                return reply;                           
+                }
                 GameTermination termination = new GameTermination();
                 GameStatus gameStatus = termination.checkForGameEnd(state, null);
                 reply.setGameState(state);

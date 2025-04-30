@@ -51,7 +51,7 @@ public class GameManager {
     }
 
     // Handle a move from the user and notify BotI
-    public void receiveMove(Move userMove) {
+    public boolean receiveMove(Move userMove) {
         if (session != null) {
             GameState state = session.getGameState();
 
@@ -64,7 +64,7 @@ public class GameManager {
             if (!gp.isValidMove(state, userMove)) {
             System.out.println("Invalid move attempted: " + userMove);
             // Send back a boolean to signal a failure to move due to its legality
-            return;
+            return false;
             }
 
             state.applyMove(from.getX(), from.getY(), to.getX(), to.getY());
@@ -89,7 +89,7 @@ public class GameManager {
             GameStatus status = gameTermination.checkForGameEnd(state, moveHistory);
             if (status != GameStatus.ONGOING) {
                 handleGameOver(status);
-                return;
+                return true;
             }
 
             // Switch to bot
@@ -97,8 +97,10 @@ public class GameManager {
 
             // Notify bot with current board and move
             notifyBot1Move(userMove);
+            return true;
         } else {
             System.out.println("No active game session.");
+            return false;
         }
     }
 
