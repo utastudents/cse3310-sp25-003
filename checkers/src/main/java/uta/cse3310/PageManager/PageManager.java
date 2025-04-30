@@ -44,7 +44,7 @@ public class PageManager {
 
     public UserEventReply ProcessInput(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
-        
+
         try {
             switch (userEvent.eventType) {
                 case "login":
@@ -61,6 +61,8 @@ public class PageManager {
                     return handleSummaryRequest(userEvent);
                 case "goToLoginPage":
                     return handleGoToLoginPage(userEvent);
+                case "addPlayerToLobby":
+                    return handleGoToLoginPage(userEvent); // Directing it to login page for now.
                 default:
                     return handleDefaultEvent(userEvent);
             }
@@ -70,7 +72,7 @@ public class PageManager {
             return reply;
         }
     }
-    
+
     private UserEventReply handleGoToLoginPage(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
         reply.setMessage("Navigate to login page");
@@ -92,15 +94,15 @@ public class PageManager {
     public UserEventReply handleGetPlayersUsername(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
         ArrayList<String> playersList = new ArrayList<>();
-        
+
         playersList.addAll(waitingPlayers);
-        
+
         for (GameState game : activeGames.values()) {
             if (game.getCurrentPlayerId() != null) {
                 playersList.add(game.getCurrentPlayerId());
             }
         }
-        
+
         reply.setPlayersList(playersList);
         reply.setMessage("Players list retrieved successfully");
         reply.setSuccess(true);
@@ -113,17 +115,17 @@ public class PageManager {
         UserEventReply reply = new UserEventReply();
         try {
             LoginPayload payload = gson.fromJson(userEvent.msg, LoginPayload.class);
-            DB db = DB.getDB(); //connect to DB
-            Statement stmt = db.connection.createStatement(); //sql stmt to run query on DB
-    
+            DB db = DB.getDB(); // connect to DB
+            Statement stmt = db.connection.createStatement(); // sql stmt to run query on DB
+
             // check if the username exists
             String userCheckQuery = "SELECT * FROM USER_DATABASE WHERE USERNAME = '" + payload.username + "'";
             ResultSet usernameResult = stmt.executeQuery(userCheckQuery);
-    
+
             if (usernameResult.next()) {
                 // Username exists then check password
                 String correctPassword = usernameResult.getString("PASSWORD");
-                if (payload.password.equals(correctPassword)) { //if password match
+                if (payload.password.equals(correctPassword)) { // if password match
                     reply.setMessage("User logged in successfully");
                     reply.setSuccess(true);
                 } else {
@@ -133,53 +135,51 @@ public class PageManager {
             } else {
                 // Username not in DB
                 reply.setMessage("Account not found");
-                reply.setSuccess(false); //dont allow login
+                reply.setSuccess(false); // dont allow login
             }
-    
+
             usernameResult.close();
             stmt.close();
-        } catch (Exception e) 
-        {
+        } catch (Exception e) {
             reply.setMessage("Login failed: " + e.getMessage());
             reply.setSuccess(false);
         }
-    
+
         reply.setType("login"); // set aslogin response for index.html
 
-        //setting recipient for reply as only on user 
+        // setting recipient for reply as only on user
         reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
         return reply;
     }
-    
-    
+
     public UserEventReply handleSignup(UserEvent userEvent) {
         UserEventReply reply = new UserEventReply();
         try {
             SignupPayload payload = gson.fromJson(userEvent.msg, SignupPayload.class);
             DB db = DB.getDB();
             Statement stmt = db.connection.createStatement();
-    
+
             // Check if username already in DB
             String checkSql = "SELECT * FROM USER_DATABASE WHERE USERNAME = '" + payload.username + "'";
             ResultSet usernameResult = stmt.executeQuery(checkSql);
-    
-            if (usernameResult.next()) { //if username already found in DB
+
+            if (usernameResult.next()) { // if username already found in DB
                 reply.setMessage("Username already exists");
                 reply.setSuccess(false);
             } else {
-                //send the info to DB to store
+                // send the info to DB to store
                 db.initUser(payload.username, payload.email, payload.password);
                 reply.setMessage("Signup successful");
                 reply.setSuccess(true);
             }
-    
+
             usernameResult.close();
             stmt.close();
         } catch (Exception e) {
             reply.setMessage("Signup failed: " + e.getMessage());
             reply.setSuccess(false);
         }
-    
+
         reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
         return reply;
     }
@@ -191,7 +191,7 @@ public class PageManager {
             JsonObject json = gson.fromJson(userEvent.msg, JsonObject.class);
             // Debugging
             System.out.println(json.toString());
-            
+
             // Create JoinGamePayload for PairUpModule
             uta.cse3310.PageManager.JoinGamePayload payload = new uta.cse3310.PageManager.JoinGamePayload();
             // payload.entity1 = json.get("playerId").getAsString();
@@ -199,7 +199,7 @@ public class PageManager {
             // payload.opponentType1 = !json.get("isBot").getAsBoolean();
             payload.opponentType1 = json.get("opponentType1").getAsString().equals("1");
             payload.action = "wait"; // Default action is wait
-            
+
             if (json.has("lobbyId") && !json.get("lobbyId").isJsonNull()) {
                 payload.lobbyId = json.get("lobbyId").getAsString();
                 // Debugging
@@ -210,7 +210,7 @@ public class PageManager {
                 // payload.opponentType2 = !json.get("isBot").getAsBoolean();
                 payload.opponentType2 = json.get("opponentType2").getAsString().equals("0");
             }
-            
+
             try {
                 uta.cse3310.PageManager.PairResponsePayload pairResponse = pairUpModule.pairPlayer(payload);
                 System.out.println("here");
@@ -249,20 +249,20 @@ public class PageManager {
             int fromCol = moveJson.get("fromCol").getAsInt();
             int toRow = moveJson.get("toRow").getAsInt();
             int toCol = moveJson.get("toCol").getAsInt();
-            
+
             Position from = new Position(fromRow, fromCol);
             Position to = new Position(toRow, toCol);
             Move move = new Move(from, to, userEvent.id.toString());
-            
+
             GameState state = activeGames.get(gameId);
             if (state != null) {
                 boolean ok = gameManager.receiveMove(move);
-            // IF move was illegal
-                if (!ok) {                                  
-                reply.setMessage("Invalid move");
-                reply.setSuccess(false);
-                reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
-                return reply;                           
+                // IF move was illegal
+                if (!ok) {
+                    reply.setMessage("Invalid move");
+                    reply.setSuccess(false);
+                    reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+                    return reply;
                 }
                 GameTermination termination = new GameTermination();
                 GameStatus gameStatus = termination.checkForGameEnd(state, null);
