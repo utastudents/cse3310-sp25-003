@@ -59,6 +59,8 @@ public class PageManager {
                     return handleGetPlayersUsername(userEvent);
                 case "summaryRequest":
                     return handleSummaryRequest(userEvent);
+                case "goToLoginPage":
+                    return handleGoToLoginPage(userEvent);
                 default:
                     return handleDefaultEvent(userEvent);
             }
@@ -67,6 +69,15 @@ public class PageManager {
             reply.setSuccess(false);
             return reply;
         }
+    }
+    
+    private UserEventReply handleGoToLoginPage(UserEvent userEvent) {
+        UserEventReply reply = new UserEventReply();
+        reply.setMessage("Navigate to login page");
+        reply.setSuccess(true);
+        reply.setRecipients(new ArrayList<>(Arrays.asList(userEvent.id)));
+
+        return reply;
     }
 
     private UserEventReply handleDefaultEvent(UserEvent userEvent) {
