@@ -6,16 +6,16 @@
   left: 0;
   margin-inline: auto;
   width: fit-content;
+  position: relative;
+  z-index: 2;
 }
 
 #leaderboard{
   display: grid;
-  position: relative;
-  z-index: 2;
   grid-template-areas:
-  "title title title"
-  "board board board"
-  "Button Button Button";
+    "title title title"
+    "board board board"
+    "Button Button Button";
 }
 
 #leaderboard > #title{
