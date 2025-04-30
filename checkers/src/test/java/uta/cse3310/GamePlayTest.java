@@ -70,17 +70,16 @@ public class GamePlayTest{
 	assertFalse(gp.isValidMove(board, move2));
 	assertFalse(gp.isValidMove(board, move3));
     }
-    /*
+    
     @Test //TC-007
     public void testIsJump(){
         GamePlay gp = new GamePlay();
-        GameState gs = new GameState("xxx", "enemy");
-        Move move = new Move(new Position(1, 3), new Position(3, 5), "test");
-        gs.getPieceAt(2, 4);
+        Move move1 = new Move(new Position(1, 5), new Position(2,4), "enemy");
+        Move move2 = new Move(new Position(1, 3), new Position(3, 5), "test");
         
-        GameState board = new GameState("xxx", "xxx");
-        assertTrue(gp.isJump(board, move));
-
+        GameState board = new GameState("xxx", "enemy");
+        gp.applyMove(board, move1);
+        assertFalse(gp.isJump(board, move2));
     }
-        */
+        
 }
