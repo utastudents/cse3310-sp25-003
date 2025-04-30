@@ -218,10 +218,10 @@ if (isCapture) {
 // Move the piece
 targetCell.appendChild(selectedPiece);
 // Highlight the piece temporarily
-selectedPiece.classList.add("last-move");
-setTimeout(() => {
-    selectedPiece.classList.remove("last-move");
-}, 2000);
+// selectedPiece.classList.add("last-move");
+// setTimeout(() => {
+//     selectedPiece.classList.remove("last-move");
+// }, 2000);
 
 selectedPiece.classList.remove("selected");
 
