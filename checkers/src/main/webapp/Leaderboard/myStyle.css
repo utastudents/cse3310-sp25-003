@@ -10,6 +10,9 @@
 
 #leaderboard{
   display: grid;
+  color: black;
+  position: relative;
+  z-index: 10;
   grid-template-areas:
   "title title title"
   "board board board"
@@ -41,10 +44,6 @@
   border: solid black;
 }
 
-.items {
-  color: white;
-}
-
 .row {
   position: relative;
   width: 94%;
@@ -52,6 +51,7 @@
   border: solid black;
   margin: 3%;
   align-content: center;
+  color: black;
 }
 
 .seen {
