@@ -160,13 +160,22 @@ for (let row = 0; row < 8; row++)
         
         //send move data to page manager
         if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send(JSON.stringify({
-            gameId: gameId,
-            eventType: 'gameMove',
-            board: boardState,
-            from: { row: oldRow, col: oldCol },
-            to: { row: newRow, col: newCol }
-            }));
+            let details = {
+                gameId: gameId,
+                board: boardState,
+                fromRow: oldRow,
+                fromCol: oldCol,
+                toRow: newRow,
+                toCol: newCol,
+                // from: { row: oldRow, col: oldCol },
+                // to: { row: newRow, col: newCol }
+            };
+            let request = {
+                eventType: 'gameMove',
+                msg: JSON.stringify(details)
+            };
+            console.log("Sending Message: "+JSON.stringify(request));
+            socket.send(JSON.stringify(request));
         } else {
             console.error('WebSocket is not connected');
             cancelMove();
