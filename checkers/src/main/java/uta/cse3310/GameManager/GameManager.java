@@ -3,6 +3,8 @@ package uta.cse3310.GameManager;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import uta.cse3310.GameManager.Position;
 import uta.cse3310.Bot.BotI.BotI;
 import uta.cse3310.Bot.BotII.BotII;
 import uta.cse3310.GamePlay.GamePlay;
@@ -56,11 +58,20 @@ public class GameManager {
             Position from = userMove.getFrom();
             Position to = userMove.getTo();
 
-            // Apply user's move
+
+
+            // Check if the move is valid
+            if (!gp.isValidMove(state, userMove)) {
+            System.out.println("Invalid move attempted: " + userMove);
+            // Send back a boolean to signal a failure to move due to its legality
+            return;
+            }
+
             state.applyMove(from.getX(), from.getY(), to.getX(), to.getY());
+            
 
             // Check if the move is a jump (capture)
-            if (Math.abs(to.getX() - from.getX()) == 2 && Math.abs(to.getY() - from.getY()) == 2) {
+            if (gp.isJump(state, userMove)) { //Changed to use GamePlay's isJump()
                 userMove.setCapture(true);
                 // Remove the captured piece
                 int capturedX = from.getX() + (to.getX() - from.getX()) / 2;
