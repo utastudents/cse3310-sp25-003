@@ -105,6 +105,7 @@ public class GamePlay {
 		boolean isKing = false; // Placeholder until I know when to use a king piece
 		int positionX;
 		int positionY;
+		boolean bounds = isInBounds(move);
 
 		if (move.getTo().getX() < move.getFrom().getX()) {
 			positionX = move.getTo().getX() - 1;
@@ -118,7 +119,7 @@ public class GamePlay {
 			positionY = move.getTo().getY() + 1;
 		}
 
-		if (isKing == true) {
+		if ((isKing == true) && (bounds = true)) {
 			if (Math.abs(move.getTo().getX() - move.getFrom().getX()) == 2) { // If X2 - X1 && Y2 - Y1 both are equal to
 				if (Math.abs(move.getTo().getY() - move.getFrom().getY()) == 2) {
 					if (isEmpty(boardState, positionX, positionY) == false || isSameTeam(boardState, move) == true) {
@@ -130,7 +131,7 @@ public class GamePlay {
 			jump2 = false;
 		}
 
-		if (isKing = false) {
+		if ((isKing = false) && (bounds = true)) {
 			if (Math.abs(move.getTo().getX() - move.getFrom().getX()) == 2) {// X value can the absolute value of 2 but
 																				// Y cannot
 				if (move.getTo().getY() - move.getFrom().getY() == 1) {

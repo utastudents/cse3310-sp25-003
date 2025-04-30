@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import uta.cse3310.GamePlay.*;
 import uta.cse3310.GameManager.*;
+import uta.cse3310.GameManager.GameState.*;
 
 public class GamePlayTest{
     @Test //TC-001
@@ -68,5 +69,16 @@ public class GamePlayTest{
 	assertFalse(gp.isValidMove(board, move1));
 	assertFalse(gp.isValidMove(board, move2));
 	assertFalse(gp.isValidMove(board, move3));
+    }
+    @Test //TC-007
+    public void testIsJump(){
+        GamePlay gp = new GamePlay();
+        GameState gs = new GameState("xxx", "enemy");
+        Move move = new Move(new Position(1, 3), new Position(3, 5), "test");
+        gs.getPieceAt(2, 4);
+        
+        GameState board = new GameState("xxx", "xxx");
+        assertTrue(gp.isJump(board, move));
+
     }
 }
