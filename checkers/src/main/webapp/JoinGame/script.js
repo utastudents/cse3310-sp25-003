@@ -2,34 +2,7 @@
 let entity1;
 let entity2;
 
-// class UserEvent {
-//     msg;
-// }
 
-// function msg(msg) {
-//     console.log("button clicked");
-//     U = new UserEvent();
-//     U.msg = msg;
-//     socket.send(JSON.stringify(U));
-//     console.log("Message Sent: "+JSON.stringify(U));
-// }
-
-// UNCOMMENT THIS WHEN ADDED SOCKET SUCCESSFULLY
-
-// socket.addEventListener('message', (event) => {
-//     const jsonData = JSON.parse(event.data);
-//     switch (event.status.message){
-//         case "Players list retrieved successfully":
-//             handleUsernames(event);
-//             break;
-
-//         default:
-//             console.log("Done");
-//     }
-// });
-
-// while(!(connection.readyState === WebSocket.OPEN))
-// {};
 
 let selections = [];
 let selectionsNum = [];
@@ -140,7 +113,7 @@ function requestAllUsername() {
     eventType: "getAllUsernames",
   };
 
-  msg(request);
+  socket.send(JSON.stringify(request));
 }
 
 function displayUsers(usernames) {
@@ -156,7 +129,7 @@ function addPlayerToLobby() {
     eventType: "addPlayerToLobby",
   };
 
-  msg(request);
+  socket.send(JSON.stringify(request));
 }
 
 function handleBackButton() {
@@ -166,8 +139,6 @@ function handleBackButton() {
     eventType: "goToLoginPage",
   };
   socket.send(JSON.stringify(request));
-
-  msg(request);
 }
 
 function refereshLobbies() {
@@ -177,7 +148,7 @@ function refereshLobbies() {
     eventType: "refreshLobbies",
   };
 
-  msg(request);
+  socket.send(JSON.stringify(request));
 }
 
 function joinLobby(lobbyId) {
@@ -254,5 +225,5 @@ function displayLobbies() {
     eventType: "displayLobbies",
   };
 
-  msg(request);
+  socket.send(JSON.stringify(request));
 }
